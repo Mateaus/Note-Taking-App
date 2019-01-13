@@ -69,7 +69,6 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
 
         //eraseCurrentDatabase(); // Used to erase the database when changes are made instead of upgrading version.
 
-
         this.noteViewModel = ViewModelProviders.of(this.getActivity()).get(NoteViewModel.class);
         this.noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
             @Override
@@ -110,14 +109,17 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         super.onActivityResult(requestCode, resultCode, data);
         // Inserts data sent from AddNoteFragmentDialogFragment.
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
-            noteViewModel.insert(new Note(data.getStringExtra(AddNoteFragmentDialogFragment.EXTRA_TITLE),
+            this.noteViewModel.insert(new Note(data.getStringExtra(AddNoteFragmentDialogFragment.EXTRA_TITLE),
                     data.getStringExtra(AddNoteFragmentDialogFragment.EXTRA_DESCRIPTION)));
         }
         // Updates data sent from UpdateNoteFragment.
         if (requestCode == UPDATE_NOTE_REQUEST && resultCode == RESULT_OK) {
-            noteViewModel.update(new Note(Integer.valueOf(data.getStringExtra(UpdateNoteFragment.EXTRA_ID)),
-                    data.getStringExtra(UpdateNoteFragment.EXTRA_TITLE),
-                    data.getStringExtra(UpdateNoteFragment.EXTRA_DESCRIPTION)));
+            int id = Integer.valueOf(data.getStringExtra(UpdateNoteFragment.EXTRA_ID));
+
+            Note updateNote = new Note(data.getStringExtra(UpdateNoteFragment.EXTRA_TITLE),
+                    data.getStringExtra(UpdateNoteFragment.EXTRA_DESCRIPTION));
+            updateNote.setId(id);
+            this.noteViewModel.update(updateNote);
         }
     }
 

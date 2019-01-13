@@ -10,6 +10,8 @@ import com.example.mat.roomdb_mvvm.note.ui.NoteListFragment;
 import com.example.mat.roomdb_mvvm.settings.SettingFragment;
 import com.example.mat.roomdb_mvvm.updatenote.UpdateNoteFragment;
 
+import static com.example.mat.roomdb_mvvm.note.ui.NoteListFragment.UPDATE_NOTE_REQUEST;
+
 public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
@@ -25,13 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (mainFragment == null) {
             NoteListFragment noteListFragment = new NoteListFragment();
-            fragmentManager.beginTransaction().add(R.id.note_container, noteListFragment).commit();
+            fragmentManager.beginTransaction().add(R.id.note_container, noteListFragment, "note_list_fragment").commit();
         }
     }
 
     public void loadUpdateNoteScreen(Note note, Fragment fragment) {
         UpdateNoteFragment updateNoteFragment = new UpdateNoteFragment();
-        updateNoteFragment.setTargetFragment(fragment, NoteListFragment.UPDATE_NOTE_REQUEST);
+        updateNoteFragment.setTargetFragment(fragment, UPDATE_NOTE_REQUEST);
 
         Bundle bundle = new Bundle();
         bundle.putString("id", Integer.toString(note.getId()));

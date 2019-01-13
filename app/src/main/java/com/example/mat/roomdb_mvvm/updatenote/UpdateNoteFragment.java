@@ -2,6 +2,7 @@ package com.example.mat.roomdb_mvvm.updatenote;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mat.roomdb_mvvm.MainActivity;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.note.NoteViewModel;
@@ -28,6 +30,8 @@ import com.example.mat.roomdb_mvvm.note.entity.Note;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.app.Activity.RESULT_OK;
 
 public class UpdateNoteFragment extends Fragment {
 
@@ -64,6 +68,7 @@ public class UpdateNoteFragment extends Fragment {
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
         });
+
 
         this.noteViewModel = ViewModelProviders.of(this.getActivity()).get(NoteViewModel.class);
         this.noteViewModel.getSelectedColor().observe(this, new Observer<Color>() {
@@ -134,7 +139,7 @@ public class UpdateNoteFragment extends Fragment {
     }
 
     private void updateNote() {
-        updateNoteViewModel.updateNote(new Note(titleET.getText().toString(),
+        this.updateNoteViewModel.updateNote(new Note(titleET.getText().toString(),
                 descriptionET.getText().toString()), this);
     }
 }

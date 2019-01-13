@@ -51,4 +51,7 @@ dependencies {
 
     // Color picker
     implementation 'com.thebluealliance:spectrum:0.7.1'
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 }

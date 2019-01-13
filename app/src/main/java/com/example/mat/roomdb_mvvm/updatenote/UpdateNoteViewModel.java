@@ -42,14 +42,14 @@ public class UpdateNoteViewModel extends AndroidViewModel {
             extras.putString(EXTRA_ID, exId);
             extras.putString(EXTRA_TITLE, title);
             extras.putString(EXTRA_DESCRIPTION, description);
-
+            // popBackStackImmediate before data arrives to onActivityResult lifecycle
+            fragment.getFragmentManager().popBackStackImmediate();
             fragment.getTargetFragment().onActivityResult(
                     fragment.getTargetRequestCode(),
                     RESULT_OK,
                     new Intent().putExtras(extras)
             );
             message.postValue(R.string.note_updated);
-            fragment.getFragmentManager().popBackStack();
         }
     }
 
