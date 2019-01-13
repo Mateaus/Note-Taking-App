@@ -8,7 +8,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.note.entity.Note;
 
@@ -22,6 +21,7 @@ public abstract class NoteDatabase extends RoomDatabase {
     private static NoteDatabase instance;
 
     public abstract NoteDao noteDao();
+
     public abstract ColorDao colorDao();
 
     // synchronized, only one thread at a time can access this method.
@@ -64,11 +64,18 @@ public abstract class NoteDatabase extends RoomDatabase {
             /*
              * This populates the database when it's first initially out of box.
              */
-            colorDao.insert(new Color(R.color.darkbrown, R.color.lightbrown,
-                    R.color.white, R.color.white, R.color.white, R.color.white,
-                    R.color.darkbrown));
 
-            for(int i = 1; i <= 10; i++){
+            int darkbrown = android.graphics.Color.parseColor("#4b2c20");
+            int brown = android.graphics.Color.parseColor("#795548");
+            int lightbrown = android.graphics.Color.parseColor("#a98274");
+            int white = android.graphics.Color.parseColor("#ffffff");
+            int grey = android.graphics.Color.parseColor("#757575");
+
+            colorDao.insert(new Color(darkbrown, lightbrown,
+                    white, white, white, grey, grey, grey,
+                    white, white, brown));
+
+            for (int i = 1; i <= 10; i++) {
                 Note note = new Note("Example Title " + i, "Example description . . .");
                 note.setDate(getCurrentDate());
                 noteDao.insert(note);
@@ -76,6 +83,7 @@ public abstract class NoteDatabase extends RoomDatabase {
 
             return null;
         }
+
         private String getCurrentDate() {
             DateFormat hourFormat = new SimpleDateFormat("h:mm a");
             DateFormat dateFormat = new SimpleDateFormat("M/d/y");

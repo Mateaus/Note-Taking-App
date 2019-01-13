@@ -5,7 +5,6 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
-import com.example.mat.roomdb_mvvm.color.ColorRepository;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.note.entity.Note;
 

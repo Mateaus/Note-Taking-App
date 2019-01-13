@@ -1,384 +1,603 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linear_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:orientation="vertical"
-    android:background="#fafafa"
-    android:paddingRight="?android:attr/scrollbarSize">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="8dp">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="6dip"
-            android:layout_marginBottom="6dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@android:id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="Status Bar"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@android:id/summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@android:id/title"
-                android:layout_alignLeft="@android:id/title"
-                android:maxLines="2"
-                android:text="Changes the color of the status bar"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        </RelativeLayout>
+        android:background="#fafafa"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:orientation="vertical"
+        android:paddingRight="?android:attr/scrollbarSize">
 
         <LinearLayout
-            android:id="@android:id/widget_frame"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:layout_marginLeft="8dp"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/statusBtn"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Status Bar"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:maxLines="2"
+                    android:text="Changes the color of the status bar"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/statusBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Toolbar"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:maxLines="2"
+                    android:text="Changes the color of the toolbar"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/toolbarBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Toolbar Title"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:maxLines="2"
+                    android:text="Changes the color of the text in the toolbar"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/toolbarTBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Toolbar Icon"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:maxLines="2"
+                    android:text="Changes the color of the icon in the toolbar"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/toolbarIBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Background"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:maxLines="2"
+                    android:text="Changes the color of the background"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/backgroundBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Floating Button"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:maxLines="2"
+                    android:text="Changes the color of the circular button"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/addBBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Floating Button Icon"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Changes the color of the icon in the button"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/addIBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Card"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Changes the color of the cards"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Card Title"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Changes the color of the title in the card"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/cardTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Card Description"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Changes the color of the description in the card"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/cardDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="Card Date"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@android:id/summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_alignLeft="@android:id/title"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Changes the color of the date in the card"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/cardDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal"
-        android:layout_margin="8dp">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="6dip"
-            android:layout_marginBottom="6dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@android:id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="Toolbar"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@android:id/summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@android:id/title"
-                android:layout_alignLeft="@android:id/title"
-                android:maxLines="2"
-                android:text="Changes the color of the toolbar"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@android:id/widget_frame"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:layout_marginLeft="8dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/toolbarBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal"
-        android:layout_margin="8dp">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="6dip"
-            android:layout_marginBottom="6dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@android:id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="Toolbar Title"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@android:id/summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@android:id/title"
-                android:layout_alignLeft="@android:id/title"
-                android:maxLines="2"
-                android:text="Changes the color of the text in the toolbar"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@android:id/widget_frame"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:layout_marginLeft="8dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/toolbarTBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal"
-        android:layout_margin="8dp">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="6dip"
-            android:layout_marginBottom="6dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@android:id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="Toolbar Icon"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@android:id/summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@android:id/title"
-                android:layout_alignLeft="@android:id/title"
-                android:maxLines="2"
-                android:text="Changes the color of the icon in the toolbar"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@android:id/widget_frame"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:layout_marginLeft="8dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/toolbarIBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal"
-        android:layout_margin="8dp">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="6dip"
-            android:layout_marginBottom="6dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@android:id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="Background"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@android:id/summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@android:id/title"
-                android:layout_alignLeft="@android:id/title"
-                android:maxLines="2"
-                android:text="Changes the color of the background"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@android:id/widget_frame"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:layout_marginLeft="8dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/backgroundBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal"
-        android:layout_margin="8dp">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="6dip"
-            android:layout_marginBottom="6dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@android:id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="Floating Button"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@android:id/summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@android:id/title"
-                android:layout_alignLeft="@android:id/title"
-                android:maxLines="2"
-                android:text="Changes the color of the circular button"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@android:id/widget_frame"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:layout_marginLeft="8dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/addBBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal"
-        android:layout_margin="8dp">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="6dip"
-            android:layout_marginBottom="6dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@android:id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
-                android:text="Floating Button Icon"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@android:id/summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@android:id/title"
-                android:layout_alignLeft="@android:id/title"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="Changes the color of the icon in the button"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@android:id/widget_frame"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:layout_marginLeft="8dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/addIBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Preference should place its actual preference widget here. -->
-
-</LinearLayout>
+</ScrollView>

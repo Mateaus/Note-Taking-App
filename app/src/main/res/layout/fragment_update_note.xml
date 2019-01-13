@@ -21,6 +21,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
@@ -52,7 +53,7 @@
                 android:ems="10"
                 android:inputType="textMultiLine"
                 android:maxLength="256"
-                android:theme="@style/EditTextThemeNote"/>
+                android:theme="@style/EditTextThemeNote" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

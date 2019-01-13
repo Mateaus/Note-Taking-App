@@ -22,6 +22,18 @@ public class Color {
     @ColumnInfo(name = "menu_icon_color")
     private int menuIconColor;
 
+    @ColumnInfo(name = "card_color")
+    private int cardColor;
+
+    @ColumnInfo(name = "card_title_color")
+    private int cardTitleColor;
+
+    @ColumnInfo(name = "card_description_color")
+    private int cardDescriptionColor;
+
+    @ColumnInfo(name = "card_date_color")
+    private int cardDateColor;
+
     @ColumnInfo(name = "body_background_color")
     private int bodyBackgroundColor;
 
@@ -33,12 +45,18 @@ public class Color {
 
     public Color(int statusBarColor, int toolBarColor,
                  int toolBarTitleColor, int menuIconColor,
+                 int cardColor, int cardTitleColor,
+                 int cardDescriptionColor, int cardDateColor,
                  int bodyBackgroundColor, int addButtonIconColor,
                  int addButtonBackgroundColor) {
         this.statusBarColor = statusBarColor;
         this.toolBarColor = toolBarColor;
         this.toolBarTitleColor = toolBarTitleColor;
         this.menuIconColor = menuIconColor;
+        this.cardColor = cardColor;
+        this.cardTitleColor = cardTitleColor;
+        this.cardDescriptionColor = cardDescriptionColor;
+        this.cardDateColor = cardDateColor;
         this.bodyBackgroundColor = bodyBackgroundColor;
         this.addButtonIconColor = addButtonIconColor;
         this.addButtonBackgroundColor = addButtonBackgroundColor;
@@ -82,6 +100,38 @@ public class Color {
 
     public void setMenuIconColor(int menuIconColor) {
         this.menuIconColor = menuIconColor;
+    }
+
+    public int getCardColor() {
+        return cardColor;
+    }
+
+    public void setCardColor(int cardColor) {
+        this.cardColor = cardColor;
+    }
+
+    public int getCardTitleColor() {
+        return cardTitleColor;
+    }
+
+    public void setCardTitleColor(int cardTitleColor) {
+        this.cardTitleColor = cardTitleColor;
+    }
+
+    public int getCardDescriptionColor() {
+        return cardDescriptionColor;
+    }
+
+    public void setCardDescriptionColor(int cardDescriptionColor) {
+        this.cardDescriptionColor = cardDescriptionColor;
+    }
+
+    public int getCardDateColor() {
+        return cardDateColor;
+    }
+
+    public void setCardDateColor(int cardDateColor) {
+        this.cardDateColor = cardDateColor;
     }
 
     public int getBodyBackgroundColor() {

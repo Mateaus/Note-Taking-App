@@ -34,6 +34,10 @@ public class SettingFragment extends Fragment {
     public static final int UPDATE_BACKGROUND_REQUEST = 7;
     public static final int UPDATE_ADD_BACKGROUND_REQUEST = 8;
     public static final int UPDATE_ADD_ICON_REQUEST = 9;
+    public static final int UPDATE_CARD_REQUEST = 10;
+    public static final int UPDATE_CARD_TITLE_REQUEST = 11;
+    public static final int UPDATE_CARD_DESCRIPTION_REQUEST = 12;
+    public static final int UPDATE_CARD_DATE_REQUEST = 13;
 
     @BindView(R.id.statusBtn)
     Button statusBtn;
@@ -49,6 +53,14 @@ public class SettingFragment extends Fragment {
     Button addBackgroundBtn;
     @BindView(R.id.addIBtn)
     Button addIconBtn;
+    @BindView(R.id.card)
+    Button cardBtn;
+    @BindView(R.id.cardTitle)
+    Button cardTitleBtn;
+    @BindView(R.id.cardDescription)
+    Button cardDescriptionBtn;
+    @BindView(R.id.cardDate)
+    Button cardDateBtn;
 
     private NoteViewModel noteViewModel;
 
@@ -62,14 +74,18 @@ public class SettingFragment extends Fragment {
         this.noteViewModel.getSelectedColor().observe(this, new Observer<Color>() {
             @Override
             public void onChanged(@Nullable Color color) {
-                setUpStatusBar(getResources().getColor(color.getStatusBarColor()));
-                statusBtn.setBackgroundColor(getResources().getColor(color.getStatusBarColor()));
-                toolbarBtn.setBackgroundColor(getResources().getColor(color.getToolBarColor()));
-                toolbarTBtn.setBackgroundColor(getResources().getColor(color.getToolBarTitleColor()));
-                toolbarIBtn.setBackgroundColor(getResources().getColor(color.getMenuIconColor()));
-                backgroundBtn.setBackgroundColor(getResources().getColor(color.getBodyBackgroundColor()));
-                addBackgroundBtn.setBackgroundColor(getResources().getColor(color.getAddButtonBackgroundColor()));
-                addIconBtn.setBackgroundColor(getResources().getColor(color.getAddButtonIconColor()));
+                setUpStatusBar(color.getStatusBarColor());
+                statusBtn.setBackgroundColor(color.getStatusBarColor());
+                toolbarBtn.setBackgroundColor(color.getToolBarColor());
+                toolbarTBtn.setBackgroundColor(color.getToolBarTitleColor());
+                toolbarIBtn.setBackgroundColor(color.getMenuIconColor());
+                backgroundBtn.setBackgroundColor(color.getBodyBackgroundColor());
+                addBackgroundBtn.setBackgroundColor(color.getAddButtonBackgroundColor());
+                addIconBtn.setBackgroundColor(color.getAddButtonIconColor());
+                cardBtn.setBackgroundColor(color.getCardColor());
+                cardTitleBtn.setBackgroundColor(color.getCardTitleColor());
+                cardDescriptionBtn.setBackgroundColor(color.getCardDescriptionColor());
+                cardDateBtn.setBackgroundColor(color.getCardDateColor());
             }
         });
 
@@ -125,6 +141,35 @@ public class SettingFragment extends Fragment {
         fragment.show(getFragmentManager(), "add_icon");
     }
 
+    @OnClick(R.id.card)
+    public void handleCardButton() {
+        ColorPickerDialogFragment fragment = new ColorPickerDialogFragment();
+        fragment.setTargetFragment(SettingFragment.this, UPDATE_CARD_REQUEST);
+        fragment.show(getFragmentManager(), "card");
+    }
+
+    @OnClick(R.id.cardTitle)
+    public void handleCardTitleButton() {
+        ColorPickerDialogFragment fragment = new ColorPickerDialogFragment();
+        fragment.setTargetFragment(SettingFragment.this, UPDATE_CARD_TITLE_REQUEST);
+        fragment.show(getFragmentManager(), "card_title");
+    }
+
+    @OnClick(R.id.cardDescription)
+    public void handleCardDescriptionButton() {
+        ColorPickerDialogFragment fragment = new ColorPickerDialogFragment();
+        fragment.setTargetFragment(SettingFragment.this, UPDATE_CARD_DESCRIPTION_REQUEST);
+        fragment.show(getFragmentManager(), "card_description");
+    }
+
+    @OnClick(R.id.cardDate)
+    public void handleCardDateButton() {
+        ColorPickerDialogFragment fragment = new ColorPickerDialogFragment();
+        fragment.setTargetFragment(SettingFragment.this, UPDATE_CARD_DATE_REQUEST);
+        fragment.show(getFragmentManager(), "card_date");
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -169,6 +214,30 @@ public class SettingFragment extends Fragment {
         if (requestCode == UPDATE_ADD_ICON_REQUEST && resultCode == RESULT_OK) {
             int addIcon = Integer.valueOf(data.getStringExtra(ColorPickerDialogFragment.EXTRA_COLOR));
             color.setAddButtonIconColor(addIcon);
+            noteViewModel.updateColor(color);
+        }
+
+        if (requestCode == UPDATE_CARD_REQUEST && resultCode == RESULT_OK) {
+            int card = Integer.valueOf(data.getStringExtra(ColorPickerDialogFragment.EXTRA_COLOR));
+            color.setCardColor(card);
+            noteViewModel.updateColor(color);
+        }
+
+        if (requestCode == UPDATE_CARD_TITLE_REQUEST && resultCode == RESULT_OK) {
+            int cardTitle = Integer.valueOf(data.getStringExtra(ColorPickerDialogFragment.EXTRA_COLOR));
+            color.setCardTitleColor(cardTitle);
+            noteViewModel.updateColor(color);
+        }
+
+        if (requestCode == UPDATE_CARD_DESCRIPTION_REQUEST && resultCode == RESULT_OK) {
+            int cardDescription = Integer.valueOf(data.getStringExtra(ColorPickerDialogFragment.EXTRA_COLOR));
+            color.setCardDescriptionColor(cardDescription);
+            noteViewModel.updateColor(color);
+        }
+
+        if (requestCode == UPDATE_CARD_DATE_REQUEST && resultCode == RESULT_OK) {
+            int cardDate = Integer.valueOf(data.getStringExtra(ColorPickerDialogFragment.EXTRA_COLOR));
+            color.setCardDateColor(cardDate);
             noteViewModel.updateColor(color);
         }
     }

@@ -3,6 +3,7 @@ package com.example.mat.roomdb_mvvm.note.adapters;
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.note.entity.Note;
+import com.example.mat.roomdb_mvvm.note.ui.OnColorClickListener;
 import com.example.mat.roomdb_mvvm.note.ui.OnItemClickListener;
 
 import butterknife.BindView;
@@ -19,9 +21,11 @@ import butterknife.ButterKnife;
 public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
 
     private OnItemClickListener onItemClickListener;
+    private OnColorClickListener onColorClickListener;
 
-    public NoteAdapter(OnItemClickListener listener) {
+    public NoteAdapter(OnItemClickListener listener, OnColorClickListener colorListener) {
         super(DIFF_CALLBACK);
+        this.onColorClickListener = colorListener;
         this.onItemClickListener = listener;
     }
 
@@ -51,6 +55,7 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
         Note note = getItem(position);
         holder.setClickListener(note, onItemClickListener);
+        holder.changeRowContentColor(onColorClickListener);
 
         String title = note.getTitle();
         String description = note.getDescription();
@@ -65,8 +70,10 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
         return getItem(position);
     }
 
-    class NoteHolder extends RecyclerView.ViewHolder {
+    static class NoteHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.card_view)
+        CardView cardView;
         @BindView(R.id.titleTV)
         TextView titleTV;
         @BindView(R.id.descriptionTV)
@@ -92,6 +99,12 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
             });
         }
 
+        public void changeRowContentColor(OnColorClickListener color) {
+            cardView.setBackgroundColor(color.changeCardViewColor());
+            titleTV.setTextColor(color.changeTitleColor());
+            descriptionTV.setTextColor(color.changeDescriptionColor());
+            dateTV.setTextColor(color.changeDateColor());
+        }
 
     }
 }

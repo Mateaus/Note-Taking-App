@@ -28,9 +28,9 @@ import android.view.WindowManager;
 import com.example.mat.roomdb_mvvm.MainActivity;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.addnote.AddNoteFragmentDialogFragment;
+import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.note.adapters.NoteAdapter;
-import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.note.entity.Note;
 import com.example.mat.roomdb_mvvm.updatenote.UpdateNoteFragment;
 
@@ -42,7 +42,7 @@ import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
 
-public class NoteListFragment extends Fragment implements OnItemClickListener {
+public class NoteListFragment extends Fragment implements OnItemClickListener, OnColorClickListener {
 
     public static final int ADD_NOTE_REQUEST = 1;
     public static final int UPDATE_NOTE_REQUEST = 2;
@@ -66,7 +66,9 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
         setUpToolBar();
         setUpNoteAdapter();
         setUpRecyclerView();
-        // getContext().deleteDatabase("note_database");
+
+        //eraseCurrentDatabase(); // Used to erase the database when changes are made instead of upgrading version.
+
 
         this.noteViewModel = ViewModelProviders.of(this.getActivity()).get(NoteViewModel.class);
         this.noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
@@ -76,16 +78,17 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
             }
         });
 
+
         this.noteViewModel.getSelectedColor().observe(this, new Observer<Color>() {
             @Override
             public void onChanged(@Nullable Color color) {
                 if (color != null) {
-                    setUpStatusBar(getResources().getColor(color.getStatusBarColor()));
-                    addBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(color.getAddButtonBackgroundColor())));
-                    addBtn.setColorFilter(getResources().getColor(color.getAddButtonIconColor()));
-                    toolbar.setBackgroundColor(getResources().getColor(color.getToolBarColor()));
-                    toolbar.setTitleTextColor(getResources().getColor(color.getToolBarTitleColor()));
-                    recyclerView.setBackgroundColor(getResources().getColor(color.getBodyBackgroundColor()));
+                    setUpStatusBar(color.getStatusBarColor());
+                    addBtn.setBackgroundTintList(ColorStateList.valueOf(color.getAddButtonBackgroundColor()));
+                    addBtn.setColorFilter(color.getAddButtonIconColor());
+                    toolbar.setBackgroundColor(color.getToolBarColor());
+                    toolbar.setTitleTextColor(color.getToolBarTitleColor());
+                    recyclerView.setBackgroundColor(color.getBodyBackgroundColor());
                 }
             }
         });
@@ -135,7 +138,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
                 if (color != null && menu.findItem(R.id.menu_image) != null) {
                     Drawable menuIcon = menu.findItem(R.id.menu_image).getIcon();
                     menuIcon.mutate();
-                    menuIcon.setColorFilter(getResources().getColor(color.getMenuIconColor()), PorterDuff.Mode.SRC_IN);
+                    menuIcon.setColorFilter(color.getMenuIconColor(), PorterDuff.Mode.SRC_IN);
                 }
             }
         });
@@ -155,6 +158,26 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public int changeCardViewColor() {
+        return this.noteViewModel.getSelectedColor().getValue().getCardColor();
+    }
+
+    @Override
+    public int changeTitleColor() {
+        return this.noteViewModel.getSelectedColor().getValue().getCardTitleColor();
+    }
+
+    @Override
+    public int changeDescriptionColor() {
+        return this.noteViewModel.getSelectedColor().getValue().getCardDescriptionColor();
+    }
+
+    @Override
+    public int changeDateColor() {
+        return this.noteViewModel.getSelectedColor().getValue().getCardDateColor();
     }
 
     private void syncData() {
@@ -183,7 +206,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
     }
 
     private void setUpNoteAdapter() {
-        this.noteAdapter = new NoteAdapter(this);
+        this.noteAdapter = new NoteAdapter(this, this);
     }
 
     private void setUpRecyclerView() {
@@ -196,5 +219,9 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
                 noteAdapter, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    private void eraseCurrentDatabase() {
+        getContext().deleteDatabase("note_database");
     }
 }

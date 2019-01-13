@@ -2,18 +2,14 @@ package com.example.mat.roomdb_mvvm.color.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.color.ColorPickerViewModel;
 import com.thebluealliance.spectrum.SpectrumPalette;
 
 import butterknife.ButterKnife;
@@ -26,15 +22,12 @@ public class ColorPickerDialogFragment extends android.support.v4.app.DialogFrag
             "com.example.mat.roomdb_mvvm.EXTRA_COLOR";
 
     private SpectrumPalette spectrumPalette;
-    private ColorPickerViewModel colorPickerViewModel;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         spectrumPalette = new SpectrumPalette(this.getContext());
         spectrumPalette.setColors(populateColors());
-        spectrumPalette.setFixedColumnCount(3);
         spectrumPalette.setOutlineWidth(1);
-        spectrumPalette.setPadding(300, 0, 0, 0);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle("Pick a color")
@@ -48,7 +41,6 @@ public class ColorPickerDialogFragment extends android.support.v4.app.DialogFrag
 
         ButterKnife.bind(this, spectrumPalette);
         builder.setView(spectrumPalette);
-        this.colorPickerViewModel = ViewModelProviders.of(this).get(ColorPickerViewModel.class);
 
         AlertDialog dialog = builder.create();
         dialog.setOnShowListener(this);
@@ -65,10 +57,10 @@ public class ColorPickerDialogFragment extends android.support.v4.app.DialogFrag
             Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
             negativeButton.setTextColor(Color.parseColor("#4b2c20"));
 
-            this.colorPickerViewModel.findSelectedColor(getResources(), spectrumPalette);
-            this.colorPickerViewModel.getTrigger().observe(this, new Observer<Integer>() {
+
+            spectrumPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
                 @Override
-                public void onChanged(@Nullable Integer color) {
+                public void onColorSelected(int color) {
                     Bundle extras = new Bundle();
                     extras.putString(ColorPickerDialogFragment.EXTRA_COLOR, String.valueOf(color));
                     getTargetFragment().onActivityResult(
