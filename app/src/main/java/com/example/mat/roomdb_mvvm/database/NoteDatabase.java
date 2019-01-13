@@ -8,18 +8,21 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import com.example.mat.roomdb_mvvm.R;
+import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.note.entity.Note;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@Database(entities = {Note.class}, version = 1)
+@Database(entities = {Note.class, Color.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;
 
     public abstract NoteDao noteDao();
+    public abstract ColorDao colorDao();
 
     // synchronized, only one thread at a time can access this method.
     // This way you don't accidentally create two instances of this database
@@ -45,58 +48,32 @@ public abstract class NoteDatabase extends RoomDatabase {
         }
     };
 
+
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
         private NoteDao noteDao;
+        private ColorDao colorDao;
 
         private PopulateDbAsyncTask(NoteDatabase db) {
             noteDao = db.noteDao();
+            colorDao = db.colorDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+
             /*
              * This populates the database when it's first initially out of box.
              */
-            Note note1 = new Note("Example Title 1", "Example description . . .");
-            note1.setDate(getCurrentDate());
+            colorDao.insert(new Color(R.color.darkbrown, R.color.lightbrown,
+                    R.color.white, R.color.white, R.color.white, R.color.white,
+                    R.color.darkbrown));
 
-            Note note2 = new Note("Example Title 2", "Example description . . .");
-            note2.setDate(getCurrentDate());
+            for(int i = 1; i <= 10; i++){
+                Note note = new Note("Example Title " + i, "Example description . . .");
+                note.setDate(getCurrentDate());
+                noteDao.insert(note);
+            }
 
-            Note note3 = new Note("Example Title 3", "Example description . . .");
-            note3.setDate(getCurrentDate());
-
-            Note note4 = new Note("Example Title 4", "Example description . . .");
-            note4.setDate(getCurrentDate());
-
-            Note note5 = new Note("Example Title 5", "Example description . . .");
-            note5.setDate(getCurrentDate());
-
-            Note note6 = new Note("Example Title 6", "Example description . . .");
-            note6.setDate(getCurrentDate());
-
-            Note note7 = new Note("Example Title 7", "Example description . . .");
-            note7.setDate(getCurrentDate());
-
-            Note note8 = new Note("Example Title 8", "Example description . . .");
-            note8.setDate(getCurrentDate());
-
-            Note note9 = new Note("Example Title 9", "Example description . . .");
-            note9.setDate(getCurrentDate());
-
-            Note note10 = new Note("Example Title 10", "Example description . . .");
-            note10.setDate(getCurrentDate());
-
-            noteDao.insert(note1);
-            noteDao.insert(note2);
-            noteDao.insert(note3);
-            noteDao.insert(note4);
-            noteDao.insert(note5);
-            noteDao.insert(note6);
-            noteDao.insert(note7);
-            noteDao.insert(note8);
-            noteDao.insert(note9);
-            noteDao.insert(note10);
             return null;
         }
         private String getCurrentDate() {
@@ -108,4 +85,5 @@ public abstract class NoteDatabase extends RoomDatabase {
             return calendar;
         }
     }
+
 }

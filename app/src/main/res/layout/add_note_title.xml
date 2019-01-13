@@ -15,6 +15,6 @@
         android:layout_marginRight="16dp"
         android:fontFamily="sans-serif"
         android:text="Add Note"
-        android:textColor="@color/darkerbrown"
+        android:textColor="@color/darkbrown"
         android:textSize="20sp" />
 </RelativeLayout>

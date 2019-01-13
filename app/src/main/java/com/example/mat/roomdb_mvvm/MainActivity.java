@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.mat.roomdb_mvvm.note.entity.Note;
 import com.example.mat.roomdb_mvvm.note.ui.NoteListFragment;
+import com.example.mat.roomdb_mvvm.settings.SettingFragment;
 import com.example.mat.roomdb_mvvm.updatenote.UpdateNoteFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -39,5 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager.beginTransaction()
                 .replace(R.id.note_container, updateNoteFragment).addToBackStack(null).commit();
+    }
+
+    public void loadSettingScreen() {
+        SettingFragment settingFragment = new SettingFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.note_container, settingFragment).addToBackStack(null).commit();
     }
 }

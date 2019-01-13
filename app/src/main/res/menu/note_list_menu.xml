@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        app:showAsAction="always"
+        android:id="@+id/menu_image"
+        android:icon="@drawable/ic_more"
         android:title="main_menu"
-        android:icon="@drawable/ic_more">
+        app:showAsAction="always">
 
         <menu>
             <item
                 android:id="@+id/sync_data"
-                android:title="Synchronize"
-                android:icon="@drawable/ic_sync"/>
+                android:icon="@drawable/ic_sync"
+                android:title="Synchronize" />
             <item
                 android:id="@+id/settings"
-                android:title="Settings"
-                android:icon="@drawable/ic_settings"/>
+                android:icon="@drawable/ic_settings"
+                android:title="Settings" />
         </menu>
     </item>
 </menu>

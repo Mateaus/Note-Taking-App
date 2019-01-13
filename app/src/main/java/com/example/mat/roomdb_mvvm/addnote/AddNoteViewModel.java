@@ -36,8 +36,8 @@ public class AddNoteViewModel extends AndroidViewModel {
             dialog.dismiss();
         } else {
             Bundle extras = new Bundle();
-            extras.putString(AddNoteFragment.EXTRA_TITLE, title);
-            extras.putString(AddNoteFragment.EXTRA_DESCRIPTION, description);
+            extras.putString(AddNoteFragmentDialogFragment.EXTRA_TITLE, title);
+            extras.putString(AddNoteFragmentDialogFragment.EXTRA_DESCRIPTION, description);
 
             fragment.getTargetFragment().onActivityResult(
                     fragment.getTargetRequestCode(),

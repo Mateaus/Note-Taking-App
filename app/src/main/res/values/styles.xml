@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/lightbrown</item>
-        <item name="colorPrimaryDark">@color/chocobrown</item>
+        <item name="colorPrimaryDark">@color/darkbrown</item>
         <item name="colorAccent">@color/white</item>
     </style>
 
@@ -14,12 +14,17 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="EditTextThemeNote" >
+    <style name="EditTextThemeNote">
         <item name="colorControlNormal">@color/lightbrown</item>
         <item name="colorControlActivated">@color/brown</item>
-        <item name="colorControlHighlight">@color/chocobrown</item>
+        <item name="colorControlHighlight">@color/darkbrown</item>
+    </style>
+
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
 </resources>

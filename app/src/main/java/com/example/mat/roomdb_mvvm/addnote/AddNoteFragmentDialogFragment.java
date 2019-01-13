@@ -23,7 +23,7 @@ import com.example.mat.roomdb_mvvm.note.entity.Note;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddNoteFragment extends DialogFragment implements DialogInterface.OnShowListener {
+public class AddNoteFragmentDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
 
     public static final String EXTRA_TITLE =
             "com.example.mat.roomdb_mvvm.EXTRA_TITLE";
@@ -38,7 +38,7 @@ public class AddNoteFragment extends DialogFragment implements DialogInterface.O
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    public AddNoteViewModel addNoteViewModel;
+    private AddNoteViewModel addNoteViewModel;
 
     @NonNull
     @Override

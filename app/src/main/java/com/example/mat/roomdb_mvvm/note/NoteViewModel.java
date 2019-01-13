@@ -5,6 +5,8 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
+import com.example.mat.roomdb_mvvm.color.ColorRepository;
+import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.note.entity.Note;
 
 import java.text.DateFormat;
@@ -14,35 +16,47 @@ import java.util.List;
 
 public class NoteViewModel extends AndroidViewModel {
 
-    private NoteRepository repository;
+    private NoteRepository noteRepository;
+    private ColorRepository colorRepository;
     private LiveData<List<Note>> allNotes;
+    private LiveData<Color> selectedColor;
 
     public NoteViewModel(@NonNull Application application) {
         super(application);
-        this.repository = new NoteRepository(application);
-        this.allNotes = repository.getAllNotes();
+        this.noteRepository = new NoteRepository(application);
+        this.colorRepository = new ColorRepository(application);
+        this.allNotes = noteRepository.getAllNotes();
+        this.selectedColor = colorRepository.getSelectedColors();
     }
 
     public void insert(Note note) {
         note.setDate(getCurrentDate());
-        repository.insert(note);
+        noteRepository.insert(note);
     }
 
     public void update(Note note) {
         note.setDate(getCurrentDate());
-        repository.update(note);
+        noteRepository.update(note);
+    }
+
+    public void updateColor(Color color) {
+        colorRepository.update(color);
     }
 
     public void delete(Note note) {
-        repository.delete(note);
+        noteRepository.delete(note);
     }
 
     public void deleteAllNotes() {
-        repository.deleteAllNotes();
+        noteRepository.deleteAllNotes();
     }
 
     public LiveData<List<Note>> getAllNotes() {
         return allNotes;
+    }
+
+    public LiveData<Color> getSelectedColor() {
+        return selectedColor;
     }
 
     private String getCurrentDate() {

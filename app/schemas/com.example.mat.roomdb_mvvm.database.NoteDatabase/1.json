@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c706eb3cb7f0d4e64e647d3d0f50c047",
+    "identityHash": "8d3a70903d22f3c1c5dc5abc861d317a",
     "entities": [
       {
         "tableName": "note_table",
@@ -41,11 +41,73 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "color_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `status_bar_color` INTEGER NOT NULL, `tool_bar_color` INTEGER NOT NULL, `tool_bar_title_color` INTEGER NOT NULL, `menu_icon_color` INTEGER NOT NULL, `body_background_color` INTEGER NOT NULL, `add_button_icon_color` INTEGER NOT NULL, `add_button_background_color` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "statusBarColor",
+            "columnName": "status_bar_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toolBarColor",
+            "columnName": "tool_bar_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toolBarTitleColor",
+            "columnName": "tool_bar_title_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "menuIconColor",
+            "columnName": "menu_icon_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodyBackgroundColor",
+            "columnName": "body_background_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addButtonIconColor",
+            "columnName": "add_button_icon_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addButtonBackgroundColor",
+            "columnName": "add_button_background_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c706eb3cb7f0d4e64e647d3d0f50c047\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8d3a70903d22f3c1c5dc5abc861d317a\")"
     ]
   }
 }
