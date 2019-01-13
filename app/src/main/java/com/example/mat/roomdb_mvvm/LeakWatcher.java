@@ -6,12 +6,12 @@ import android.content.Context;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
-public class ExampleApplication extends Application {
+public class LeakWatcher extends Application {
 
     private RefWatcher refWatcher;
 
     public static RefWatcher getRefWatcher(Context context) {
-        ExampleApplication application = (ExampleApplication) context.getApplicationContext();
+        LeakWatcher application = (LeakWatcher) context.getApplicationContext();
         return application.refWatcher;
     }
 
