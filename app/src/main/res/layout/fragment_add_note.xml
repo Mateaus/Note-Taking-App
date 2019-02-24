@@ -52,7 +52,7 @@
                 android:background="@android:color/transparent"
                 android:ems="10"
                 android:inputType="textMultiLine"
-                android:maxLength="256"
+                android:maxLength="512"
                 android:theme="@style/EditTextThemeNote" />
 
         </LinearLayout>
