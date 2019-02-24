@@ -2,7 +2,6 @@ package com.example.mat.roomdb_mvvm.note_catalogue_app.updatenote;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,7 +21,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.note_catalogue_app.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.note_catalogue_app.note.entity.Note;
 
@@ -44,10 +42,13 @@ public class UpdateNoteFragment extends Fragment {
 
     @BindView(R.id.nested_scrollview)
     NestedScrollView nestedScrollView;
+
     @BindView(R.id.titleET)
     EditText titleET;
+
     @BindView(R.id.descriptionET)
     EditText descriptionET;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -129,10 +130,10 @@ public class UpdateNoteFragment extends Fragment {
     }
 
     private void setupNote() {
-        String category = getArguments().getString("title");
+        String title = getArguments().getString("title");
         String description = getArguments().getString("description");
 
-        titleET.setText(category);
+        titleET.setText(title);
         descriptionET.setText(description);
     }
 

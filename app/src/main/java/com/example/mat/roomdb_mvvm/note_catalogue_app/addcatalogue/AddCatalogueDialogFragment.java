@@ -31,8 +31,8 @@ public class AddCatalogueDialogFragment extends DialogFragment implements Dialog
     public static final String EXTRA_DESCRIPTION =
             "com.example.mat.roomdb_mvvm.EXTRA_DESCRIPTION";
 
-    @BindView(R.id.nameET)
-    EditText nameET;
+    @BindView(R.id.subjectET)
+    EditText subjectET;
 
     @BindView(R.id.descriptionET)
     EditText descriptionET;
@@ -88,7 +88,7 @@ public class AddCatalogueDialogFragment extends DialogFragment implements Dialog
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    addCatalogueViewModel.addCatalogue(new Catalogue(nameET.getText().toString(),
+                    addCatalogueViewModel.addCatalogue(new Catalogue(subjectET.getText().toString(),
                                     descriptionET.getText().toString()),
                             dialogInterface, getFragmentManager().findFragmentByTag("ADD_CATALOGUE"));
                 }

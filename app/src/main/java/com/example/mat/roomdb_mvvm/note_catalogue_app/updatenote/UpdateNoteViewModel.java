@@ -29,7 +29,6 @@ public class UpdateNoteViewModel extends AndroidViewModel {
 
 
     public void updateNote(Note note, Fragment fragment) {
-
         String cid = fragment.getArguments().getString("cid");
         String nid = fragment.getArguments().getString("nid");
         String title = note.getNtitle();
@@ -52,7 +51,7 @@ public class UpdateNoteViewModel extends AndroidViewModel {
                     RESULT_OK,
                     new Intent().putExtras(extras)
             );
-            message.postValue(R.string.note_updated);
+            message.postValue(R.string.catalogue_updated);
         }
     }
 

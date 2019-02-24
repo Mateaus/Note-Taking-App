@@ -16,6 +16,17 @@ public class NoteViewModelFactory implements ViewModelProvider.Factory {
         this.catalogueId = catalogueId;
     }
 
+    /**
+     * create allows us to return X extra parameters to our NoteViewModel
+     * to give us the ability to query the needed information from the DB.
+     * Since this is returning a Generic type. The compiler will warns us
+     * that this isn't safe because the generic can be converted to any type
+     * of object but in our case, this should always remain a NoteViewModel
+     * Object.
+     * @param modelClass
+     * @param <T>
+     * @return new NoteViewModel extending the ViewModel
+     */
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

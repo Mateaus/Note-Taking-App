@@ -26,7 +26,11 @@ public interface NoteDao {
     @Query("DELETE FROM note_table")
     void deleteAllNotes();
 
-    @Query("SELECT * FROM note_table JOIN catalogue_table ON note_table.c_id=catalogue_table.c_id WHERE note_table.c_id=:catalogueId")
+    @Query("SELECT note_table.n_id, note_table.c_id, note_table.ntitle, note_table.ndescription, note_table.ndate " +
+            "FROM note_table " +
+            "JOIN catalogue_table " +
+            "ON note_table.c_id=catalogue_table.c_id " +
+            "WHERE note_table.c_id=:catalogueId")
     LiveData<List<Note>> getAllNotes(int catalogueId);
 
     @Query("SELECT * FROM note_table ORDER BY n_id DESC")

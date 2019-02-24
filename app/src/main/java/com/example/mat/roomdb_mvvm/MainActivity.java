@@ -9,9 +9,11 @@ import com.example.mat.roomdb_mvvm.note_catalogue_app.catalogue.entity.Catalogue
 import com.example.mat.roomdb_mvvm.note_catalogue_app.catalogue.ui.CatalogueListFragment;
 import com.example.mat.roomdb_mvvm.note_catalogue_app.note.entity.Note;
 import com.example.mat.roomdb_mvvm.note_catalogue_app.note.ui.NoteListFragment;
-import com.example.mat.roomdb_mvvm.settings.SettingFragment;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.updatecatalogue.UpdateCatalogueFragment;
 import com.example.mat.roomdb_mvvm.note_catalogue_app.updatenote.UpdateNoteFragment;
+import com.example.mat.roomdb_mvvm.settings.SettingFragment;
 
+import static com.example.mat.roomdb_mvvm.note_catalogue_app.catalogue.ui.CatalogueListFragment.UPDATE_CATALOGUE_REQUEST;
 import static com.example.mat.roomdb_mvvm.note_catalogue_app.note.ui.NoteListFragment.UPDATE_NOTE_REQUEST;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
         Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.note_container);
 
         if (mainFragment == null) {
-            /*NoteListFragment noteListFragment = new NoteListFragment();
-            fragmentManager.beginTransaction().add(R.id.note_container, noteListFragment, "note_list_fragment").commit();*/
             CatalogueListFragment catalogueListFragment = new CatalogueListFragment();
             fragmentManager.beginTransaction().add(R.id.note_container, catalogueListFragment).commit();
         }
@@ -40,12 +40,26 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         bundle.putString("id", Integer.toString(catalogue.getC_id()));
-        bundle.putString("name", catalogue.getCname());
+        bundle.putString("name", catalogue.getCsubject());
         bundle.putString("description", catalogue.getCdescription());
         noteListFragment.setArguments(bundle);
 
         fragmentManager.beginTransaction()
                 .replace(R.id.note_container, noteListFragment).addToBackStack(null).commit();
+    }
+
+    public void loadUpdateCatalogueScreen(Catalogue catalogue, Fragment fragment) {
+        UpdateCatalogueFragment updateCatalogueFragment = new UpdateCatalogueFragment();
+        updateCatalogueFragment.setTargetFragment(fragment, UPDATE_CATALOGUE_REQUEST);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("cid", Integer.toString(catalogue.getC_id()));
+        bundle.putString("csubject", catalogue.getCsubject());
+        bundle.putString("cdescription", catalogue.getCdescription());
+        updateCatalogueFragment.setArguments(bundle);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.note_container, updateCatalogueFragment).addToBackStack(null).commit();
     }
 
     public void loadUpdateNoteScreen(Note note, Fragment fragment) {

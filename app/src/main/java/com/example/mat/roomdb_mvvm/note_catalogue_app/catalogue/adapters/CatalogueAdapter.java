@@ -34,7 +34,7 @@ public class CatalogueAdapter extends ListAdapter<Catalogue, CatalogueAdapter.Ca
 
         @Override
         public boolean areContentsTheSame(Catalogue oldItem, Catalogue newItem) {
-            return oldItem.getCname().equals(newItem.getCname()) &&
+            return oldItem.getCsubject().equals(newItem.getCsubject()) &&
                     oldItem.getCdescription().equals(newItem.getCdescription());
         }
     };
@@ -51,22 +51,26 @@ public class CatalogueAdapter extends ListAdapter<Catalogue, CatalogueAdapter.Ca
     public void onBindViewHolder(@NonNull CatalogueHolder holder, int position) {
         Catalogue catalogue = getItem(position);
         holder.setClickListener(catalogue, onCatalogueClickListener);
+        holder.setLongClickListener(catalogue, onCatalogueClickListener);
 
-        String catalogueName = catalogue.getCname();
+        String catalogueName = catalogue.getCsubject();
         String catalogueDescription = catalogue.getCdescription();
 
-        holder.nameTV.setText(catalogueName);
+        holder.subjectTV.setText(catalogueName);
         holder.descriptionTV.setText(catalogueDescription);
     }
 
+    public Catalogue getCatalogueAt(int position) {
+        return getItem(position);
+    }
 
     static class CatalogueHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.card_view)
         CardView cardView;
 
-        @BindView(R.id.nameTV)
-        TextView nameTV;
+        @BindView(R.id.subjectTV)
+        TextView subjectTV;
 
         @BindView(R.id.descriptionTV)
         TextView descriptionTV;
@@ -85,6 +89,17 @@ public class CatalogueAdapter extends ListAdapter<Catalogue, CatalogueAdapter.Ca
                 @Override
                 public void onClick(View view) {
                     listener.onItemClick(catalogue);
+                }
+            });
+        }
+
+        public void setLongClickListener(final Catalogue catalogue,
+                                         final OnCatalogueClickListener listener) {
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    listener.onLongItemClick(catalogue);
+                    return false;
                 }
             });
         }

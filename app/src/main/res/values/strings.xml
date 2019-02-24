@@ -1,12 +1,18 @@
 <resources>
-    <string name="app_name">RoomDB_MVVM</string>
+    <string name="app_name">Note Taking</string>
+
+    <!-- Catalogue Toolbar titles -->
+    <string name="catalogue_list">Note\'s Catalogue</string>
+    <string name="catalogue_update">Update Catalogue</string>
+
+    <!-- Catalogue interaction messages -->
+    <string name="catalogue_created">Catalogue added</string>
+    <string name="catalogue_updated">Catalogue updated</string>
+    <string name="catalogue_deleted">Catalogue deleted</string>
 
     <!-- Note Toolbar titles -->
     <string name="note_list">Notes</string>
     <string name="note_update">Update Note</string>
-
-    <!-- Catalogue interaction messages -->
-    <string name="catalogue_created">Catalogue added</string>
 
     <!-- Note interaction messages -->
     <string name="note_created">Note added</string>

@@ -12,21 +12,21 @@ public class Catalogue {
     @PrimaryKey(autoGenerate = true)
     private int c_id;
 
-    @ColumnInfo(name = "cname")
-    private String cname;
+    @ColumnInfo(name = "csubject")
+    private String csubject;
 
     @ColumnInfo(name = "cdescription")
     private String cdescription;
 
     @Ignore
-    public Catalogue(int c_id, String cname, String cdescription) {
+    public Catalogue(int c_id, String csubject, String cdescription) {
         this.c_id = c_id;
-        this.cname = cname;
+        this.csubject = csubject;
         this.cdescription = cdescription;
     }
 
-    public Catalogue(String cname, String cdescription) {
-        this.cname = cname;
+    public Catalogue(String csubject, String cdescription) {
+        this.csubject = csubject;
         this.cdescription = cdescription;
     }
 
@@ -38,12 +38,12 @@ public class Catalogue {
         this.c_id = c_id;
     }
 
-    public String getCname() {
-        return cname;
+    public String getCsubject() {
+        return csubject;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public void getCsubject(String getCsubject) {
+        this.csubject = getCsubject;
     }
 
     public String getCdescription() {

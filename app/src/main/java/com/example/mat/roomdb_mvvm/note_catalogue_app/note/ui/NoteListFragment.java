@@ -3,21 +3,20 @@ package com.example.mat.roomdb_mvvm.note_catalogue_app.note.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ import android.view.WindowManager;
 import com.example.mat.roomdb_mvvm.MainActivity;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.note_catalogue_app.addnote.AddNoteDialogFragment;
-import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.note_catalogue_app.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.note_catalogue_app.note.NoteViewModelFactory;
 import com.example.mat.roomdb_mvvm.note_catalogue_app.note.adapters.NoteAdapter;
@@ -44,13 +42,15 @@ import static android.app.Activity.RESULT_OK;
 
 public class NoteListFragment extends Fragment implements OnItemClickListener {
 
-    public static final int ADD_NOTE_REQUEST = 2;
-    public static final int UPDATE_NOTE_REQUEST = 3;
+    public static final int ADD_NOTE_REQUEST = 3;
+    public static final int UPDATE_NOTE_REQUEST = 4;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
     @BindView(R.id.add_note_btn)
     FloatingActionButton addBtn;
 
@@ -63,24 +63,17 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
         View v = inflater.inflate(R.layout.fragment_note_list, container, false);
         ButterKnife.bind(this, v);
 
-        int id = Integer.valueOf(getArguments().getString("id"));
-        String name = getArguments().getString("name");
-        String description = getArguments().getString("description");
-        System.out.println("Catalogue Id: " + String.valueOf(id)+ " Subject: " + name + " Description:" + description);
-
-
-        //setUpToolBar();
+        setUpToolBar();
         setUpNoteAdapter();
         setUpRecyclerView();
 
-       //eraseCurrentDatabase(); // Used to erase the database when changes are made instead of upgrading version.
         int catalogueId = Integer.valueOf(getArguments().getString("id"));
         this.noteViewModel = ViewModelProviders.of(this,
                 new NoteViewModelFactory(this.getActivity().getApplication(), catalogueId)).get(NoteViewModel.class);
         this.noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
             @Override
             public void onChanged(@Nullable List<Note> notes) {
-                for(Note i: notes) {
+                for (Note i : notes) {
                     System.out.println("Catalogue id:" + i.getC_id());
                     System.out.println("Note id:" + i.getN_id());
                     System.out.println("Note title:" + i.getNtitle());
@@ -151,35 +144,11 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
         mainActivity.loadUpdateNoteScreen(note, this);
     }
 
-
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.note_list_menu, menu);
-
-        this.noteViewModel.getSelectedColor().observe(this, new Observer<Color>() {
-            @Override
-            public void onChanged(@Nullable Color color) {
-                if (color != null && menu.findItem(R.id.menu_image) != null) {
-                    Drawable menuIcon = menu.findItem(R.id.menu_image).getIcon();
-                    menuIcon.mutate();
-                    menuIcon.setColorFilter(color.getMenuIconColor(), PorterDuff.Mode.SRC_IN);
-                }
-            }
-        });
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.sync_data:
-                syncData();
-                return true;
-            case R.id.settings:
-                settings();
-                return true;
             default:
+                getFragmentManager().popBackStack();
                 return super.onOptionsItemSelected(item);
         }
     }
@@ -204,19 +173,15 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
         return this.noteViewModel.getSelectedColor().getValue().getCardDateColor();
     }*/
 
-    private void syncData() {
-        // TODO: Sync data from current DB into Firebase auth + realtime DB.
-    }
-
-    private void settings() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.loadSettingScreen();
-        // TODO: Implement a new Activity/Fragment to create a new DB table to handle app color!
-    }
-
     private void setUpToolBar() {
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Drawable menuHomeIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_close, null);
+        menuHomeIcon = DrawableCompat.wrap(menuHomeIcon);
+        //DrawableCompat.setTint(menuHomeIcon, noteViewModel.getSelectedColor().getValue().getToolBarTitleColor());
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(menuHomeIcon);
         getActivity().setTitle(R.string.note_list);
     }
 
@@ -243,9 +208,5 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
                 noteAdapter, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    private void eraseCurrentDatabase() {
-        getContext().deleteDatabase("note_database");
     }
 }

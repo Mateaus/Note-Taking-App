@@ -28,7 +28,7 @@ public class AddCatalogueViewModel extends AndroidViewModel {
 
     public void addCatalogue(Catalogue catalogue, DialogInterface dialog, Fragment fragment) {
         progress.setValue(true);
-        String CatalogueName = catalogue.getCname();
+        String CatalogueName = catalogue.getCsubject();
         String CatalogueDescription = catalogue.getCdescription();
 
         if(CatalogueName.trim().isEmpty() && CatalogueDescription.trim().isEmpty()) {

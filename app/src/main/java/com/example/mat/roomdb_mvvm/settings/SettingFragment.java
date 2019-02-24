@@ -69,7 +69,7 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, v);
-
+/*
         this.noteViewModel = ViewModelProviders.of(this.getActivity()).get(NoteViewModel.class);
         this.noteViewModel.getSelectedColor().observe(this, new Observer<Color>() {
             @Override
@@ -88,7 +88,7 @@ public class SettingFragment extends Fragment {
                 cardDateBtn.setBackgroundColor(color.getCardDateColor());
             }
         });
-
+*/
         return v;
     }
 
