@@ -1,4 +1,4 @@
-package com.example.mat.roomdb_mvvm.note.ui;
+package com.example.mat.roomdb_mvvm.note_catalogue_app.note.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -6,8 +6,8 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.Toast;
 
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.note.NoteViewModel;
-import com.example.mat.roomdb_mvvm.note.adapters.NoteAdapter;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.NoteViewModel;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.adapters.NoteAdapter;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
 import static android.support.v7.widget.helper.ItemTouchHelper.RIGHT;

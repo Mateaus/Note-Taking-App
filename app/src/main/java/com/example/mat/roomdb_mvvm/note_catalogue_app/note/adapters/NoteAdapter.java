@@ -1,4 +1,4 @@
-package com.example.mat.roomdb_mvvm.note.adapters;
+package com.example.mat.roomdb_mvvm.note_catalogue_app.note.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.ListAdapter;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.note.entity.Note;
-import com.example.mat.roomdb_mvvm.note.ui.OnColorClickListener;
-import com.example.mat.roomdb_mvvm.note.ui.OnItemClickListener;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.entity.Note;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.ui.OnColorClickListener;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.ui.OnItemClickListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,23 +23,23 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
     private OnItemClickListener onItemClickListener;
     private OnColorClickListener onColorClickListener;
 
-    public NoteAdapter(OnItemClickListener listener, OnColorClickListener colorListener) {
+    public NoteAdapter(OnItemClickListener listener) {
         super(DIFF_CALLBACK);
-        this.onColorClickListener = colorListener;
+        //this.onColorClickListener = colorListener;
         this.onItemClickListener = listener;
     }
 
     public static final DiffUtil.ItemCallback<Note> DIFF_CALLBACK = new DiffUtil.ItemCallback<Note>() {
         @Override
         public boolean areItemsTheSame(Note oldItem, Note newItem) {
-            return oldItem.getId() == newItem.getId();
+            return oldItem.getN_id() == newItem.getN_id();
         }
 
         @Override
         public boolean areContentsTheSame(Note oldItem, Note newItem) {
-            return oldItem.getTitle().equals(newItem.getTitle()) &&
-                    oldItem.getDescription().equals(newItem.getDescription()) &&
-                    oldItem.getDescription().equals(newItem.getDescription());
+            return oldItem.getNtitle().equals(newItem.getNtitle()) &&
+                    oldItem.getNdescription().equals(newItem.getNdescription()) &&
+                    oldItem.getNdate().equals(newItem.getNdate());
         }
     };
 
@@ -55,11 +55,11 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
         Note note = getItem(position);
         holder.setClickListener(note, onItemClickListener);
-        holder.changeRowContentColor(onColorClickListener);
+        //holder.changeRowContentColor(onColorClickListener);
 
-        String title = note.getTitle();
-        String description = note.getDescription();
-        String date = note.getDate();
+        String title = note.getNtitle();
+        String description = note.getNdescription();
+        String date = note.getNdate();
 
         holder.titleTV.setText(title);
         holder.descriptionTV.setText(description);
@@ -98,13 +98,13 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
                 }
             });
         }
-
+/*
         public void changeRowContentColor(OnColorClickListener color) {
             cardView.setBackgroundColor(color.changeCardViewColor());
             titleTV.setTextColor(color.changeTitleColor());
             descriptionTV.setTextColor(color.changeDescriptionColor());
             dateTV.setTextColor(color.changeDateColor());
         }
-
+*/
     }
 }

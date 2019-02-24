@@ -1,9 +1,8 @@
-package com.example.mat.roomdb_mvvm.note.ui;
+package com.example.mat.roomdb_mvvm.note_catalogue_app.note.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -27,12 +26,13 @@ import android.view.WindowManager;
 
 import com.example.mat.roomdb_mvvm.MainActivity;
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.addnote.AddNoteFragmentDialogFragment;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.addnote.AddNoteDialogFragment;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
-import com.example.mat.roomdb_mvvm.note.NoteViewModel;
-import com.example.mat.roomdb_mvvm.note.adapters.NoteAdapter;
-import com.example.mat.roomdb_mvvm.note.entity.Note;
-import com.example.mat.roomdb_mvvm.updatenote.UpdateNoteFragment;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.NoteViewModel;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.NoteViewModelFactory;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.adapters.NoteAdapter;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.entity.Note;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.updatenote.UpdateNoteFragment;
 
 import java.util.List;
 
@@ -42,10 +42,10 @@ import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
 
-public class NoteListFragment extends Fragment implements OnItemClickListener, OnColorClickListener {
+public class NoteListFragment extends Fragment implements OnItemClickListener {
 
-    public static final int ADD_NOTE_REQUEST = 1;
-    public static final int UPDATE_NOTE_REQUEST = 2;
+    public static final int ADD_NOTE_REQUEST = 2;
+    public static final int UPDATE_NOTE_REQUEST = 3;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -63,21 +63,36 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         View v = inflater.inflate(R.layout.fragment_note_list, container, false);
         ButterKnife.bind(this, v);
 
-        setUpToolBar();
+        int id = Integer.valueOf(getArguments().getString("id"));
+        String name = getArguments().getString("name");
+        String description = getArguments().getString("description");
+        System.out.println("Catalogue Id: " + String.valueOf(id)+ " Subject: " + name + " Description:" + description);
+
+
+        //setUpToolBar();
         setUpNoteAdapter();
         setUpRecyclerView();
 
-        //eraseCurrentDatabase(); // Used to erase the database when changes are made instead of upgrading version.
-
-        this.noteViewModel = ViewModelProviders.of(this.getActivity()).get(NoteViewModel.class);
+       //eraseCurrentDatabase(); // Used to erase the database when changes are made instead of upgrading version.
+        int catalogueId = Integer.valueOf(getArguments().getString("id"));
+        this.noteViewModel = ViewModelProviders.of(this,
+                new NoteViewModelFactory(this.getActivity().getApplication(), catalogueId)).get(NoteViewModel.class);
         this.noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
             @Override
             public void onChanged(@Nullable List<Note> notes) {
+                for(Note i: notes) {
+                    System.out.println("Catalogue id:" + i.getC_id());
+                    System.out.println("Note id:" + i.getN_id());
+                    System.out.println("Note title:" + i.getNtitle());
+                    System.out.println("Note description:" + i.getNdescription());
+                    System.out.println("Note date:" + i.getNdate());
+
+                }
                 noteAdapter.submitList(notes);
             }
         });
 
-
+/*
         this.noteViewModel.getSelectedColor().observe(this, new Observer<Color>() {
             @Override
             public void onChanged(@Nullable Color color) {
@@ -90,7 +105,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
                     recyclerView.setBackgroundColor(color.getBodyBackgroundColor());
                 }
             }
-        });
+        });*/
 
         setUpItemTouchHelper();
 
@@ -99,7 +114,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
 
     @OnClick(R.id.add_note_btn)
     public void addButtonHandler() {
-        AddNoteFragmentDialogFragment fragment = new AddNoteFragmentDialogFragment();
+        AddNoteDialogFragment fragment = new AddNoteDialogFragment();
         fragment.setTargetFragment(NoteListFragment.this, ADD_NOTE_REQUEST);
         fragment.show(getFragmentManager(), "ADD_FRAGMENT");
     }
@@ -107,18 +122,25 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // Inserts data sent from AddNoteFragmentDialogFragment.
+        // Inserts data sent from AddNoteDialogFragment.
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
-            this.noteViewModel.insert(new Note(data.getStringExtra(AddNoteFragmentDialogFragment.EXTRA_TITLE),
-                    data.getStringExtra(AddNoteFragmentDialogFragment.EXTRA_DESCRIPTION)));
+            int catalogueId = Integer.valueOf(getArguments().getString("id"));
+
+            Note addNote = new Note(data.getStringExtra(AddNoteDialogFragment.EXTRA_TITLE),
+                    data.getStringExtra(AddNoteDialogFragment.EXTRA_DESCRIPTION));
+            addNote.setC_id(catalogueId);
+
+            this.noteViewModel.insert(addNote);
         }
         // Updates data sent from UpdateNoteFragment.
         if (requestCode == UPDATE_NOTE_REQUEST && resultCode == RESULT_OK) {
-            int id = Integer.valueOf(data.getStringExtra(UpdateNoteFragment.EXTRA_ID));
+            int cid = Integer.valueOf(data.getStringExtra(UpdateNoteFragment.EXTRA_CID));
+            int nid = Integer.valueOf(data.getStringExtra(UpdateNoteFragment.EXTRA_NID));
 
             Note updateNote = new Note(data.getStringExtra(UpdateNoteFragment.EXTRA_TITLE),
                     data.getStringExtra(UpdateNoteFragment.EXTRA_DESCRIPTION));
-            updateNote.setId(id);
+            updateNote.setC_id(cid);
+            updateNote.setN_id(nid);
             this.noteViewModel.update(updateNote);
         }
     }
@@ -161,7 +183,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
                 return super.onOptionsItemSelected(item);
         }
     }
-
+/*
     @Override
     public int changeCardViewColor() {
         return this.noteViewModel.getSelectedColor().getValue().getCardColor();
@@ -180,7 +202,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     @Override
     public int changeDateColor() {
         return this.noteViewModel.getSelectedColor().getValue().getCardDateColor();
-    }
+    }*/
 
     private void syncData() {
         // TODO: Sync data from current DB into Firebase auth + realtime DB.
@@ -208,7 +230,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     }
 
     private void setUpNoteAdapter() {
-        this.noteAdapter = new NoteAdapter(this, this);
+        this.noteAdapter = new NoteAdapter(this);
     }
 
     private void setUpRecyclerView() {

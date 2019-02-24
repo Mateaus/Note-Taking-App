@@ -1,4 +1,4 @@
-package com.example.mat.roomdb_mvvm.addnote;
+package com.example.mat.roomdb_mvvm.note_catalogue_app.addnote;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.note.entity.Note;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.entity.Note;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -28,16 +28,16 @@ public class AddNoteViewModel extends AndroidViewModel {
 
     public void addNote(Note note, DialogInterface dialog, Fragment fragment) {
         progress.setValue(true);
-        String title = note.getTitle();
-        String description = note.getDescription();
+        String title = note.getNtitle();
+        String description = note.getNdescription();
 
         if (title.trim().isEmpty() && description.trim().isEmpty()) {
             progress.setValue(false);
             dialog.dismiss();
         } else {
             Bundle extras = new Bundle();
-            extras.putString(AddNoteFragmentDialogFragment.EXTRA_TITLE, title);
-            extras.putString(AddNoteFragmentDialogFragment.EXTRA_DESCRIPTION, description);
+            extras.putString(AddNoteDialogFragment.EXTRA_TITLE, title);
+            extras.putString(AddNoteDialogFragment.EXTRA_DESCRIPTION, description);
 
             fragment.getTargetFragment().onActivityResult(
                     fragment.getTargetRequestCode(),

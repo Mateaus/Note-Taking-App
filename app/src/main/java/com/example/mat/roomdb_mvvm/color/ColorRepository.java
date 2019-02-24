@@ -1,4 +1,4 @@
-package com.example.mat.roomdb_mvvm.note;
+package com.example.mat.roomdb_mvvm.color;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;

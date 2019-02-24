@@ -1,4 +1,4 @@
-package com.example.mat.roomdb_mvvm.note;
+package com.example.mat.roomdb_mvvm.note_catalogue_app.note;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
@@ -6,22 +6,26 @@ import android.os.AsyncTask;
 
 import com.example.mat.roomdb_mvvm.database.NoteDao;
 import com.example.mat.roomdb_mvvm.database.NoteDatabase;
-import com.example.mat.roomdb_mvvm.note.entity.Note;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.entity.Note;
 
 import java.util.List;
 
 public class NoteRepository {
     private NoteDao noteDao;
-
     private LiveData<List<Note>> allNotes;
 
-    public NoteRepository(Application application) {
+    public NoteRepository(Application application, int catalogueId) {
         NoteDatabase database = NoteDatabase.getInstance(application);
         noteDao = database.noteDao();
-        allNotes = noteDao.getAllNotes();
+        allNotes = noteDao.getAllNotes(catalogueId);
     }
 
     public void insert(Note note) {
+        System.out.println(note.getC_id());
+        System.out.println(note.getN_id());
+        System.out.println(note.getNtitle());
+        System.out.println(note.getNdescription());
+
         new InsertNoteAsyncTask(noteDao).execute(note);
     }
 

@@ -5,12 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.mat.roomdb_mvvm.note.entity.Note;
-import com.example.mat.roomdb_mvvm.note.ui.NoteListFragment;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.catalogue.entity.Catalogue;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.catalogue.ui.CatalogueListFragment;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.entity.Note;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.ui.NoteListFragment;
 import com.example.mat.roomdb_mvvm.settings.SettingFragment;
-import com.example.mat.roomdb_mvvm.updatenote.UpdateNoteFragment;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.updatenote.UpdateNoteFragment;
 
-import static com.example.mat.roomdb_mvvm.note.ui.NoteListFragment.UPDATE_NOTE_REQUEST;
+import static com.example.mat.roomdb_mvvm.note_catalogue_app.note.ui.NoteListFragment.UPDATE_NOTE_REQUEST;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,9 +28,24 @@ public class MainActivity extends AppCompatActivity {
         Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.note_container);
 
         if (mainFragment == null) {
-            NoteListFragment noteListFragment = new NoteListFragment();
-            fragmentManager.beginTransaction().add(R.id.note_container, noteListFragment, "note_list_fragment").commit();
+            /*NoteListFragment noteListFragment = new NoteListFragment();
+            fragmentManager.beginTransaction().add(R.id.note_container, noteListFragment, "note_list_fragment").commit();*/
+            CatalogueListFragment catalogueListFragment = new CatalogueListFragment();
+            fragmentManager.beginTransaction().add(R.id.note_container, catalogueListFragment).commit();
         }
+    }
+
+    public void loadNoteScreen(Catalogue catalogue) {
+        NoteListFragment noteListFragment = new NoteListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("id", Integer.toString(catalogue.getC_id()));
+        bundle.putString("name", catalogue.getCname());
+        bundle.putString("description", catalogue.getCdescription());
+        noteListFragment.setArguments(bundle);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.note_container, noteListFragment).addToBackStack(null).commit();
     }
 
     public void loadUpdateNoteScreen(Note note, Fragment fragment) {
@@ -36,9 +53,10 @@ public class MainActivity extends AppCompatActivity {
         updateNoteFragment.setTargetFragment(fragment, UPDATE_NOTE_REQUEST);
 
         Bundle bundle = new Bundle();
-        bundle.putString("id", Integer.toString(note.getId()));
-        bundle.putString("title", note.getTitle());
-        bundle.putString("description", note.getDescription());
+        bundle.putString("cid", Integer.toString(note.getC_id()));
+        bundle.putString("nid", Integer.toString(note.getN_id()));
+        bundle.putString("title", note.getNtitle());
+        bundle.putString("description", note.getNdescription());
         updateNoteFragment.setArguments(bundle);
 
         fragmentManager.beginTransaction()

@@ -1,8 +1,7 @@
-package com.example.mat.roomdb_mvvm.updatenote;
+package com.example.mat.roomdb_mvvm.note_catalogue_app.updatenote;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,21 +21,20 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.mat.roomdb_mvvm.MainActivity;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
-import com.example.mat.roomdb_mvvm.note.NoteViewModel;
-import com.example.mat.roomdb_mvvm.note.entity.Note;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.NoteViewModel;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.entity.Note;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.app.Activity.RESULT_OK;
-
 public class UpdateNoteFragment extends Fragment {
+    public static final String EXTRA_CID =
+            "com.example.mat.roomdb_mvvm.EXTRA_CID";
 
-    public static final String EXTRA_ID =
-            "com.example.mat.roomdb_mvvm.EXTRA_ID";
+    public static final String EXTRA_NID =
+            "com.example.mat.roomdb_mvvm.EXTRA_NID";
 
     public static final String EXTRA_TITLE =
             "com.example.mat.roomdb_mvvm.EXTRA_TITLE";
@@ -69,7 +67,7 @@ public class UpdateNoteFragment extends Fragment {
             }
         });
 
-
+/*
         this.noteViewModel = ViewModelProviders.of(this.getActivity()).get(NoteViewModel.class);
         this.noteViewModel.getSelectedColor().observe(this, new Observer<Color>() {
             @Override
@@ -81,7 +79,7 @@ public class UpdateNoteFragment extends Fragment {
                 nestedScrollView.setBackgroundColor(color.getBodyBackgroundColor());
             }
         });
-
+*/
         setUpToolBar();
         setupNote();
 
@@ -91,7 +89,7 @@ public class UpdateNoteFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.update_note_menu, menu);
-
+/*
         this.noteViewModel.getSelectedColor().observe(this, new Observer<Color>() {
             @Override
             public void onChanged(@Nullable Color color) {
@@ -101,7 +99,7 @@ public class UpdateNoteFragment extends Fragment {
                     menuIcon.setColorFilter(color.getMenuIconColor(), PorterDuff.Mode.SRC_IN);
                 }
             }
-        });
+        });*/
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -125,7 +123,7 @@ public class UpdateNoteFragment extends Fragment {
 
         Drawable menuHomeIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_close, null);
         menuHomeIcon = DrawableCompat.wrap(menuHomeIcon);
-        DrawableCompat.setTint(menuHomeIcon, noteViewModel.getSelectedColor().getValue().getToolBarTitleColor());
+        //DrawableCompat.setTint(menuHomeIcon, noteViewModel.getSelectedColor().getValue().getToolBarTitleColor());
         ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(menuHomeIcon);
         getActivity().setTitle(R.string.note_update);
     }

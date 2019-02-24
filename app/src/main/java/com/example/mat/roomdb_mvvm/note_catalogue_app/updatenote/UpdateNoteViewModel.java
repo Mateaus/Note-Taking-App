@@ -1,4 +1,4 @@
-package com.example.mat.roomdb_mvvm.updatenote;
+package com.example.mat.roomdb_mvvm.note_catalogue_app.updatenote;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -10,12 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.note.entity.Note;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.entity.Note;
 
 import static android.app.Activity.RESULT_OK;
-import static com.example.mat.roomdb_mvvm.updatenote.UpdateNoteFragment.EXTRA_DESCRIPTION;
-import static com.example.mat.roomdb_mvvm.updatenote.UpdateNoteFragment.EXTRA_ID;
-import static com.example.mat.roomdb_mvvm.updatenote.UpdateNoteFragment.EXTRA_TITLE;
+import static com.example.mat.roomdb_mvvm.note_catalogue_app.updatenote.UpdateNoteFragment.EXTRA_CID;
+import static com.example.mat.roomdb_mvvm.note_catalogue_app.updatenote.UpdateNoteFragment.EXTRA_DESCRIPTION;
+import static com.example.mat.roomdb_mvvm.note_catalogue_app.updatenote.UpdateNoteFragment.EXTRA_NID;
+import static com.example.mat.roomdb_mvvm.note_catalogue_app.updatenote.UpdateNoteFragment.EXTRA_TITLE;
 
 public class UpdateNoteViewModel extends AndroidViewModel {
 
@@ -29,17 +30,19 @@ public class UpdateNoteViewModel extends AndroidViewModel {
 
     public void updateNote(Note note, Fragment fragment) {
 
-        String exId = fragment.getArguments().getString("id");
-        String title = note.getTitle();
+        String cid = fragment.getArguments().getString("cid");
+        String nid = fragment.getArguments().getString("nid");
+        String title = note.getNtitle();
         String exTitle = fragment.getArguments().getString("title");
-        String description = note.getDescription();
+        String description = note.getNdescription();
         String exDescription = fragment.getArguments().getString("description");
 
         if (title.equals(exTitle) && description.equals(exDescription)) {
             fragment.getFragmentManager().popBackStack();
         } else {
             Bundle extras = new Bundle();
-            extras.putString(EXTRA_ID, exId);
+            extras.putString(EXTRA_CID, cid);
+            extras.putString(EXTRA_NID, nid);
             extras.putString(EXTRA_TITLE, title);
             extras.putString(EXTRA_DESCRIPTION, description);
             // popBackStackImmediate before data arrives to onActivityResult lifecycle

@@ -5,6 +5,9 @@
     <string name="note_list">Notes</string>
     <string name="note_update">Update Note</string>
 
+    <!-- Catalogue interaction messages -->
+    <string name="catalogue_created">Catalogue added</string>
+
     <!-- Note interaction messages -->
     <string name="note_created">Note added</string>
     <string name="note_updated">Note updated</string>

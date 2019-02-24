@@ -1,4 +1,4 @@
-package com.example.mat.roomdb_mvvm.addnote;
+package com.example.mat.roomdb_mvvm.note_catalogue_app.addnote;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,12 +18,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.note.entity.Note;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.entity.Note;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddNoteFragmentDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
+public class AddNoteDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
 
     public static final String EXTRA_TITLE =
             "com.example.mat.roomdb_mvvm.EXTRA_TITLE";

@@ -2,45 +2,104 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "821195c7c1cf3b8ea7cfce1a71b131c0",
+    "identityHash": "676d734eec392f3bc5c287293727a465",
     "entities": [
       {
-        "tableName": "note_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `description` TEXT, `date` TEXT)",
+        "tableName": "catalogue_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`c_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cname` TEXT, `cdescription` TEXT)",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "c_id",
+            "columnName": "c_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "title",
-            "columnName": "title",
+            "fieldPath": "cname",
+            "columnName": "cname",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "description",
-            "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "date",
-            "columnName": "date",
+            "fieldPath": "cdescription",
+            "columnName": "cdescription",
             "affinity": "TEXT",
             "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "c_id"
           ],
           "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "note_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`n_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `c_id` INTEGER NOT NULL, `ntitle` TEXT, `ndescription` TEXT, `ndate` TEXT, FOREIGN KEY(`c_id`) REFERENCES `catalogue_table`(`c_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "n_id",
+            "columnName": "n_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "c_id",
+            "columnName": "c_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ntitle",
+            "columnName": "ntitle",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ndescription",
+            "columnName": "ndescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ndate",
+            "columnName": "ndate",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "n_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_note_table_c_id",
+            "unique": false,
+            "columnNames": [
+              "c_id"
+            ],
+            "createSql": "CREATE  INDEX `index_note_table_c_id` ON `${TABLE_NAME}` (`c_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "catalogue_table",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "c_id"
+            ],
+            "referencedColumns": [
+              "c_id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "color_table",
@@ -131,7 +190,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"821195c7c1cf3b8ea7cfce1a71b131c0\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"676d734eec392f3bc5c287293727a465\")"
     ]
   }
 }

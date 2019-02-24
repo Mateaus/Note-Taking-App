@@ -17,7 +17,7 @@ import android.widget.Button;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.color.ui.ColorPickerDialogFragment;
-import com.example.mat.roomdb_mvvm.note.NoteViewModel;
+import com.example.mat.roomdb_mvvm.note_catalogue_app.note.NoteViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
