@@ -1,0 +1,196 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "1c88c16c993d854e309e4e274800945f",
+    "entities": [
+      {
+        "tableName": "catalogue_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`c_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `csubject` TEXT, `cdescription` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "c_id",
+            "columnName": "c_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "csubject",
+            "columnName": "csubject",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cdescription",
+            "columnName": "cdescription",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "c_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "note_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`n_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `c_id` INTEGER NOT NULL, `ntitle` TEXT, `ndescription` TEXT, `ndate` TEXT, FOREIGN KEY(`c_id`) REFERENCES `catalogue_table`(`c_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "n_id",
+            "columnName": "n_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "c_id",
+            "columnName": "c_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ntitle",
+            "columnName": "ntitle",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ndescription",
+            "columnName": "ndescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ndate",
+            "columnName": "ndate",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "n_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_note_table_c_id",
+            "unique": false,
+            "columnNames": [
+              "c_id"
+            ],
+            "createSql": "CREATE  INDEX `index_note_table_c_id` ON `${TABLE_NAME}` (`c_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "catalogue_table",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "c_id"
+            ],
+            "referencedColumns": [
+              "c_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "color_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `status_bar_color` INTEGER NOT NULL, `tool_bar_color` INTEGER NOT NULL, `tool_bar_title_color` INTEGER NOT NULL, `menu_icon_color` INTEGER NOT NULL, `card_color` INTEGER NOT NULL, `card_title_color` INTEGER NOT NULL, `card_description_color` INTEGER NOT NULL, `card_date_color` INTEGER NOT NULL, `body_background_color` INTEGER NOT NULL, `add_button_icon_color` INTEGER NOT NULL, `add_button_background_color` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "statusBarColor",
+            "columnName": "status_bar_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toolBarColor",
+            "columnName": "tool_bar_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toolBarTitleColor",
+            "columnName": "tool_bar_title_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "menuIconColor",
+            "columnName": "menu_icon_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cardColor",
+            "columnName": "card_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cardTitleColor",
+            "columnName": "card_title_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cardDescriptionColor",
+            "columnName": "card_description_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cardDateColor",
+            "columnName": "card_date_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodyBackgroundColor",
+            "columnName": "body_background_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addButtonIconColor",
+            "columnName": "add_button_icon_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addButtonBackgroundColor",
+            "columnName": "add_button_background_color",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1c88c16c993d854e309e4e274800945f\")"
+    ]
+  }
+}

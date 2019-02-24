@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Note Taking</string>
+    <string name="app_name">Note Keeper</string>
 
     <!-- Catalogue Toolbar titles -->
     <string name="catalogue_list">Note\'s Catalogue</string>
@@ -12,6 +12,7 @@
 
     <!-- Note Toolbar titles -->
     <string name="note_list">Notes</string>
+    <string name="note_add">Add Note</string>
     <string name="note_update">Update Note</string>
 
     <!-- Note interaction messages -->
