@@ -56,7 +56,7 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.Categ
         String categoryName = category.getCsubject();
         String categoryDescription = category.getCdescription();
 
-        holder.subjectTV.setText(categoryName);
+        holder.categoryTV.setText(categoryName);
         holder.descriptionTV.setText(categoryDescription);
     }
 
@@ -69,8 +69,8 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.Categ
         @BindView(R.id.card_view)
         CardView cardView;
 
-        @BindView(R.id.subjectTV)
-        TextView subjectTV;
+        @BindView(R.id.categoryTV)
+        TextView categoryTV;
 
         @BindView(R.id.descriptionTV)
         TextView descriptionTV;

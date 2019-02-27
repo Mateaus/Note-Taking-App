@@ -39,8 +39,8 @@ public class UpdateCategoryFragment extends Fragment {
 
     @BindView(R.id.nested_scrollview)
     NestedScrollView nestedScrollView;
-    @BindView(R.id.subjectET)
-    EditText subjectET;
+    @BindView(R.id.categoryET)
+    EditText categoryET;
     @BindView(R.id.descriptionET)
     EditText descriptionET;
     @BindView(R.id.toolbar)
@@ -103,12 +103,12 @@ public class UpdateCategoryFragment extends Fragment {
         String subject = getArguments().getString("csubject");
         String description = getArguments().getString("cdescription");
 
-        subjectET.setText(subject);
+        categoryET.setText(subject);
         descriptionET.setText(description);
     }
 
     private void updateCategory() {
-        this.updateCategoryViewModel.updateCategory(new Category(subjectET.getText().toString(),
+        this.updateCategoryViewModel.updateCategory(new Category(categoryET.getText().toString(),
                 descriptionET.getText().toString()), this);
     }
 }
