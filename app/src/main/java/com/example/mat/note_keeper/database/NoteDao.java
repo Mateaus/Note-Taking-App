@@ -7,7 +7,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.example.mat.note_keeper.note_catalogue_app.note_section.note.entity.Note;
+import com.example.mat.note_keeper.category_note_app.note_section.note.entity.Note;
 
 import java.util.List;
 
@@ -28,8 +28,8 @@ public interface NoteDao {
 
     @Query("SELECT note_table.n_id, note_table.c_id, note_table.ntitle, note_table.ndescription, note_table.ndate " +
             "FROM note_table " +
-            "JOIN catalogue_table " +
-            "ON note_table.c_id=catalogue_table.c_id " +
+            "JOIN category_table " +
+            "ON note_table.c_id=category_table.c_id " +
             "WHERE note_table.c_id=:catalogueId")
     LiveData<List<Note>> getAllNotes(int catalogueId);
 

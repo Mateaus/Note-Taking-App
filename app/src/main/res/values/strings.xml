@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Note Keeper</string>
 
-    <!-- Catalogue Toolbar titles -->
-    <string name="catalogue_list">Note\'s Catalogue</string>
-    <string name="catalogue_update">Update Catalogue</string>
+    <!-- Category Toolbar titles -->
+    <string name="category_list">Category</string>
+    <string name="category_update">Update Category</string>
 
-    <!-- Catalogue interaction messages -->
-    <string name="catalogue_created">Catalogue added</string>
-    <string name="catalogue_updated">Catalogue updated</string>
-    <string name="catalogue_deleted">Catalogue deleted</string>
+    <!-- Category interaction messages -->
+    <string name="category_created">Category added</string>
+    <string name="category_updated">Category updated</string>
+    <string name="category_deleted">Category deleted</string>
 
     <!-- Note Toolbar titles -->
     <string name="note_list">Notes</string>

@@ -15,7 +15,7 @@ import android.widget.Button;
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.color.entity.Color;
 import com.example.mat.note_keeper.color.ui.ColorPickerDialogFragment;
-import com.example.mat.note_keeper.note_catalogue_app.note_section.note.NoteViewModel;
+import com.example.mat.note_keeper.category_note_app.note_section.note.NoteViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

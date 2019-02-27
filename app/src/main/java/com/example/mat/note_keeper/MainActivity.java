@@ -5,18 +5,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.mat.note_keeper.note_catalogue_app.note_section.addnote.AddNoteFragment;
-import com.example.mat.note_keeper.note_catalogue_app.catalogue_section.catalogue.entity.Catalogue;
-import com.example.mat.note_keeper.note_catalogue_app.catalogue_section.catalogue.ui.CatalogueListFragment;
-import com.example.mat.note_keeper.note_catalogue_app.note_section.note.entity.Note;
-import com.example.mat.note_keeper.note_catalogue_app.note_section.note.ui.NoteListFragment;
-import com.example.mat.note_keeper.note_catalogue_app.catalogue_section.updatecatalogue.UpdateCatalogueFragment;
-import com.example.mat.note_keeper.note_catalogue_app.note_section.updatenote.UpdateNoteFragment;
+import com.example.mat.note_keeper.category_note_app.category_section.category.ui.CategoryListFragment;
+import com.example.mat.note_keeper.category_note_app.category_section.updatecategory.UpdateCategoryFragment;
+import com.example.mat.note_keeper.category_note_app.note_section.addnote.AddNoteFragment;
+import com.example.mat.note_keeper.category_note_app.category_section.category.entity.Category;
+import com.example.mat.note_keeper.category_note_app.note_section.note.entity.Note;
+import com.example.mat.note_keeper.category_note_app.note_section.note.ui.NoteListFragment;
+import com.example.mat.note_keeper.category_note_app.note_section.updatenote.UpdateNoteFragment;
 import com.example.mat.note_keeper.settings.SettingFragment;
 
-import static com.example.mat.note_keeper.note_catalogue_app.catalogue_section.catalogue.ui.CatalogueListFragment.UPDATE_CATALOGUE_REQUEST;
-import static com.example.mat.note_keeper.note_catalogue_app.note_section.note.ui.NoteListFragment.ADD_NOTE_REQUEST;
-import static com.example.mat.note_keeper.note_catalogue_app.note_section.note.ui.NoteListFragment.UPDATE_NOTE_REQUEST;
+import static com.example.mat.note_keeper.category_note_app.category_section.category.ui.CategoryListFragment.UPDATE_CATEGORY_REQUEST;
+import static com.example.mat.note_keeper.category_note_app.note_section.note.ui.NoteListFragment.ADD_NOTE_REQUEST;
+import static com.example.mat.note_keeper.category_note_app.note_section.note.ui.NoteListFragment.UPDATE_NOTE_REQUEST;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,36 +32,36 @@ public class MainActivity extends AppCompatActivity {
         Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.note_container);
 
         if (mainFragment == null) {
-            CatalogueListFragment catalogueListFragment = new CatalogueListFragment();
-            fragmentManager.beginTransaction().add(R.id.note_container, catalogueListFragment).commit();
+            CategoryListFragment categoryListFragment = new CategoryListFragment();
+            fragmentManager.beginTransaction().add(R.id.note_container, categoryListFragment).commit();
         }
     }
 
-    public void loadNoteScreen(Catalogue catalogue) {
+    public void loadNoteScreen(Category category) {
         NoteListFragment noteListFragment = new NoteListFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("id", Integer.toString(catalogue.getC_id()));
-        bundle.putString("name", catalogue.getCsubject());
-        bundle.putString("description", catalogue.getCdescription());
+        bundle.putString("id", Integer.toString(category.getC_id()));
+        bundle.putString("name", category.getCsubject());
+        bundle.putString("description", category.getCdescription());
         noteListFragment.setArguments(bundle);
 
         fragmentManager.beginTransaction()
                 .replace(R.id.note_container, noteListFragment).addToBackStack(null).commit();
     }
 
-    public void loadUpdateCatalogueScreen(Catalogue catalogue, Fragment fragment) {
-        UpdateCatalogueFragment updateCatalogueFragment = new UpdateCatalogueFragment();
-        updateCatalogueFragment.setTargetFragment(fragment, UPDATE_CATALOGUE_REQUEST);
+    public void loadUpdateCategoryScreen(Category category, Fragment fragment) {
+        UpdateCategoryFragment updateCategoryFragment = new UpdateCategoryFragment();
+        updateCategoryFragment.setTargetFragment(fragment, UPDATE_CATEGORY_REQUEST);
 
         Bundle bundle = new Bundle();
-        bundle.putString("cid", Integer.toString(catalogue.getC_id()));
-        bundle.putString("csubject", catalogue.getCsubject());
-        bundle.putString("cdescription", catalogue.getCdescription());
-        updateCatalogueFragment.setArguments(bundle);
+        bundle.putString("cid", Integer.toString(category.getC_id()));
+        bundle.putString("csubject", category.getCsubject());
+        bundle.putString("cdescription", category.getCdescription());
+        updateCategoryFragment.setArguments(bundle);
 
         fragmentManager.beginTransaction()
-                .replace(R.id.note_container, updateCatalogueFragment).addToBackStack(null).commit();
+                .replace(R.id.note_container, updateCategoryFragment).addToBackStack(null).commit();
     }
 
     public void loadAddNoteScreen(Fragment fragment) {

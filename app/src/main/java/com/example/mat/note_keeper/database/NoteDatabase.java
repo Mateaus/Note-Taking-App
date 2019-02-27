@@ -9,19 +9,19 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.example.mat.note_keeper.color.entity.Color;
-import com.example.mat.note_keeper.note_catalogue_app.catalogue_section.catalogue.entity.Catalogue;
-import com.example.mat.note_keeper.note_catalogue_app.note_section.note.entity.Note;
+import com.example.mat.note_keeper.category_note_app.category_section.category.entity.Category;
+import com.example.mat.note_keeper.category_note_app.note_section.note.entity.Note;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@Database(entities = {Catalogue.class, Note.class, Color.class}, version = 1)
+@Database(entities = {Category.class, Note.class, Color.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;
 
-    public abstract CatalogueDao catalogueDao();
+    public abstract CategoryDao categoryDao();
     public abstract NoteDao noteDao();
     public abstract ColorDao colorDao();
 
@@ -51,12 +51,12 @@ public abstract class NoteDatabase extends RoomDatabase {
 
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
-        private CatalogueDao catalogueDao;
+        private CategoryDao categoryDao;
         private NoteDao noteDao;
         private ColorDao colorDao;
 
         private PopulateDbAsyncTask(NoteDatabase db) {
-            catalogueDao = db.catalogueDao();
+            categoryDao = db.categoryDao();
             noteDao = db.noteDao();
             colorDao = db.colorDao();
         }
@@ -67,8 +67,8 @@ public abstract class NoteDatabase extends RoomDatabase {
             /*
              * This populates the database when it's first initially out of box.
              */
-            Catalogue catalogue = new Catalogue("Test 1", "This is successful test!");
-            catalogueDao.insert(catalogue);
+            Category category = new Category("Test 1", "This is successful test!");
+            categoryDao.insert(category);
 /*
             int darkbrown = android.graphics.Color.parseColor("#4b2c20");
             int brown = android.graphics.Color.parseColor("#795548");
