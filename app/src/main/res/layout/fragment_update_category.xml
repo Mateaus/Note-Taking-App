@@ -32,7 +32,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/titleET"
+                android:id="@+id/categoryET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -52,7 +52,7 @@
                 android:background="@android:color/transparent"
                 android:ems="10"
                 android:inputType="textMultiLine"
-                android:maxLength="512"
+                android:maxLength="256"
                 android:theme="@style/EditTextThemeNote" />
 
         </LinearLayout>

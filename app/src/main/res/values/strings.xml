@@ -1,8 +1,18 @@
 <resources>
-    <string name="app_name">RoomDB_MVVM</string>
+    <string name="app_name">Note Keeper</string>
+
+    <!-- Category Toolbar titles -->
+    <string name="category_list">Category</string>
+    <string name="category_update">Update Category</string>
+
+    <!-- Category interaction messages -->
+    <string name="category_created">Category added</string>
+    <string name="category_updated">Category updated</string>
+    <string name="category_deleted">Category deleted</string>
 
     <!-- Note Toolbar titles -->
     <string name="note_list">Notes</string>
+    <string name="note_add">Add Note</string>
     <string name="note_update">Update Note</string>
 
     <!-- Note interaction messages -->
