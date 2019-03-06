@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.category_note_app.note_section.note.entity.Note;
-import com.example.mat.note_keeper.category_note_app.note_section.note.ui.OnColorClickListener;
+import com.example.mat.note_keeper.color.ui.OnColorClickListener;
 import com.example.mat.note_keeper.category_note_app.note_section.note.ui.OnItemClickListener;
 
 import butterknife.BindView;
