@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Note Keeper</string>
 
+    <!-- Navigation Drawer toggles-->
+    <string name="navigation_drawer_open">Open Navigation drawer</string>
+    <string name="navigation_drawer_close">Closer Navigation drawer</string>
+
     <!-- Category Toolbar titles -->
     <string name="category_list">Category</string>
     <string name="category_update">Update Category</string>
@@ -14,11 +18,13 @@
     <string name="note_list">Notes</string>
     <string name="note_add">Add Note</string>
     <string name="note_update">Update Note</string>
+    <string name="color_list">Colors</string>
 
     <!-- Note interaction messages -->
     <string name="note_created">Note added</string>
     <string name="note_updated">Note updated</string>
     <string name="note_deleted">Note deleted</string>
+    <string name="note_cancelled">Note cancelled</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
@@ -92,4 +98,7 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

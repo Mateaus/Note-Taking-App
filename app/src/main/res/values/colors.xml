@@ -5,32 +5,67 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="white">#ffffff</color>
-    <color name="grey">#757575</color>
     <color name="black">#000000</color>
+    <color name="grey">#757575</color>
 
     <!-- Red Colors Interface -->
-    <color name="red">#d50000</color>
-    <color name="lightred">#ff5131</color>
-    <color name="darkred">#9b0000</color>
+    <color name="red">#d32f2f</color>
+    <color name="darkred">#9a0007</color>
+    <color name="lightred">#ff6659</color>
+    <color name="secondaryred">#c62828</color>
+
+    <!-- Pink Colors Interface -->
+    <color name="pink">#c2185b</color>
+    <color name="darkpink">#8c0032</color>
+    <color name="lightpink">#fa5788</color>
+    <color name="secondarypink">#ad1457</color>
+
+    <!-- Purple Colors Interface -->
+    <color name="purple">#7b1fa2</color>
+    <color name="darkpurple">#4a0072</color>
+    <color name="lightpurple">#ae52d4</color>
+    <color name="secondarypurple">#6a1b9a</color>
 
     <!-- Green Colors Interface -->
-    <color name="green">#64dd17</color>
-    <color name="lightgreen">#9cff57</color>
-    <color name="darkgreen">#1faa00</color>
+    <color name="green">#388e3c</color>
+    <color name="darkgreen">#00600f</color>
+    <color name="lightgreen">#6abf69</color>
+    <color name="secondarygreen">#2e7d32</color>
 
     <!-- Blue Colors Interface -->
-    <color name="blue">#2962ff</color>
-    <color name="lightblue">#768fff</color>
-    <color name="darkblue">#0039cb</color>
+    <color name="blue">#1976d2</color>
+    <color name="darkblue">#004ba0</color>
+    <color name="lightblue">#63a4ff</color>
+    <color name="secondaryblue">#1565c0</color>
+
+    <!-- Blue Grey Colors Interface -->
+    <color name="bluegrey">#37474f</color>
+    <color name="darkbluegrey">#102027</color>
+    <color name="lightbluegrey">#62727b</color>
+    <color name="secondarybluegrey">#263238</color>
+
+    <!-- Indigo Colors Interface -->
+    <color name="indigo">#283593</color>
+    <color name="darkindigo">#001064</color>
+    <color name="lightindigo">#5f5fc4</color>
+    <color name="secondaryindigo">#1a237e</color>
+
+    <!-- Orange Colors Interface -->
+    <color name="orange">#f57c00</color>
+    <color name="darkorange">#bb4d00</color>
+    <color name="lightorange">#ffad42</color>
+    <color name="secondaryorange">#ef6c00</color>
 
     <!-- Yellow Colors Interface -->
-    <color name="yellow">#ffd600</color>
-    <color name="lightyellow">#ffff52</color>
-    <color name="darkyellow">#c7a500</color>
+    <color name="yellow">#fbc02d</color>
+    <color name="darkyellow">#c49000</color>
+    <color name="lightyellow">#fff263</color>
+    <color name="secondaryyellow">#f9a825</color>
 
     <!-- Brown Colors Interface -->
-    <color name="brown">#795548</color>
-    <color name="lightbrown">#a98274</color>
-    <color name="darkbrown">#4b2c20</color>
+    <color name="brown">#5d4037</color>
+    <color name="darkbrown">#321911</color>
+    <color name="lightbrown">#8b6b61</color>
+    <color name="secondarybrown">#4e342e</color>
 
 </resources>

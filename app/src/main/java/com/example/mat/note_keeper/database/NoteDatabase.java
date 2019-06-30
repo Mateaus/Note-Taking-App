@@ -1,29 +1,37 @@
 package com.example.mat.note_keeper.database;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.example.mat.note_keeper.R;
+import com.example.mat.note_keeper.mainactivity.entity.Tag;
+import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
+import com.example.mat.note_keeper.notes.note.entity.Note;
 import com.example.mat.note_keeper.color.entity.Color;
-import com.example.mat.note_keeper.category_note_app.category_section.category.entity.Category;
-import com.example.mat.note_keeper.category_note_app.note_section.note.entity.Note;
+import com.example.mat.note_keeper.color.entity.Theme;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-@Database(entities = {Category.class, Note.class, Color.class}, version = 1)
+@Database(entities = {TagCategory.class, Note.class, Color.class, Theme.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;
 
-    public abstract CategoryDao categoryDao();
+    public abstract TagCategoryDao categoryDao();
+
     public abstract NoteDao noteDao();
+
     public abstract ColorDao colorDao();
+
+    public abstract ThemeDao themeDao();
 
     // synchronized, only one thread at a time can access this method.
     // This way you don't accidentally create two instances of this database
@@ -51,14 +59,16 @@ public abstract class NoteDatabase extends RoomDatabase {
 
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
-        private CategoryDao categoryDao;
+        private TagCategoryDao tagCategoryDao;
         private NoteDao noteDao;
         private ColorDao colorDao;
+        private ThemeDao themeDao;
 
         private PopulateDbAsyncTask(NoteDatabase db) {
-            categoryDao = db.categoryDao();
+            tagCategoryDao = db.categoryDao();
             noteDao = db.noteDao();
             colorDao = db.colorDao();
+            themeDao = db.themeDao();
         }
 
         @Override
@@ -67,36 +77,52 @@ public abstract class NoteDatabase extends RoomDatabase {
             /*
              * This populates the database when it's first initially out of box.
              */
-            Category category = new Category("Test 1", "This is successful test!");
-            categoryDao.insert(category);
-/*
-            int darkbrown = android.graphics.Color.parseColor("#4b2c20");
-            int brown = android.graphics.Color.parseColor("#795548");
-            int lightbrown = android.graphics.Color.parseColor("#a98274");
-            int white = android.graphics.Color.parseColor("#ffffff");
-            int grey = android.graphics.Color.parseColor("#757575");
+            Theme mainTheme = new Theme(R.style.BrownThemeOverlay, R.color.brown, R.color.darkbrown,
+                    R.color.lightbrown);
+            themeDao.insert(mainTheme);
 
-            colorDao.insert(new Color(darkbrown, lightbrown,
-                    white, white, white, grey, grey, grey,
-                    white, white, brown));
+            tagCategoryDao.insert(new TagCategory("Tags",
+                    new ArrayList<Tag>(Arrays.asList(
+                            new Tag("Default")
+                    )))
+            );
 
-            for (int i = 1; i <= 10; i++) {
-                Note note = new Note("Example Title " + i, "Example description . . .");
-                note.setNdate(getCurrentDate());
-                noteDao.insert(note);
-            }*/
+            for (int i = 0; i < populateThemeColors().size(); i++) {
+                colorDao.insert(populateThemeColors().get(i));
+            }
 
             return null;
         }
 
-        private String getCurrentDate() {
-            DateFormat hourFormat = new SimpleDateFormat("h:mm a");
-            DateFormat dateFormat = new SimpleDateFormat("M/d/y");
-            String time = hourFormat.format(Calendar.getInstance().getTime());
-            String date = dateFormat.format(Calendar.getInstance().getTime());
-            String calendar = "\t" + time + "\n" + date;
-            return calendar;
+        private List<Color> populateThemeColors() {
+            Color red = new Color("Red Theme", R.style.RedThemeOverlay,
+                    R.color.red, R.color.darkred, R.color.lightred);
+            Color pink = new Color("Pink Theme", R.style.PinkThemeOverlay,
+                    R.color.pink, R.color.darkpink, R.color.lightpink);
+            Color purple = new Color("Purple Theme", R.style.PurpleThemeOverlay,
+                    R.color.purple, R.color.darkpurple, R.color.lightpurple);
+            Color green = new Color("Green Theme", R.style.GreenThemeOverlay,
+                    R.color.green, R.color.darkgreen, R.color.lightgreen);
+            Color blue = new Color("Blue Theme", R.style.BlueThemeOverlay,
+                    R.color.blue, R.color.darkblue, R.color.lightblue);
+            Color blueGrey = new Color("Blue Grey Theme", R.style.BlueGreyThemeOverlay,
+                    R.color.bluegrey, R.color.darkbluegrey, R.color.lightbluegrey);
+            Color indigo = new Color("Indigo Theme", R.style.IndigoThemeOverlay,
+                    R.color.indigo, R.color.darkindigo, R.color.lightindigo);
+            Color orange = new Color("Orange Theme", R.style.OrangeThemeOverlay,
+                    R.color.orange, R.color.darkorange, R.color.lightorange);
+            Color yellow = new Color("Yellow Theme", R.style.YellowThemeOverlay,
+                    R.color.yellow, R.color.darkyellow, R.color.lightyellow);
+            Color brown = new Color("Brown Theme", R.style.BrownThemeOverlay,
+                    R.color.brown, R.color.darkbrown, R.color.lightbrown);
+
+            List<Color> colorList = new ArrayList<>(Arrays.asList(
+                    red, pink, purple, green, blue, blueGrey, indigo, orange, yellow, brown
+            ));
+
+            return colorList;
         }
+
     }
 
 }

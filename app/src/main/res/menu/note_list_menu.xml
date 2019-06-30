@@ -14,8 +14,8 @@
                 android:title="Synchronize" />
             <item
                 android:id="@+id/settings"
-                android:icon="@drawable/ic_settings"
-                android:title="Settings" />
+                android:icon="@drawable/ic_customize_theme"
+                android:title="Customize" />
         </menu>
     </item>
 </menu>

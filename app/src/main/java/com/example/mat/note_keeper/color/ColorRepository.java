@@ -1,32 +1,66 @@
 package com.example.mat.note_keeper.color;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import com.example.mat.note_keeper.color.entity.Color;
+import com.example.mat.note_keeper.color.entity.Theme;
 import com.example.mat.note_keeper.database.ColorDao;
 import com.example.mat.note_keeper.database.NoteDatabase;
+import com.example.mat.note_keeper.database.ThemeDao;
+
+import java.util.List;
 
 public class ColorRepository {
 
     private ColorDao colorDao;
+    private ThemeDao themeDao;
 
-    private LiveData<Color> selectedColors;
+    private LiveData<List<Color>> allColors;
+    private LiveData<Theme> theme;
 
     public ColorRepository(Application application) {
         NoteDatabase database = NoteDatabase.getInstance(application);
         colorDao = database.colorDao();
-        selectedColors = colorDao.getSelectedColors();
+        themeDao = database.themeDao();
+        allColors = colorDao.getAllColors();
+        theme = themeDao.getTheme();
     }
 
-    public void update(Color color) {
-        color.setId(1);
+    public void insertColor(Color color) {
+        new InsertColorAsyncTask(colorDao).execute(color);
+    }
+
+    public void updateColor(Color color) {
         new UpdateColorAsyncTask(colorDao).execute(color);
     }
 
-    public LiveData<Color> getSelectedColors() {
-        return selectedColors;
+    public void updateTheme(Theme theme) {
+        new UpdateThemeAsyncTask(themeDao).execute(theme);
+    }
+
+    public LiveData<List<Color>> getAllColors() {
+        return allColors;
+    }
+
+    public LiveData<Theme> getTheme() {
+        return theme;
+    }
+
+    public static class InsertColorAsyncTask extends AsyncTask<Color, Void, Void> {
+
+        private ColorDao colorDao;
+
+        private InsertColorAsyncTask(ColorDao colorDao) {
+            this.colorDao = colorDao;
+        }
+
+        @Override
+        protected Void doInBackground(Color... colors) {
+            this.colorDao.insert(colors[0]);
+            return null;
+        }
     }
 
     public static class UpdateColorAsyncTask extends AsyncTask<Color, Void, Void> {
@@ -40,6 +74,21 @@ public class ColorRepository {
         @Override
         protected Void doInBackground(Color... colors) {
             this.colorDao.update(colors[0]);
+            return null;
+        }
+    }
+
+    public static class UpdateThemeAsyncTask extends AsyncTask<Theme, Void, Void> {
+
+        private ThemeDao themeDao;
+
+        private UpdateThemeAsyncTask(ThemeDao themeDao) {
+            this.themeDao = themeDao;
+        }
+
+        @Override
+        protected Void doInBackground(Theme... themes) {
+            this.themeDao.update(themes[0]);
             return null;
         }
     }

@@ -1,109 +1,100 @@
 package com.example.mat.note_keeper.color.ui;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mat.roomdb_mvvm.R;
+import com.example.mat.note_keeper.mainactivity.ui.MainActivity;
+import com.example.mat.note_keeper.R;
+import com.example.mat.note_keeper.mainactivity.listener.StatusBarListener;
+import com.example.mat.note_keeper.color.ColorViewModel;
+import com.example.mat.note_keeper.color.adapter.ColorAdapter;
+import com.example.mat.note_keeper.color.entity.Color;
+import com.example.mat.note_keeper.color.entity.Theme;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ColorFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ColorFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ColorFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.List;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    private OnFragmentInteractionListener mListener;
 
-    public ColorFragment() {
-        // Required empty public constructor
-    }
+public class ColorFragment extends Fragment implements OnColorClickListener {
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ColorFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ColorFragment newInstance(String param1, String param2) {
-        ColorFragment fragment = new ColorFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_color, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+    private ColorViewModel colorViewModel;
+    private ColorAdapter colorAdapter;
+    private StatusBarListener statusBarListener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        statusBarListener = (StatusBarListener) context;
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_color, container, false);
+        ButterKnife.bind(this, v);
+        showBackButton(true);
+
+        setUpToolBar();
+
+        setUpCategoryAdapter();
+        setUpRecyclerView();
+
+        this.colorViewModel = ViewModelProviders.of(this.getActivity()).get(ColorViewModel.class);
+        this.colorViewModel.getAllColors().observe(this, new Observer<List<Color>>() {
+            @Override
+            public void onChanged(@Nullable List<Color> colors) {
+                colorAdapter.submitList(colors);
+            }
+        });
+
+        this.colorViewModel.getTheme().observe(this, new Observer<Theme>() {
+            @Override
+            public void onChanged(@Nullable Theme theme) {
+                statusBarListener.setUpStatusBar(getResources()
+                        .getColor(theme.getPrimaryDarkColor()));
+            }
+        });
+
+        return v;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onItemClick(Color color) {
+        colorViewModel.updateTheme(new Theme(color.getColorStyle(), color.getPrimaryColor(),
+                color.getPrimaryDarkColor(), color.getPrimaryLightColor()));
+    }
+
+    private void setUpToolBar() {
+        setHasOptionsMenu(true);
+        getActivity().setTitle(R.string.color_list);
+    }
+
+    private void setUpCategoryAdapter() {
+        this.colorAdapter = new ColorAdapter(this);
+    }
+
+    private void setUpRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        recyclerView.setAdapter(colorAdapter);
+    }
+
+    private void showBackButton(Boolean enable) {
+        MainActivity mainActivity = (MainActivity)getActivity();
+        mainActivity.showBackButton(enable);
     }
 }

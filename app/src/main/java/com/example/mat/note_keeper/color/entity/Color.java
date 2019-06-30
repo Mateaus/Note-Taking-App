@@ -1,8 +1,9 @@
 package com.example.mat.note_keeper.color.entity;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "color_table")
 public class Color {
@@ -10,56 +11,40 @@ public class Color {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name = "status_bar_color")
-    private int statusBarColor;
+    @ColumnInfo(name = "cname")
+    private String colorName;
 
-    @ColumnInfo(name = "tool_bar_color")
-    private int toolBarColor;
+    @ColumnInfo(name = "cstyle")
+    private int colorStyle;
 
-    @ColumnInfo(name = "tool_bar_title_color")
-    private int toolBarTitleColor;
+    @ColumnInfo(name = "cprimary")
+    private int primaryColor;
 
-    @ColumnInfo(name = "menu_icon_color")
-    private int menuIconColor;
+    @ColumnInfo(name = "cprimary_dark")
+    private int primaryDarkColor;
 
-    @ColumnInfo(name = "card_color")
-    private int cardColor;
+    @ColumnInfo(name = "cprimary_light")
+    private int primaryLightColor;
 
-    @ColumnInfo(name = "card_title_color")
-    private int cardTitleColor;
+    @Ignore
+    public Color(String colorName, int colorStyle, int primaryColor,
+                 int primaryDarkColor, int primaryLightColor) {
+        this.colorName = colorName;
+        this.colorStyle = colorStyle;
+        this.primaryColor = primaryColor;
+        this.primaryDarkColor = primaryDarkColor;
+        this.primaryLightColor = primaryLightColor;
+    }
 
-    @ColumnInfo(name = "card_description_color")
-    private int cardDescriptionColor;
 
-    @ColumnInfo(name = "card_date_color")
-    private int cardDateColor;
-
-    @ColumnInfo(name = "body_background_color")
-    private int bodyBackgroundColor;
-
-    @ColumnInfo(name = "add_button_icon_color")
-    private int addButtonIconColor;
-
-    @ColumnInfo(name = "add_button_background_color")
-    private int addButtonBackgroundColor;
-
-    public Color(int statusBarColor, int toolBarColor,
-                 int toolBarTitleColor, int menuIconColor,
-                 int cardColor, int cardTitleColor,
-                 int cardDescriptionColor, int cardDateColor,
-                 int bodyBackgroundColor, int addButtonIconColor,
-                 int addButtonBackgroundColor) {
-        this.statusBarColor = statusBarColor;
-        this.toolBarColor = toolBarColor;
-        this.toolBarTitleColor = toolBarTitleColor;
-        this.menuIconColor = menuIconColor;
-        this.cardColor = cardColor;
-        this.cardTitleColor = cardTitleColor;
-        this.cardDescriptionColor = cardDescriptionColor;
-        this.cardDateColor = cardDateColor;
-        this.bodyBackgroundColor = bodyBackgroundColor;
-        this.addButtonIconColor = addButtonIconColor;
-        this.addButtonBackgroundColor = addButtonBackgroundColor;
+    public Color(int id, String colorName, int colorStyle, int primaryColor,
+                 int primaryDarkColor, int primaryLightColor) {
+        this.id = id;
+        this.colorName = colorName;
+        this.colorStyle = colorStyle;
+        this.primaryColor = primaryColor;
+        this.primaryDarkColor = primaryDarkColor;
+        this.primaryLightColor = primaryLightColor;
     }
 
     public int getId() {
@@ -70,91 +55,43 @@ public class Color {
         this.id = id;
     }
 
-    public int getStatusBarColor() {
-        return statusBarColor;
+    public String getColorName() {
+        return colorName;
     }
 
-    public void setStatusBarColor(int statusBarColor) {
-        this.statusBarColor = statusBarColor;
+    public void setColorName(String colorName) {
+        this.colorName = colorName;
     }
 
-    public int getToolBarColor() {
-        return toolBarColor;
+    public int getColorStyle() {
+        return colorStyle;
     }
 
-    public void setToolBarColor(int toolBarColor) {
-        this.toolBarColor = toolBarColor;
+    public void setColorStyle(int colorStyle) {
+        this.colorStyle = colorStyle;
     }
 
-    public int getToolBarTitleColor() {
-        return toolBarTitleColor;
+    public int getPrimaryColor() {
+        return primaryColor;
     }
 
-    public void setToolBarTitleColor(int toolBarTitleColor) {
-        this.toolBarTitleColor = toolBarTitleColor;
+    public void setPrimaryColor(int primaryColor) {
+        this.primaryColor = primaryColor;
     }
 
-    public int getMenuIconColor() {
-        return menuIconColor;
+    public int getPrimaryDarkColor() {
+        return primaryDarkColor;
     }
 
-    public void setMenuIconColor(int menuIconColor) {
-        this.menuIconColor = menuIconColor;
+    public void setPrimaryDarkColor(int primaryDarkColor) {
+        this.primaryDarkColor = primaryDarkColor;
     }
 
-    public int getCardColor() {
-        return cardColor;
+    public int getPrimaryLightColor() {
+        return primaryLightColor;
     }
 
-    public void setCardColor(int cardColor) {
-        this.cardColor = cardColor;
-    }
-
-    public int getCardTitleColor() {
-        return cardTitleColor;
-    }
-
-    public void setCardTitleColor(int cardTitleColor) {
-        this.cardTitleColor = cardTitleColor;
-    }
-
-    public int getCardDescriptionColor() {
-        return cardDescriptionColor;
-    }
-
-    public void setCardDescriptionColor(int cardDescriptionColor) {
-        this.cardDescriptionColor = cardDescriptionColor;
-    }
-
-    public int getCardDateColor() {
-        return cardDateColor;
-    }
-
-    public void setCardDateColor(int cardDateColor) {
-        this.cardDateColor = cardDateColor;
-    }
-
-    public int getBodyBackgroundColor() {
-        return bodyBackgroundColor;
-    }
-
-    public void setBodyBackgroundColor(int bodyBackgroundColor) {
-        this.bodyBackgroundColor = bodyBackgroundColor;
-    }
-
-    public int getAddButtonIconColor() {
-        return addButtonIconColor;
-    }
-
-    public void setAddButtonIconColor(int addButtonIconColor) {
-        this.addButtonIconColor = addButtonIconColor;
-    }
-
-    public int getAddButtonBackgroundColor() {
-        return addButtonBackgroundColor;
-    }
-
-    public void setAddButtonBackgroundColor(int addButtonBackgroundColor) {
-        this.addButtonBackgroundColor = addButtonBackgroundColor;
+    public void setPrimaryLightColor(int primaryLightColor) {
+        this.primaryLightColor = primaryLightColor;
     }
 }
