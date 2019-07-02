@@ -13,8 +13,11 @@ import butterknife.ButterKnife;
 
 public class TagsViewHolder extends ChildViewHolder {
 
-    @BindView(R.id.tv_tag)
+    @BindView(R.id.tag_name_tv)
     public TextView mTagTextView;
+
+    @BindView(R.id.tag_size_tv)
+    public TextView mTagSizeTextView;
 
     private View view;
 
@@ -26,6 +29,7 @@ public class TagsViewHolder extends ChildViewHolder {
 
     public void bind(Tag tag) {
         mTagTextView.setText(tag.getMenuItemName());
+        mTagSizeTextView.setText(String.valueOf(tag.getMenuItemSize()));
     }
 
     public void onTagClickListener(final Tag tag,
