@@ -16,24 +16,11 @@ import java.util.List;
 
 public class NoteViewModel extends AndroidViewModel {
 
-    private MainRepository mainRepository;
     private NoteRepository noteRepository;
-    private LiveData<List<Note>> allNotes;
-    private LiveData<List<Note>> getNotes;
 
     public NoteViewModel(Application application) {
         super(application);
-        this.mainRepository = new MainRepository(application);
         this.noteRepository = new NoteRepository(application);
-        this.allNotes = noteRepository.getAllNotes();
-    }
-
-    public NoteViewModel(@NonNull Application application, String tag) {
-        super(application);
-        this.mainRepository = new MainRepository(application);
-        this.noteRepository = new NoteRepository(application, tag);
-        this.allNotes = noteRepository.getAllNotes();
-        this.getNotes = noteRepository.getNotes();
     }
 
     public void insert(Note note) {
@@ -49,10 +36,6 @@ public class NoteViewModel extends AndroidViewModel {
         noteRepository.update(note);
     }
 
-    public void updateMenuItem(MenuItem menuItem) {
-        mainRepository.updateMenuItem(menuItem);
-    }
-
     public void delete(Note note) {
         noteRepository.delete(note);
     }
@@ -62,11 +45,15 @@ public class NoteViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Note>> getAllNotes() {
-        return allNotes;
+        return noteRepository.getAllNotes();
     }
 
-    public LiveData<List<Note>> getNotes() {
-        return getNotes;
+    public LiveData<List<Note>> getAllFavoriteNotes(Boolean isFavorite) {
+        return noteRepository.getAllFavoriteNotes(isFavorite);
+    }
+
+    public LiveData<List<Note>> getAllTagNotes(String tag) {
+        return noteRepository.getAllTagNotes(tag);
     }
 
     public boolean isEmpty(String string) {

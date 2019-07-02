@@ -25,7 +25,7 @@ public class TagsViewHolder extends ChildViewHolder {
     }
 
     public void bind(Tag tag) {
-        mTagTextView.setText(tag.getTagName());
+        mTagTextView.setText(tag.getMenuItemName());
     }
 
     public void onTagClickListener(final Tag tag,

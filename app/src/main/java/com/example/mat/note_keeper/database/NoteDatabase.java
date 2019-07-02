@@ -80,7 +80,7 @@ public abstract class NoteDatabase extends RoomDatabase {
         protected Void doInBackground(Void... voids) {
 
             menuItemDao.insert(new MenuItem("All Notes", 0));
-            menuItemDao.insert(new MenuItem(2,"Favorites", 0));
+            menuItemDao.insert(new MenuItem("Favorites", 0));
 
             /*
              * This populates the database when it's first initially out of box.
@@ -91,7 +91,7 @@ public abstract class NoteDatabase extends RoomDatabase {
 
             tagCategoryDao.insert(new TagCategory("Tags",
                     new ArrayList<Tag>(Arrays.asList(
-                            new Tag("Default")
+                            new Tag("Not Tagged", 0)
                     )))
             );
 

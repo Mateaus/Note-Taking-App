@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.mainactivity.ui.MainActivity;
-import com.example.mat.note_keeper.notes.note.NoteViewFactoryModel;
 import com.example.mat.note_keeper.notes.note.NoteViewModel;
 import com.example.mat.note_keeper.notes.note.adapter.NoteAdapter;
 import com.example.mat.note_keeper.notes.note.entity.Note;
@@ -63,7 +62,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         int menuId = Integer.valueOf(getArguments().getString("menu_id"));
         String menuName = getArguments().getString("menu_name");
 
-        this.noteViewModel = ViewModelProviders.of(this, new NoteViewFactoryModel(this.getActivity().getApplication(), menuName)).get(NoteViewModel.class);
+        this.noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
 
         if (menuName.equals("All Notes")) {
             this.noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
@@ -74,8 +73,17 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
                     }
                 }
             });
+        } else if (menuName.equals("Favorites")) {
+            this.noteViewModel.getAllFavoriteNotes(true).observe(this, new Observer<List<Note>>() {
+                @Override
+                public void onChanged(List<Note> notes) {
+                    if (notes != null) {
+                        noteAdapter.submitList(notes);
+                    }
+                }
+            });
         } else {
-            this.noteViewModel.getNotes().observe(this, new Observer<List<Note>>() {
+            this.noteViewModel.getAllTagNotes(menuName).observe(this, new Observer<List<Note>>() {
                 @Override
                 public void onChanged(@Nullable List<Note> notes) {
                     if (notes != null) {
@@ -193,11 +201,9 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         System.out.println("Position passed from click:" + position);
         if (note.isNoteFavorite()) {
             note.setNoteFavorite(false);
-            note.setNoteTag("default");
             noteAdapter.updateNoteAt(position, false);
         } else {
             note.setNoteFavorite(true);
-            note.setNoteTag("Favorites");
             noteAdapter.updateNoteAt(position, true);
         }
 

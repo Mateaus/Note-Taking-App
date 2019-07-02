@@ -1,18 +1,18 @@
 package com.example.mat.note_keeper.mainactivity.entity;
 
-public class Tag {
+import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 
-    private String tagName;
+public class Tag extends MenuItem {
 
-    public Tag(String tagName) {
-        this.tagName = tagName;
+    public Tag(int menuItemId) {
+        super(menuItemId);
     }
 
-    public String getTagName() {
-        return tagName;
+    public Tag(String menuItemName, int menuItemSize) {
+        super(menuItemName, menuItemSize);
     }
 
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
+    public Tag(int menuItemId, String menuItemName, int menuItemSize) {
+        super(menuItemId, menuItemName, menuItemSize);
     }
 }

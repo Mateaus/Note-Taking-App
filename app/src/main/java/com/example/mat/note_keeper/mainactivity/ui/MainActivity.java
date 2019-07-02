@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
     @Override
     public void onTagClick(Tag tag) {
-        System.out.println(tag.getTagName());
+        loadNoteScreen(tag);
     }
 
     @Override

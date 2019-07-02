@@ -1,32 +1,22 @@
 package com.example.mat.note_keeper.notes.note;
 
 import android.app.Application;
-import androidx.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import com.example.mat.note_keeper.notes.note.entity.Note;
+import androidx.lifecycle.LiveData;
+
 import com.example.mat.note_keeper.database.NoteDao;
 import com.example.mat.note_keeper.database.NoteDatabase;
+import com.example.mat.note_keeper.notes.note.entity.Note;
 
 import java.util.List;
 
 public class NoteRepository {
     private NoteDao noteDao;
-    private LiveData<List<Note>> allNotes;
-    private LiveData<List<Note>> getNotes;
-    private LiveData<Integer> getSizeOfTagNotes;
 
     public NoteRepository(Application application) {
         NoteDatabase database = NoteDatabase.getInstance(application);
         noteDao = database.noteDao();
-        allNotes = noteDao.getAllNotes();
-    }
-
-    public NoteRepository(Application application, String tag) {
-        NoteDatabase database = NoteDatabase.getInstance(application);
-        noteDao = database.noteDao();
-        allNotes = noteDao.getAllNotes();
-        getNotes = noteDao.getNotes(tag);
     }
 
     public void insert(Note note) {
@@ -46,11 +36,15 @@ public class NoteRepository {
     }
 
     public LiveData<List<Note>> getAllNotes() {
-        return allNotes;
+        return noteDao.getAllNotes();
     }
 
-    public LiveData<List<Note>> getNotes() {
-        return getNotes;
+    public LiveData<List<Note>> getAllFavoriteNotes(Boolean isFavorite) {
+        return noteDao.getAllFavoriteNotes(isFavorite);
+    }
+
+    public LiveData<List<Note>> getAllTagNotes(String tag) {
+        return noteDao.getAllNotesByTag(tag);
     }
 
     private static class InsertNoteAsyncTask extends AsyncTask<Note, Void, Void> {
