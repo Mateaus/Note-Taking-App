@@ -24,9 +24,6 @@ public class NoteViewModel extends AndroidViewModel {
     }
 
     public void insert(Note note) {
-        if (isEmpty(note.getNoteTag())) {
-            note.setNoteTag("default");
-        }
         note.setNoteDate(getCurrentDate());
         noteRepository.insert(note);
     }

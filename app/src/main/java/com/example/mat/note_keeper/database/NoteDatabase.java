@@ -91,7 +91,8 @@ public abstract class NoteDatabase extends RoomDatabase {
 
             tagCategoryDao.insert(new TagCategory("Tags",
                     new ArrayList<Tag>(Arrays.asList(
-                            new Tag("Not Tagged", 0)
+                            new Tag("Not Tagged", 0),
+                            new Tag("Test", 0)
                     )))
             );
 

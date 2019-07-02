@@ -15,4 +15,9 @@ public class Tag extends MenuItem {
     public Tag(int menuItemId, String menuItemName, int menuItemSize) {
         super(menuItemId, menuItemName, menuItemSize);
     }
+
+    @Override
+    public String toString() {
+        return getMenuItemName();
+    }
 }
