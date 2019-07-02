@@ -5,6 +5,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.annotation.NonNull;
 
+import com.example.mat.note_keeper.mainactivity.MainRepository;
+import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 import com.example.mat.note_keeper.notes.note.entity.Note;
 
 import java.text.DateFormat;
@@ -14,13 +16,24 @@ import java.util.List;
 
 public class NoteViewModel extends AndroidViewModel {
 
+    private MainRepository mainRepository;
     private NoteRepository noteRepository;
     private LiveData<List<Note>> allNotes;
+    private LiveData<List<Note>> getNotes;
 
-    public NoteViewModel(@NonNull Application application) {
+    public NoteViewModel(Application application) {
         super(application);
+        this.mainRepository = new MainRepository(application);
         this.noteRepository = new NoteRepository(application);
         this.allNotes = noteRepository.getAllNotes();
+    }
+
+    public NoteViewModel(@NonNull Application application, String tag) {
+        super(application);
+        this.mainRepository = new MainRepository(application);
+        this.noteRepository = new NoteRepository(application, tag);
+        this.allNotes = noteRepository.getAllNotes();
+        this.getNotes = noteRepository.getNotes();
     }
 
     public void insert(Note note) {
@@ -36,6 +49,10 @@ public class NoteViewModel extends AndroidViewModel {
         noteRepository.update(note);
     }
 
+    public void updateMenuItem(MenuItem menuItem) {
+        mainRepository.updateMenuItem(menuItem);
+    }
+
     public void delete(Note note) {
         noteRepository.delete(note);
     }
@@ -46,6 +63,10 @@ public class NoteViewModel extends AndroidViewModel {
 
     public LiveData<List<Note>> getAllNotes() {
         return allNotes;
+    }
+
+    public LiveData<List<Note>> getNotes() {
+        return getNotes;
     }
 
     public boolean isEmpty(String string) {

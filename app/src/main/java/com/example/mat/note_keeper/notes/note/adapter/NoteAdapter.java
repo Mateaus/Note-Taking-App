@@ -1,18 +1,20 @@
 package com.example.mat.note_keeper.notes.note.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ListAdapter;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.notes.note.entity.Note;
-import com.example.mat.note_keeper.color.ui.OnColorClickListener;
+import com.example.mat.note_keeper.notes.note.ui.OnFavoriteClickListener;
 import com.example.mat.note_keeper.notes.note.ui.OnItemClickListener;
 
 import butterknife.BindView;
@@ -21,12 +23,12 @@ import butterknife.ButterKnife;
 public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
 
     private OnItemClickListener onItemClickListener;
-    private OnColorClickListener onColorClickListener;
+    private OnFavoriteClickListener onFavoriteClickListener;
 
-    public NoteAdapter(OnItemClickListener listener) {
+    public NoteAdapter(OnItemClickListener listener, OnFavoriteClickListener onFavoriteClickListener) {
         super(DIFF_CALLBACK);
-        //this.onColorClickListener = colorListener;
         this.onItemClickListener = listener;
+        this.onFavoriteClickListener = onFavoriteClickListener;
     }
 
     public static final DiffUtil.ItemCallback<Note> DIFF_CALLBACK = new DiffUtil.ItemCallback<Note>() {
@@ -40,7 +42,8 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
             return oldItem.getNoteTag().equals(newItem.getNoteTag()) &&
                     oldItem.getNoteTitle().equals(newItem.getNoteTitle()) &&
                     oldItem.getNoteDescription().equals(newItem.getNoteDescription()) &&
-                    oldItem.getNoteDate().equals(newItem.getNoteDate());
+                    oldItem.getNoteDate().equals(newItem.getNoteDate()) &&
+                    oldItem.isNoteFavorite() == newItem.isNoteFavorite();
         }
     };
 
@@ -56,19 +59,30 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
         Note note = getItem(position);
         holder.setClickListener(note, onItemClickListener);
-        //holder.changeRowContentColor(onColorClickListener);
+        holder.setFavoriteClickListener(note, onFavoriteClickListener);
 
         String title = note.getNoteTitle();
         String description = note.getNoteDescription();
         String date = note.getNoteDate();
+        Boolean favorite = note.isNoteFavorite();
 
         holder.titleTV.setText(title);
         holder.descriptionTV.setText(description);
         holder.dateTV.setText(date);
+
+        if (favorite) {
+            holder.favoriteIB.setImageResource(R.drawable.ic_star_full_black_24dp);
+        } else {
+            holder.favoriteIB.setImageResource(R.drawable.ic_star_border_black_24dp);
+        }
     }
 
     public Note getNoteAt(int position) {
         return getItem(position);
+    }
+
+    public void updateNoteAt(int position, boolean val) {
+        getItem(position).setNoteFavorite(val);
     }
 
     static class NoteHolder extends RecyclerView.ViewHolder {
@@ -79,6 +93,8 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
         TextView titleTV;
         @BindView(R.id.descriptionTV)
         TextView descriptionTV;
+        @BindView(R.id.favoriteIB)
+        ImageButton favoriteIB;
         @BindView(R.id.dateTV)
         TextView dateTV;
 
@@ -99,13 +115,15 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
                 }
             });
         }
-/*
-        public void changeRowContentColor(OnColorClickListener color) {
-            cardView.setBackgroundColor(color.changeCardViewColor());
-            titleTV.setTextColor(color.changeTitleColor());
-            descriptionTV.setTextColor(color.changeDescriptionColor());
-            dateTV.setTextColor(color.changeDateColor());
+
+        public void setFavoriteClickListener(final Note note,
+                                             final OnFavoriteClickListener listener) {
+            favoriteIB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onFavoriteClick(note, getAdapterPosition());
+                }
+            });
         }
-*/
     }
 }

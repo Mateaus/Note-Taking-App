@@ -12,6 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
+import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 import com.example.mat.note_keeper.notes.note.entity.Note;
 import com.example.mat.note_keeper.color.entity.Color;
 import com.example.mat.note_keeper.color.entity.Theme;
@@ -20,10 +21,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Database(entities = {TagCategory.class, Note.class, Color.class, Theme.class}, version = 1)
+@Database(entities = {MenuItem.class, TagCategory.class, Note.class, Color.class, Theme.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;
+
+    public abstract MenuItemDao menuItemDao();
 
     public abstract TagCategoryDao categoryDao();
 
@@ -59,12 +62,14 @@ public abstract class NoteDatabase extends RoomDatabase {
 
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
+        private MenuItemDao menuItemDao;
         private TagCategoryDao tagCategoryDao;
         private NoteDao noteDao;
         private ColorDao colorDao;
         private ThemeDao themeDao;
 
         private PopulateDbAsyncTask(NoteDatabase db) {
+            menuItemDao = db.menuItemDao();
             tagCategoryDao = db.categoryDao();
             noteDao = db.noteDao();
             colorDao = db.colorDao();
@@ -73,6 +78,9 @@ public abstract class NoteDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
+
+            menuItemDao.insert(new MenuItem("All Notes", 0));
+            menuItemDao.insert(new MenuItem(2,"Favorites", 0));
 
             /*
              * This populates the database when it's first initially out of box.

@@ -2,8 +2,40 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7eda02fbe24b8d2e6204f79bf1595d44",
+    "identityHash": "c64a6e76734597ae2c31313d5a390b2a",
     "entities": [
+      {
+        "tableName": "menu_item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`menu_item_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `menu_item_name` TEXT, `menu_item_size` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "menuItemId",
+            "columnName": "menu_item_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "menuItemName",
+            "columnName": "menu_item_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "menuItemSize",
+            "columnName": "menu_item_size",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "menu_item_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
       {
         "tableName": "tag_category",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tagCategoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `items` TEXT)",
@@ -38,11 +70,17 @@
       },
       {
         "tableName": "note_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`note_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `note_tag` TEXT, `ntitle` TEXT, `ndescription` TEXT, `ndate` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`note_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `note_favorite` INTEGER NOT NULL, `note_tag` TEXT, `ntitle` TEXT, `ndescription` TEXT, `ndate` TEXT)",
         "fields": [
           {
             "fieldPath": "noteId",
             "columnName": "note_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "noteFavorite",
+            "columnName": "note_favorite",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -177,7 +215,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7eda02fbe24b8d2e6204f79bf1595d44\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c64a6e76734597ae2c31313d5a390b2a\")"
     ]
   }
 }

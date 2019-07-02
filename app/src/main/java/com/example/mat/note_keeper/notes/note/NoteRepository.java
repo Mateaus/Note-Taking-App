@@ -13,11 +13,20 @@ import java.util.List;
 public class NoteRepository {
     private NoteDao noteDao;
     private LiveData<List<Note>> allNotes;
+    private LiveData<List<Note>> getNotes;
+    private LiveData<Integer> getSizeOfTagNotes;
 
     public NoteRepository(Application application) {
         NoteDatabase database = NoteDatabase.getInstance(application);
         noteDao = database.noteDao();
         allNotes = noteDao.getAllNotes();
+    }
+
+    public NoteRepository(Application application, String tag) {
+        NoteDatabase database = NoteDatabase.getInstance(application);
+        noteDao = database.noteDao();
+        allNotes = noteDao.getAllNotes();
+        getNotes = noteDao.getNotes(tag);
     }
 
     public void insert(Note note) {
@@ -38,6 +47,10 @@ public class NoteRepository {
 
     public LiveData<List<Note>> getAllNotes() {
         return allNotes;
+    }
+
+    public LiveData<List<Note>> getNotes() {
+        return getNotes;
     }
 
     private static class InsertNoteAsyncTask extends AsyncTask<Note, Void, Void> {

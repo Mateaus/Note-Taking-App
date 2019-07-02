@@ -12,6 +12,9 @@ public class Note {
     @PrimaryKey(autoGenerate = true)
     private int noteId;
 
+    @ColumnInfo(name = "note_favorite")
+    private boolean noteFavorite;
+
     @ColumnInfo(name = "note_tag")
     private String noteTag;
 
@@ -31,8 +34,17 @@ public class Note {
         this.noteDescription = noteDescription;
     }
 
-    public Note(int noteId, String noteTag, String noteTitle, String noteDescription, String noteDate) {
+    @Ignore
+    public Note(boolean noteFavorite, String noteTag, String noteTitle, String noteDescription) {
+        this.noteFavorite = noteFavorite;
+        this.noteTag = noteTag;
+        this.noteTitle = noteTitle;
+        this.noteDescription = noteDescription;
+    }
+
+    public Note(int noteId, boolean noteFavorite, String noteTag, String noteTitle, String noteDescription, String noteDate) {
         this.noteId = noteId;
+        this.noteFavorite = noteFavorite;
         this.noteTag = noteTag;
         this.noteTitle = noteTitle;
         this.noteDescription = noteDescription;
@@ -45,6 +57,14 @@ public class Note {
 
     public void setNoteId(int noteId) {
         this.noteId = noteId;
+    }
+
+    public boolean isNoteFavorite() {
+        return noteFavorite;
+    }
+
+    public void setNoteFavorite(boolean noteFavorite) {
+        this.noteFavorite = noteFavorite;
     }
 
     public String getNoteTag() {

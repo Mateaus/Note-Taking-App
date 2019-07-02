@@ -50,10 +50,16 @@
             <include layout="@layout/nav_header" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/nav_rv"
+                android:id="@+id/single_rv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/linearLayout">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/expandable_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/single_rv">
 
             </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>

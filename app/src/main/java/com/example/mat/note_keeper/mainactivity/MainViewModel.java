@@ -9,17 +9,22 @@ import com.example.mat.note_keeper.color.ColorViewModel;
 import com.example.mat.note_keeper.color.entity.Color;
 import com.example.mat.note_keeper.color.entity.Theme;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
+import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 
 import java.util.List;
 
 public class MainViewModel extends ColorViewModel {
 
     private MainRepository mainRepository;
+    private LiveData<List<MenuItem>> allMenuItems;
+    private LiveData<Integer> allNotesSize;
     private LiveData<List<TagCategory>> allTagCategories;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         this.mainRepository = new MainRepository(application);
+        this.allMenuItems = mainRepository.getAllMenuItems();
+        this.allNotesSize = mainRepository.getAllNotesSize();
         this.allTagCategories = mainRepository.getAllTagCategories();
     }
 
@@ -46,6 +51,18 @@ public class MainViewModel extends ColorViewModel {
     @Override
     public LiveData<Theme> getTheme() {
         return super.getTheme();
+    }
+
+    public LiveData<List<MenuItem>> getAllMenuItems() {
+        return allMenuItems;
+    }
+
+    public void updateMenuItem(MenuItem menuItem) {
+        mainRepository.updateMenuItem(menuItem);
+    }
+
+    public LiveData<Integer> getAllNotesSize() {
+        return allNotesSize;
     }
 
     public LiveData<List<TagCategory>> getAllTagCategories() {

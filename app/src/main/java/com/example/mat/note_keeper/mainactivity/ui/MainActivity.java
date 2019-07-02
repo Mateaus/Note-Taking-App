@@ -25,10 +25,13 @@ import com.example.mat.note_keeper.color.entity.Theme;
 import com.example.mat.note_keeper.color.ui.ColorFragment;
 import com.example.mat.note_keeper.mainactivity.MainViewModel;
 import com.example.mat.note_keeper.mainactivity.adapter.CategoryAdapter;
+import com.example.mat.note_keeper.mainactivity.adapter.ItemAdapter;
 import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
+import com.example.mat.note_keeper.mainactivity.listener.OnMenuItemClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.StatusBarListener;
+import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 import com.example.mat.note_keeper.notes.addnote.AddNoteFragment;
 import com.example.mat.note_keeper.notes.note.entity.Note;
 import com.example.mat.note_keeper.notes.note.ui.NoteListFragment;
@@ -41,7 +44,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements StatusBarListener, OnTagClickListener {
+public class MainActivity extends AppCompatActivity implements StatusBarListener, OnTagClickListener, OnMenuItemClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -55,15 +58,19 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     @BindView(R.id.linearLayout)
     LinearLayout linearLayout;
 
-    @BindView(R.id.nav_rv)
-    RecyclerView navigationRV;
+    @BindView(R.id.single_rv)
+    RecyclerView singleRv;
+
+    @BindView(R.id.expandable_rv)
+    RecyclerView expandableRv;
 
     private FragmentManager fragmentManager;
     private MainViewModel mainViewModel;
     private ActionBarDrawerToggle drawerToggle;
     private boolean toolBarNavigationListenerIsRegistered = false;
 
-    private CategoryAdapter mAdapter;
+    private ItemAdapter itemAdapter;
+    private CategoryAdapter expandableAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +92,16 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
          * the fragments.
          */
         this.mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        this.mainViewModel.getAllMenuItems().observe(this, new Observer<List<MenuItem>>() {
+            @Override
+            public void onChanged(List<MenuItem> menuItems) {
+                if (menuItems != null) {
+                    itemAdapter.submitList(menuItems);
+                }
+            }
+        });
+
         this.mainViewModel.getTheme().observe(this, new Observer<Theme>() {
             @Override
             public void onChanged(Theme theme) {
@@ -102,16 +119,24 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             @Override
             public void onChanged(List<TagCategory> tagCategories) {
                 if (tagCategories != null) {
-                    mAdapter.setTagCategories(tagCategories);
+                    expandableAdapter.setTagCategories(tagCategories);
                 }
             }
         });
+
+        // TODO: Increment the counter of the nav drawer here in the activity
 
         fragmentManager = getSupportFragmentManager();
         Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.note_container);
 
         if (mainFragment == null) {
             NoteListFragment noteListFragment = new NoteListFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("menu_id", "1");
+            bundle.putString("menu_name", "All Notes");
+            noteListFragment.setArguments(bundle);
+
             fragmentManager.beginTransaction().add(R.id.note_container, noteListFragment).commit();
         }
     }
@@ -119,13 +144,26 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        mAdapter.onSaveInstanceState(savedInstanceState);
+        expandableAdapter.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mAdapter.onRestoreInstanceState(savedInstanceState);
+        expandableAdapter.onRestoreInstanceState(savedInstanceState);
+    }
+
+    public void loadNoteScreen(MenuItem menuItem) {
+        NoteListFragment noteListFragment = new NoteListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("menu_id", String.valueOf(menuItem.getMenuItemId()));
+        bundle.putString("menu_name", menuItem.getMenuItemName());
+        noteListFragment.setArguments(bundle);
+
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.note_container, noteListFragment).commit();
     }
 
     public void loadAddNoteScreen() {
@@ -218,16 +256,24 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     private void setAdapter() {
-        mAdapter = new CategoryAdapter(new ArrayList<>(), this);
+        itemAdapter = new ItemAdapter(this);
+        expandableAdapter = new CategoryAdapter(new ArrayList<>(), this);
     }
 
     private void setRecyclerView() {
-        navigationRV.setLayoutManager(new LinearLayoutManager(this));
-        navigationRV.setAdapter(mAdapter);
+        singleRv.setLayoutManager(new LinearLayoutManager(this));
+        singleRv.setAdapter(itemAdapter);
+        expandableRv.setLayoutManager(new LinearLayoutManager(this));
+        expandableRv.setAdapter(expandableAdapter);
     }
 
     @Override
     public void onTagClick(Tag tag) {
         System.out.println(tag.getTagName());
+    }
+
+    @Override
+    public void onMenuItemClick(MenuItem menuItem) {
+        loadNoteScreen(menuItem);
     }
 }

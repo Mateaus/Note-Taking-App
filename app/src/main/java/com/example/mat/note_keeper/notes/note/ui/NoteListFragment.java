@@ -2,14 +2,6 @@ package com.example.mat.note_keeper.notes.note.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,13 +9,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mat.note_keeper.mainactivity.ui.MainActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.mat.note_keeper.R;
-import com.example.mat.note_keeper.notes.addnote.AddNoteFragment;
+import com.example.mat.note_keeper.mainactivity.ui.MainActivity;
+import com.example.mat.note_keeper.notes.note.NoteViewFactoryModel;
 import com.example.mat.note_keeper.notes.note.NoteViewModel;
 import com.example.mat.note_keeper.notes.note.adapter.NoteAdapter;
 import com.example.mat.note_keeper.notes.note.entity.Note;
 import com.example.mat.note_keeper.notes.updatenote.UpdateNoteFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
 
-public class NoteListFragment extends Fragment implements OnItemClickListener {
+public class NoteListFragment extends Fragment implements OnItemClickListener, OnFavoriteClickListener {
 
     public static final int ADD_NOTE_REQUEST = 3;
     public static final int UPDATE_NOTE_REQUEST = 4;
@@ -59,13 +60,30 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
         setUpNoteAdapter();
         setUpRecyclerView();
 
-        this.noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
-        this.noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
-            @Override
-            public void onChanged(@Nullable List<Note> notes) {
-                noteAdapter.submitList(notes);
-            }
-        });
+        int menuId = Integer.valueOf(getArguments().getString("menu_id"));
+        String menuName = getArguments().getString("menu_name");
+
+        this.noteViewModel = ViewModelProviders.of(this, new NoteViewFactoryModel(this.getActivity().getApplication(), menuName)).get(NoteViewModel.class);
+
+        if (menuName.equals("All Notes")) {
+            this.noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
+                @Override
+                public void onChanged(@Nullable List<Note> notes) {
+                    if (notes != null) {
+                        noteAdapter.submitList(notes);
+                    }
+                }
+            });
+        } else {
+            this.noteViewModel.getNotes().observe(this, new Observer<List<Note>>() {
+                @Override
+                public void onChanged(@Nullable List<Note> notes) {
+                    if (notes != null) {
+                        noteAdapter.submitList(notes);
+                    }
+                }
+            });
+        }
 
         setUpItemTouchHelper();
 
@@ -83,12 +101,12 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         // Inserts data sent from AddNoteDialogFragment.
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
-
+/*
             Note addNote = new Note(data.getStringExtra(AddNoteFragment.EXTRA_TAG),
                     data.getStringExtra(AddNoteFragment.EXTRA_TITLE),
                     data.getStringExtra(AddNoteFragment.EXTRA_DESCRIPTION));
 
-            this.noteViewModel.insert(addNote);
+            this.noteViewModel.insert(addNote);*/
         }
         // Updates data sent from UpdateNoteFragment.
         if (requestCode == UPDATE_NOTE_REQUEST && resultCode == RESULT_OK) {
@@ -137,7 +155,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
     }
 
     private void setUpNoteAdapter() {
-        this.noteAdapter = new NoteAdapter(this);
+        this.noteAdapter = new NoteAdapter(this, this);
     }
 
     private void setUpRecyclerView() {
@@ -153,7 +171,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
     }
 
     private void showBackButton(Boolean enable) {
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.showBackButton(enable);
     }
 
@@ -168,6 +186,23 @@ public class NoteListFragment extends Fragment implements OnItemClickListener {
 
     private void eraseCurrentDatabase() {
         getContext().deleteDatabase("note_database");
+    }
+
+    @Override
+    public void onFavoriteClick(Note note, int position) {
+        System.out.println("Position passed from click:" + position);
+        if (note.isNoteFavorite()) {
+            note.setNoteFavorite(false);
+            note.setNoteTag("default");
+            noteAdapter.updateNoteAt(position, false);
+        } else {
+            note.setNoteFavorite(true);
+            note.setNoteTag("Favorites");
+            noteAdapter.updateNoteAt(position, true);
+        }
+
+        noteViewModel.update(note);
+        noteAdapter.notifyItemChanged(position, note);
     }
 }
 

@@ -29,6 +29,9 @@ public interface NoteDao {
     @Query("SELECT * FROM note_table")
     LiveData<List<Note>> getAllNotes();
 
+    @Query("SELECT * FROM note_table WHERE note_tag=:tag")
+    LiveData<List<Note>> getNotes(String tag);
+
     @Query("SELECT * FROM note_table ORDER BY note_id DESC")
     LiveData<List<Note>> getAllNotesByIds();
 }
