@@ -27,7 +27,7 @@ public class ExpandableGroup<T> {
     }
 
     public int getItemCount() {
-        return items == null ? 0 : items.size();
+        return items == null ? 0 : items.size()+1;
     }
 
     @Override

@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.mat.note_keeper.R;
-import com.example.mat.note_keeper.expandablerecyclerview.vieholders.ChildViewHolder;
+import com.example.mat.note_keeper.expandablerecyclerview.viewholders.ChildViewHolder;
 import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
 

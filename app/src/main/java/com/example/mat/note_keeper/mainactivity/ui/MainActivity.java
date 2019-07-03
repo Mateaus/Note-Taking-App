@@ -30,6 +30,7 @@ import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 import com.example.mat.note_keeper.mainactivity.listener.OnMenuItemClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
+import com.example.mat.note_keeper.mainactivity.listener.OnNewTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.StatusBarListener;
 import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 import com.example.mat.note_keeper.notes.addnote.AddNoteFragment;
@@ -44,7 +45,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements StatusBarListener, OnTagClickListener, OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity implements StatusBarListener, OnTagClickListener,
+        OnMenuItemClickListener, OnNewTagClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                     toolbar.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
                     linearLayout.setBackgroundColor(getResources().getColor(theme.getPrimaryDarkColor()));
                     navigationView.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
+                    expandableAdapter.updateFooterButtonColor(theme.getPrimaryDarkColor());
                 }
             }
         });
@@ -257,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
     private void setAdapter() {
         itemAdapter = new ItemAdapter(this);
-        expandableAdapter = new CategoryAdapter(new ArrayList<>(), this);
+        expandableAdapter = new CategoryAdapter(new ArrayList<>(), this, this);
     }
 
     private void setRecyclerView() {
@@ -275,5 +278,11 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     @Override
     public void onMenuItemClick(MenuItem menuItem) {
         loadNoteScreen(menuItem);
+    }
+
+    @Override
+    public void onNewTagClick() {
+        TagDialogFragment tagDialogFragment = new TagDialogFragment();
+        tagDialogFragment.show(getSupportFragmentManager(), "");
     }
 }

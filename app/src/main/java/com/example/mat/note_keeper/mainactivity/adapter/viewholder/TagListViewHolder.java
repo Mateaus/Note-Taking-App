@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.expandablerecyclerview.models.ExpandableGroup;
-import com.example.mat.note_keeper.expandablerecyclerview.vieholders.GroupViewHolder;
+import com.example.mat.note_keeper.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

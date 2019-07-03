@@ -21,7 +21,7 @@ public class AddNoteViewModel extends NoteViewModel {
 
     public AddNoteViewModel(@NonNull Application application) {
         super(application);
-        mainRepository = new MainRepository(application);
+        this.mainRepository = new MainRepository(application);
         this.message = new MutableLiveData<>();
     }
 

@@ -13,8 +13,8 @@ import com.example.mat.note_keeper.expandablerecyclerview.listeners.OnGroupClick
 import com.example.mat.note_keeper.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.note_keeper.expandablerecyclerview.models.ExpandableList;
 import com.example.mat.note_keeper.expandablerecyclerview.models.ExpandableListPosition;
-import com.example.mat.note_keeper.expandablerecyclerview.vieholders.ChildViewHolder;
-import com.example.mat.note_keeper.expandablerecyclerview.vieholders.GroupViewHolder;
+import com.example.mat.note_keeper.expandablerecyclerview.viewholders.ChildViewHolder;
+import com.example.mat.note_keeper.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import java.util.List;
 
@@ -98,7 +98,7 @@ public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder,
      */
     @Override
     public int getItemCount() {
-        return expandableList.getVisibleItemCount();
+        return expandableList.getVisibleItemCount() ;
     }
 
     /**
@@ -224,7 +224,7 @@ public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder,
      * Fetches the expandable state map from the saved instance state {@link Bundle}
      * and restores the expanded states of all of the list items.
      * <p>
-     * Should be called from {@link Activity#onRestoreInstanceState(Bundle)}  in
+     * Should be called from {@link Activity# onRestoreInstanceState(Bundle)}  in
      * the {@link Activity} that hosts the RecyclerView that this
      * {@link ExpandableRecyclerViewAdapter} is attached to.
      * <p>

@@ -45,6 +45,7 @@
             android:inputType="textMultiLine"
             android:maxLength="512"
             android:theme="@style/EditTextThemeNote"
+            android:paddingLeft="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

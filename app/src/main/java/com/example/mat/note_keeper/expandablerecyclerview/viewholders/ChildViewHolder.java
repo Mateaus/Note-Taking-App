@@ -1,4 +1,4 @@
-package com.example.mat.note_keeper.expandablerecyclerview.vieholders;
+package com.example.mat.note_keeper.expandablerecyclerview.viewholders;
 
 import android.view.View;
 

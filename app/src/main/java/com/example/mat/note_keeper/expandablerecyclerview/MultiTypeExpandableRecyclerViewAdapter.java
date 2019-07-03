@@ -4,11 +4,10 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mat.note_keeper.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.example.mat.note_keeper.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.note_keeper.expandablerecyclerview.models.ExpandableListPosition;
-import com.example.mat.note_keeper.expandablerecyclerview.vieholders.ChildViewHolder;
-import com.example.mat.note_keeper.expandablerecyclerview.vieholders.GroupViewHolder;
+import com.example.mat.note_keeper.expandablerecyclerview.viewholders.ChildViewHolder;
+import com.example.mat.note_keeper.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import java.util.List;
 
