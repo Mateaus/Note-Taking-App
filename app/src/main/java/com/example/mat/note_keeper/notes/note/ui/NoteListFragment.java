@@ -1,7 +1,9 @@
 package com.example.mat.note_keeper.notes.note.ui;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,14 +20,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mat.note_keeper.R;
+import com.example.mat.note_keeper.color.ColorViewModel;
+import com.example.mat.note_keeper.color.entity.Theme;
 import com.example.mat.note_keeper.mainactivity.ui.MainActivity;
 import com.example.mat.note_keeper.notes.note.NoteViewModel;
 import com.example.mat.note_keeper.notes.note.adapter.NoteAdapter;
 import com.example.mat.note_keeper.notes.note.entity.Note;
+import com.example.mat.note_keeper.notes.note.observable.ObservableColorInteger;
 import com.example.mat.note_keeper.notes.updatenote.UpdateNoteFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Observable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +50,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     @BindView(R.id.add_note_btn)
     FloatingActionButton addBtn;
 
+    private ColorViewModel colorViewModel;
     private NoteViewModel noteViewModel;
     private NoteAdapter noteAdapter;
 
@@ -92,6 +99,16 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
                 }
             });
         }
+
+        colorViewModel = ViewModelProviders.of(this).get(ColorViewModel.class);
+        colorViewModel.getTheme().observe(this, new Observer<Theme>() {
+            @Override
+            public void onChanged(Theme theme) {
+                if (theme != null) {
+                    addBtn.setBackgroundTintList(getResources().getColorStateList(theme.getPrimaryDarkColor()));
+                }
+            }
+        });
 
         setUpItemTouchHelper();
 
@@ -209,6 +226,15 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
 
         noteViewModel.update(note);
         noteAdapter.notifyItemChanged(position, note);
+    }
+
+    private int fetchThemeColor(int attr) {
+        TypedValue typedValue = new TypedValue();
+        TypedArray typedArray = getContext().obtainStyledAttributes(typedValue.data, new int[]{attr});
+        int color = typedArray.getColor(0, 0);
+        typedArray.recycle();
+
+        return color;
     }
 }
 

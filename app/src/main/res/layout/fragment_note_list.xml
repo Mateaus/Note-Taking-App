@@ -20,7 +20,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_note"
-        android:theme="@style/FloatingActionButton"
         android:tint="@color/white" />
 
 

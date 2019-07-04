@@ -75,6 +75,7 @@ public class TagDialogFragment extends DialogFragment implements DialogInterface
         final AlertDialog dialog = (AlertDialog) getDialog();
         TextView customTitleTV = (TextView) dialog.findViewById(R.id.dialog_custom_title_TV);
         customTitleTV.setTextColor(fetchThemeColor(R.attr.colorPrimaryDark));
+        System.out.println("In Dialog: "+fetchThemeColor(R.attr.colorAccent));
 
         Button acceptButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
         Button cancelButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
@@ -88,7 +89,6 @@ public class TagDialogFragment extends DialogFragment implements DialogInterface
                 } else {
                     tagCategory.getItems().add(0, new Tag(tagET.getText().toString(), 0));
                     mainViewModel.updateTagCategory(tagCategory);
-                    //mainViewModel.insertTag(new TagCategory("Tags", new ArrayList<>()));
                     dismiss();
                 }
             }

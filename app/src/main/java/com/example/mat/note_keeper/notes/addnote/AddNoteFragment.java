@@ -27,6 +27,7 @@ import com.example.mat.note_keeper.notes.note.entity.Note;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -77,6 +78,7 @@ public class AddNoteFragment extends Fragment {
             public void onChanged(List<TagCategory> tagCategories) {
                 if (tagCategories != null) {
                     List<Tag> tags = new ArrayList<>(tagCategories.get(0).getItems());
+                    Collections.reverse(tags);
 
                     ArrayAdapter<Tag> tagArrayAdapter = new ArrayAdapter<Tag>(getContext(), android.R.layout.simple_list_item_1, tags);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

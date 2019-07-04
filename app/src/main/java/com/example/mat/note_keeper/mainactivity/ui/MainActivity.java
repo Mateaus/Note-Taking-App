@@ -35,6 +35,7 @@ import com.example.mat.note_keeper.mainactivity.listener.StatusBarListener;
 import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 import com.example.mat.note_keeper.notes.addnote.AddNoteFragment;
 import com.example.mat.note_keeper.notes.note.entity.Note;
+import com.example.mat.note_keeper.notes.note.observable.ObservableColorInteger;
 import com.example.mat.note_keeper.notes.note.ui.NoteListFragment;
 import com.example.mat.note_keeper.notes.updatenote.UpdateNoteFragment;
 import com.google.android.material.navigation.NavigationView;
