@@ -16,6 +16,8 @@ import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.OnNewTagClickListener;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagListViewHolder, ChildViewHolder> {
@@ -64,7 +66,7 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
                 ((TagsViewHolder)holder).bind(tag);
                 break;
             case TAG_FOOTER_VIEW_TYPE:
-                ((TagFooterViewHolder)holder).setNewTagClickListener(onNewTagClickListener);
+                ((TagFooterViewHolder)holder).setNewTagClickListener((TagCategory)getGroups().get(0), onNewTagClickListener);
                 ((TagFooterViewHolder)holder).setFooter("New Tag", footerButtonColor);
         }
     }
@@ -89,9 +91,16 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
     }
 
     public void setTagCategories(List<? extends ExpandableGroup> tagCategories) {
-        setGroups(tagCategories);
-        notifyGroupDataChanged();
-        notifyDataSetChanged();
+        // If the group is empty, fill it with the new incoming tag categories
+        if (getGroups().size() == 0) {
+            setGroups(tagCategories);
+            notifyGroupDataChanged();
+            notifyDataSetChanged();
+        } else { // Else, just populate the items inside that existing category without recreating it.
+            TagCategory tagCategory = (TagCategory)getGroups().get(0);
+            tagCategory.setItems(tagCategories.get(0).getItems());
+            notifyDataSetChanged();
+        }
     }
 
     public void updateFooterButtonColor(int color) {

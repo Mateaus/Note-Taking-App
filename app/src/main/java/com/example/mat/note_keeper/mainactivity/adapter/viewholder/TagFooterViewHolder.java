@@ -4,7 +4,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.mat.note_keeper.R;
+import com.example.mat.note_keeper.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.note_keeper.expandablerecyclerview.viewholders.ChildViewHolder;
+import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 import com.example.mat.note_keeper.mainactivity.listener.OnNewTagClickListener;
 
 import butterknife.BindView;
@@ -28,11 +30,13 @@ public class TagFooterViewHolder extends ChildViewHolder {
         footerB.setBackgroundTintList(view.getContext().getResources().getColorStateList(color));
     }
 
-    public void setNewTagClickListener(final OnNewTagClickListener onNewTagClickListener) {
+    public void setNewTagClickListener(final TagCategory tagCategory,
+                                       final OnNewTagClickListener onNewTagClickListener) {
+
         footerB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onNewTagClickListener.onNewTagClick();
+                onNewTagClickListener.onNewTagClick(tagCategory);
             }
         });
     }

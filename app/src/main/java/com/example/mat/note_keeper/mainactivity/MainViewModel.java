@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.example.mat.note_keeper.color.ColorViewModel;
 import com.example.mat.note_keeper.color.entity.Color;
 import com.example.mat.note_keeper.color.entity.Theme;
+import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 
@@ -55,6 +56,10 @@ public class MainViewModel extends ColorViewModel {
 
     public LiveData<List<MenuItem>> getAllMenuItems() {
         return allMenuItems;
+    }
+
+    public void updateTagCategory(TagCategory tagCategory) {
+        mainRepository.updateTagCategory(tagCategory);
     }
 
     public void updateMenuItem(MenuItem menuItem) {

@@ -3,9 +3,7 @@ package com.example.mat.note_keeper.mainactivity.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -17,12 +15,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mat.note_keeper.R;
-import com.example.mat.note_keeper.color.ColorViewModel;
-import com.example.mat.note_keeper.color.entity.Theme;
+import com.example.mat.note_keeper.mainactivity.MainViewModel;
+import com.example.mat.note_keeper.mainactivity.entity.Tag;
+import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +30,12 @@ public class TagDialogFragment extends DialogFragment implements DialogInterface
     @BindView(R.id.tagET)
     EditText tagET;
 
-    private ColorViewModel colorViewModel;
+    private TagCategory tagCategory;
+    private MainViewModel mainViewModel;
+
+    public TagDialogFragment(TagCategory tagCategory) {
+        this.tagCategory = tagCategory;
+    }
 
     @NonNull
     @Override
@@ -76,13 +79,17 @@ public class TagDialogFragment extends DialogFragment implements DialogInterface
         Button acceptButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
         Button cancelButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
 
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (tagET.getText().toString().isEmpty()) {
                     dismiss();
                 } else {
-                    // UPDATE VALUE HERE
+                    tagCategory.getItems().add(0, new Tag(tagET.getText().toString(), 0));
+                    mainViewModel.updateTagCategory(tagCategory);
+                    //mainViewModel.insertTag(new TagCategory("Tags", new ArrayList<>()));
+                    dismiss();
                 }
             }
         });
@@ -97,7 +104,7 @@ public class TagDialogFragment extends DialogFragment implements DialogInterface
 
     private int fetchThemeColor(int attr) {
         TypedValue typedValue = new TypedValue();
-        TypedArray typedArray = getContext().obtainStyledAttributes(typedValue.data, new int[] {attr});
+        TypedArray typedArray = getContext().obtainStyledAttributes(typedValue.data, new int[]{attr});
         int color = typedArray.getColor(0, 0);
         typedArray.recycle();
 

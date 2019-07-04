@@ -1,13 +1,12 @@
 package com.example.mat.note_keeper.mainactivity.entity;
 
+import androidx.room.Ignore;
+
 import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 
 public class Tag extends MenuItem {
 
-    public Tag(int menuItemId) {
-        super(menuItemId);
-    }
-
+    @Ignore
     public Tag(String menuItemName, int menuItemSize) {
         super(menuItemName, menuItemSize);
     }

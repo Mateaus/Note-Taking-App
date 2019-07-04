@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c64a6e76734597ae2c31313d5a390b2a",
+    "identityHash": "35f56e91facdbd5e04b41a260ba464cb",
     "entities": [
       {
         "tableName": "menu_item",
@@ -38,11 +38,11 @@
       },
       {
         "tableName": "tag_category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tagCategoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `items` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `items` TEXT)",
         "fields": [
           {
-            "fieldPath": "tagCategoryId",
-            "columnName": "tagCategoryId",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -61,7 +61,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "tagCategoryId"
+            "id"
           ],
           "autoGenerate": true
         },
@@ -215,7 +215,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c64a6e76734597ae2c31313d5a390b2a\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"35f56e91facdbd5e04b41a260ba464cb\")"
     ]
   }
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.example.mat.note_keeper.database.MenuItemDao;
 import com.example.mat.note_keeper.database.NoteDatabase;
 import com.example.mat.note_keeper.database.TagCategoryDao;
+import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 
@@ -34,6 +35,10 @@ public class MainRepository {
         return allMenuItems;
     }
 
+    public void updateTagCategory(TagCategory tagCategory) {
+        new UpdateTagCategory(tagCategoryDao).execute(tagCategory);
+    }
+
     public void updateMenuItem(MenuItem menuItem) {
         new UpdateMenuItem(menuItemDao).execute(menuItem);
     }
@@ -44,6 +49,21 @@ public class MainRepository {
 
     public LiveData<List<TagCategory>> getAllTagCategories() {
         return allTagCategories;
+    }
+
+    public static class UpdateTagCategory extends AsyncTask<TagCategory, Void, Void> {
+
+        private TagCategoryDao tagCategoryDao;
+
+        public UpdateTagCategory(TagCategoryDao tagCategoryDao) {
+            this.tagCategoryDao = tagCategoryDao;
+        }
+
+        @Override
+        protected Void doInBackground(TagCategory... tagCategories) {
+            this.tagCategoryDao.update(tagCategories[0]);
+            return null;
+        }
     }
 
     public static class UpdateMenuItem extends AsyncTask<MenuItem, Void, Void> {

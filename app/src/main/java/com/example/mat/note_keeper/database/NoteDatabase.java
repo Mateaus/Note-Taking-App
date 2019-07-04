@@ -10,12 +10,12 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.mat.note_keeper.R;
+import com.example.mat.note_keeper.color.entity.Color;
+import com.example.mat.note_keeper.color.entity.Theme;
 import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 import com.example.mat.note_keeper.notes.note.entity.Note;
-import com.example.mat.note_keeper.color.entity.Color;
-import com.example.mat.note_keeper.color.entity.Theme;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,8 +91,7 @@ public abstract class NoteDatabase extends RoomDatabase {
 
             tagCategoryDao.insert(new TagCategory("Tags",
                     new ArrayList<Tag>(Arrays.asList(
-                            new Tag("Not Tagged", 0),
-                            new Tag("Test", 0)
+                            new Tag("Not Tagged", 0)
                     )))
             );
 

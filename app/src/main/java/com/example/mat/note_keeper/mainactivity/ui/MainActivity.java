@@ -29,8 +29,8 @@ import com.example.mat.note_keeper.mainactivity.adapter.ItemAdapter;
 import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 import com.example.mat.note_keeper.mainactivity.listener.OnMenuItemClickListener;
-import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.OnNewTagClickListener;
+import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.StatusBarListener;
 import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 import com.example.mat.note_keeper.notes.addnote.AddNoteFragment;
@@ -40,6 +40,8 @@ import com.example.mat.note_keeper.notes.updatenote.UpdateNoteFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         this.mainViewModel.getAllTagCategories().observe(this, new Observer<List<TagCategory>>() {
             @Override
             public void onChanged(List<TagCategory> tagCategories) {
-                if (tagCategories != null) {
+                if (tagCategories != null && tagCategories.size() != 0) {
                     expandableAdapter.setTagCategories(tagCategories);
                 }
             }
@@ -281,8 +283,8 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     @Override
-    public void onNewTagClick() {
-        TagDialogFragment tagDialogFragment = new TagDialogFragment();
+    public void onNewTagClick(TagCategory tagCategory) {
+        TagDialogFragment tagDialogFragment = new TagDialogFragment(tagCategory);
         tagDialogFragment.show(getSupportFragmentManager(), "");
     }
 }

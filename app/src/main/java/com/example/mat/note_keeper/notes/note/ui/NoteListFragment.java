@@ -54,7 +54,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         ButterKnife.bind(this, v);
         showBackButton(false);
 
-        eraseCurrentDatabase();
+        //eraseCurrentDatabase();
         setUpToolBar();
         setUpNoteAdapter();
         setUpRecyclerView();
