@@ -3,10 +3,7 @@ package com.example.mat.note_keeper.notes.note;
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.annotation.NonNull;
 
-import com.example.mat.note_keeper.mainactivity.MainRepository;
-import com.example.mat.note_keeper.mainactivity.model.MenuItem;
 import com.example.mat.note_keeper.notes.note.entity.Note;
 
 import java.text.DateFormat;

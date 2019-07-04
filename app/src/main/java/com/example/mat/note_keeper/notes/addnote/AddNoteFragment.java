@@ -21,12 +21,12 @@ import android.widget.Toast;
 
 import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
+import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 import com.example.mat.note_keeper.mainactivity.ui.MainActivity;
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.notes.note.entity.Note;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -73,20 +73,17 @@ public class AddNoteFragment extends Fragment {
             }
         });
 
-        this.addNoteViewModel.getAllTagCategories().observe(this, new Observer<List<TagCategory>>() {
+        this.addNoteViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
             @Override
-            public void onChanged(List<TagCategory> tagCategories) {
-                if (tagCategories != null) {
-                    List<Tag> tags = new ArrayList<>(tagCategories.get(0).getItems());
-                    Collections.reverse(tags);
-
-                    ArrayAdapter<Tag> tagArrayAdapter = new ArrayAdapter<Tag>(getContext(), android.R.layout.simple_list_item_1, tags);
+            public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
+                if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
+                    Collections.reverse(drawerLayoutMenuItems);
+                    ArrayAdapter<DrawerLayoutMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerLayoutMenuItem>(getContext(), android.R.layout.simple_list_item_1, drawerLayoutMenuItems);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     tagS.setAdapter(tagArrayAdapter);
                 }
             }
         });
-
 
         setUpToolBar();
 

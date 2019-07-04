@@ -12,5 +12,5 @@
         android:layout_height="wrap_content"
         android:text="Note Taker"
         android:textColor="@color/white"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 </LinearLayout>

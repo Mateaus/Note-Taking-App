@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -32,17 +33,15 @@ import com.example.mat.note_keeper.mainactivity.listener.OnMenuItemClickListener
 import com.example.mat.note_keeper.mainactivity.listener.OnNewTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.StatusBarListener;
-import com.example.mat.note_keeper.mainactivity.model.MenuItem;
+import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 import com.example.mat.note_keeper.notes.addnote.AddNoteFragment;
 import com.example.mat.note_keeper.notes.note.entity.Note;
-import com.example.mat.note_keeper.notes.note.observable.ObservableColorInteger;
 import com.example.mat.note_keeper.notes.note.ui.NoteListFragment;
 import com.example.mat.note_keeper.notes.updatenote.UpdateNoteFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -98,11 +97,20 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
          */
         this.mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
-        this.mainViewModel.getAllMenuItems().observe(this, new Observer<List<MenuItem>>() {
+        this.mainViewModel.getAllMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
             @Override
-            public void onChanged(List<MenuItem> menuItems) {
-                if (menuItems != null) {
-                    itemAdapter.submitList(menuItems);
+            public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
+                if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
+                    itemAdapter.submitList(drawerLayoutMenuItems);
+                }
+            }
+        });
+
+        this.mainViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
+            @Override
+            public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
+                if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
+                    expandableAdapter.setTagList(drawerLayoutMenuItems);
                 }
             }
         });
@@ -120,12 +128,12 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                 }
             }
         });
-
+        // TODO: Replace tag categories to be instead a list of tags to then populate a tag category.
         this.mainViewModel.getAllTagCategories().observe(this, new Observer<List<TagCategory>>() {
             @Override
             public void onChanged(List<TagCategory> tagCategories) {
                 if (tagCategories != null && tagCategories.size() != 0) {
-                    expandableAdapter.setTagCategories(tagCategories);
+                    //expandableAdapter.setTagCategories(tagCategories);
                 }
             }
         });
@@ -141,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             Bundle bundle = new Bundle();
             bundle.putString("menu_id", "1");
             bundle.putString("menu_name", "All Notes");
+            bundle.putString("menu_icon", "note_icon");
             noteListFragment.setArguments(bundle);
 
             fragmentManager.beginTransaction().add(R.id.note_container, noteListFragment).commit();
@@ -159,12 +168,13 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         expandableAdapter.onRestoreInstanceState(savedInstanceState);
     }
 
-    public void loadNoteScreen(MenuItem menuItem) {
+    public void loadNoteScreen(DrawerLayoutMenuItem drawerLayoutMenuItem) {
         NoteListFragment noteListFragment = new NoteListFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("menu_id", String.valueOf(menuItem.getMenuItemId()));
-        bundle.putString("menu_name", menuItem.getMenuItemName());
+        bundle.putString("menu_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
+        bundle.putString("menu_name", drawerLayoutMenuItem.getMenuItemName());
+        bundle.putString("menu_icon", drawerLayoutMenuItem.getMenuItemImage());
         noteListFragment.setArguments(bundle);
 
 
@@ -172,8 +182,15 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                 .replace(R.id.note_container, noteListFragment).commit();
     }
 
-    public void loadAddNoteScreen() {
+    public void loadAddNoteScreen(int menuId, String menuName, String menuIcon) {
         AddNoteFragment addNoteFragment = new AddNoteFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("menu_id", String.valueOf(menuId));
+        bundle.putString("menu_name", menuName);
+        bundle.putString("menu_icon", menuIcon);
+        addNoteFragment.setArguments(bundle);
+
         fragmentManager.beginTransaction()
                 .replace(R.id.note_container, addNoteFragment).addToBackStack(null).commit();
     }
@@ -263,7 +280,10 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
     private void setAdapter() {
         itemAdapter = new ItemAdapter(this);
-        expandableAdapter = new CategoryAdapter(new ArrayList<>(), this, this);
+        expandableAdapter = new CategoryAdapter(
+                new ArrayList<TagCategory>(Arrays.asList(
+                        new TagCategory("Tags", new ArrayList<Tag>()))
+                ), this, this);
     }
 
     private void setRecyclerView() {
@@ -274,13 +294,15 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     @Override
-    public void onTagClick(Tag tag) {
+    public void onTagClick(DrawerLayoutMenuItem tag) {
         loadNoteScreen(tag);
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     @Override
-    public void onMenuItemClick(MenuItem menuItem) {
-        loadNoteScreen(menuItem);
+    public void onMenuItemClick(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+        loadNoteScreen(drawerLayoutMenuItem);
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     @Override

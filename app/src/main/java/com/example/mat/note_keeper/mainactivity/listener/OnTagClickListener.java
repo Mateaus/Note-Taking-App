@@ -1,7 +1,7 @@
 package com.example.mat.note_keeper.mainactivity.listener;
 
-import com.example.mat.note_keeper.mainactivity.entity.Tag;
+import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 
 public interface OnTagClickListener {
-    void onTagClick(Tag tag);
+    void onTagClick(DrawerLayoutMenuItem drawerLayoutMenuItem);
 }

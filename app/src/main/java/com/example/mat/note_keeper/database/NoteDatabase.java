@@ -14,14 +14,14 @@ import com.example.mat.note_keeper.color.entity.Color;
 import com.example.mat.note_keeper.color.entity.Theme;
 import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
-import com.example.mat.note_keeper.mainactivity.model.MenuItem;
+import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 import com.example.mat.note_keeper.notes.note.entity.Note;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Database(entities = {MenuItem.class, TagCategory.class, Note.class, Color.class, Theme.class}, version = 1)
+@Database(entities = {DrawerLayoutMenuItem.class, TagCategory.class, Note.class, Color.class, Theme.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;
@@ -79,8 +79,10 @@ public abstract class NoteDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
 
-            menuItemDao.insert(new MenuItem("All Notes", 0));
-            menuItemDao.insert(new MenuItem("Favorites", 0));
+            menuItemDao.insert(new DrawerLayoutMenuItem("All Notes", 0, "note_icon"));
+            menuItemDao.insert(new DrawerLayoutMenuItem("Favorites", 0, "favorite_star_icon"));
+            menuItemDao.insert(new DrawerLayoutMenuItem("Not Tagged", 0, "tag_border_icon"));
+
 
             /*
              * This populates the database when it's first initially out of box.
@@ -91,7 +93,7 @@ public abstract class NoteDatabase extends RoomDatabase {
 
             tagCategoryDao.insert(new TagCategory("Tags",
                     new ArrayList<Tag>(Arrays.asList(
-                            new Tag("Not Tagged", 0)
+                            new Tag("Not Tagged", 0, "tag_border_icon")
                     )))
             );
 

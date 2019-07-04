@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "35f56e91facdbd5e04b41a260ba464cb",
+    "identityHash": "e3421835558192a82577ac7a4dfb814c",
     "entities": [
       {
         "tableName": "menu_item",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`menu_item_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `menu_item_name` TEXT, `menu_item_size` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`menu_item_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `menu_item_name` TEXT, `menu_item_size` INTEGER NOT NULL, `menu_item_image` TEXT)",
         "fields": [
           {
             "fieldPath": "menuItemId",
@@ -25,6 +25,12 @@
             "columnName": "menu_item_size",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "menuItemImage",
+            "columnName": "menu_item_image",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -215,7 +221,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"35f56e91facdbd5e04b41a260ba464cb\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e3421835558192a82577ac7a4dfb814c\")"
     ]
   }
 }

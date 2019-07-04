@@ -1,12 +1,13 @@
 package com.example.mat.note_keeper.mainactivity.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "menu_item")
-public class MenuItem {
+public class DrawerLayoutMenuItem {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "menu_item_id")
@@ -18,21 +19,21 @@ public class MenuItem {
     @ColumnInfo(name = "menu_item_size")
     private int menuItemSize;
 
-    @Ignore
-    public MenuItem(int menuItemId) {
-        this.menuItemId = menuItemId;
-    }
+    @ColumnInfo(name = "menu_item_image")
+    private String menuItemImage;
 
     @Ignore
-    public MenuItem(String menuItemName, int menuItemSize) {
+    public DrawerLayoutMenuItem(String menuItemName, int menuItemSize, String menuItemImage) {
         this.menuItemName = menuItemName;
         this.menuItemSize = menuItemSize;
+        this.menuItemImage = menuItemImage;
     }
 
-    public MenuItem(int menuItemId, String menuItemName, int menuItemSize) {
+    public DrawerLayoutMenuItem(int menuItemId, String menuItemName, int menuItemSize, String menuItemImage) {
         this.menuItemId = menuItemId;
         this.menuItemName = menuItemName;
         this.menuItemSize = menuItemSize;
+        this.menuItemImage = menuItemImage;
     }
 
     public int getMenuItemId() {
@@ -57,5 +58,19 @@ public class MenuItem {
 
     public void setMenuItemSize(int menuItemSize) {
         this.menuItemSize = menuItemSize;
+    }
+
+    public String getMenuItemImage() {
+        return menuItemImage;
+    }
+
+    public void setMenuItemImage(String menuItemImage) {
+        this.menuItemImage = menuItemImage;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getMenuItemName();
     }
 }

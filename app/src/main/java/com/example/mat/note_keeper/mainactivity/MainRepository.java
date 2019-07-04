@@ -8,9 +8,8 @@ import androidx.lifecycle.LiveData;
 import com.example.mat.note_keeper.database.MenuItemDao;
 import com.example.mat.note_keeper.database.NoteDatabase;
 import com.example.mat.note_keeper.database.TagCategoryDao;
-import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
-import com.example.mat.note_keeper.mainactivity.model.MenuItem;
+import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class MainRepository {
 
     private MenuItemDao menuItemDao;
     private TagCategoryDao tagCategoryDao;
-    private LiveData<List<MenuItem>> allMenuItems;
+    private LiveData<List<DrawerLayoutMenuItem>> allMenuItems;
     private LiveData<Integer> allNotesSize;
     private LiveData<List<TagCategory>> allTagCategories;
 
@@ -31,16 +30,24 @@ public class MainRepository {
         allTagCategories = tagCategoryDao.getAllTagCategories();
     }
 
-    public LiveData<List<MenuItem>> getAllMenuItems() {
+    public LiveData<List<DrawerLayoutMenuItem>> getAllMenuItems() {
         return allMenuItems;
+    }
+
+    public LiveData<List<DrawerLayoutMenuItem>> getAllTagMenuItems() {
+        return menuItemDao.getTagMenuItems();
+    }
+
+    public void insertTagMenuItem(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+        new InsertMenuItem(menuItemDao).execute(drawerLayoutMenuItem);
     }
 
     public void updateTagCategory(TagCategory tagCategory) {
         new UpdateTagCategory(tagCategoryDao).execute(tagCategory);
     }
 
-    public void updateMenuItem(MenuItem menuItem) {
-        new UpdateMenuItem(menuItemDao).execute(menuItem);
+    public void updateMenuItem(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+        new UpdateMenuItem(menuItemDao).execute(drawerLayoutMenuItem);
     }
 
     public LiveData<Integer> getAllNotesSize() {
@@ -66,7 +73,22 @@ public class MainRepository {
         }
     }
 
-    public static class UpdateMenuItem extends AsyncTask<MenuItem, Void, Void> {
+    public static class InsertMenuItem extends AsyncTask<DrawerLayoutMenuItem, Void, Void> {
+
+        private MenuItemDao menuItemDao;
+
+        public InsertMenuItem(MenuItemDao menuItemDao) {
+            this.menuItemDao = menuItemDao;
+        }
+
+        @Override
+        protected Void doInBackground(DrawerLayoutMenuItem... drawerLayoutMenuItems) {
+            this.menuItemDao.insert(drawerLayoutMenuItems[0]);
+            return null;
+        }
+    }
+
+    public static class UpdateMenuItem extends AsyncTask<DrawerLayoutMenuItem, Void, Void> {
 
         private MenuItemDao menuItemDao;
 
@@ -75,8 +97,8 @@ public class MainRepository {
         }
 
         @Override
-        protected Void doInBackground(MenuItem... menuItems) {
-            this.menuItemDao.update(menuItems[0]);
+        protected Void doInBackground(DrawerLayoutMenuItem... drawerLayoutMenuItems) {
+            this.menuItemDao.update(drawerLayoutMenuItems[0]);
             return null;
         }
     }

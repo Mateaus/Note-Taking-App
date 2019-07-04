@@ -19,8 +19,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.mainactivity.MainViewModel;
-import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
+import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,13 +69,11 @@ public class TagDialogFragment extends DialogFragment implements DialogInterface
         return dialog;
     }
 
-
     @Override
     public void onShow(DialogInterface dialogInterface) {
         final AlertDialog dialog = (AlertDialog) getDialog();
         TextView customTitleTV = (TextView) dialog.findViewById(R.id.dialog_custom_title_TV);
         customTitleTV.setTextColor(fetchThemeColor(R.attr.colorPrimaryDark));
-        System.out.println("In Dialog: "+fetchThemeColor(R.attr.colorAccent));
 
         Button acceptButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
         Button cancelButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
@@ -87,8 +85,7 @@ public class TagDialogFragment extends DialogFragment implements DialogInterface
                 if (tagET.getText().toString().isEmpty()) {
                     dismiss();
                 } else {
-                    tagCategory.getItems().add(0, new Tag(tagET.getText().toString(), 0));
-                    mainViewModel.updateTagCategory(tagCategory);
+                    mainViewModel.insertTagMenuItem(new DrawerLayoutMenuItem(tagET.getText().toString(), 0, "tag_border_icon"));
                     dismiss();
                 }
             }

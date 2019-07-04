@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.mat.note_keeper.mainactivity.model.MenuItem;
+import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 
 import java.util.List;
 
@@ -15,16 +15,19 @@ import java.util.List;
 public interface MenuItemDao {
 
     @Insert
-    void insert(MenuItem menuItem);
+    void insert(DrawerLayoutMenuItem drawerLayoutMenuItem);
 
     @Update
-    void update(MenuItem menuItem);
+    void update(DrawerLayoutMenuItem drawerLayoutMenuItem);
 
     @Delete
-    void delete(MenuItem menuItem);
+    void delete(DrawerLayoutMenuItem drawerLayoutMenuItem);
 
-    @Query("SELECT * FROM menu_item")
-    LiveData<List<MenuItem>> getMenuItems();
+    @Query("SELECT * FROM menu_item WHERE menu_item_id <= 2")
+    LiveData<List<DrawerLayoutMenuItem>> getMenuItems();
+
+    @Query("SELECT * FROM menu_item WHERE menu_item_id > 2 ORDER BY menu_item_id DESC")
+    LiveData<List<DrawerLayoutMenuItem>> getTagMenuItems();
 
     @Query("SELECT COUNT() FROM note_table")
     LiveData<Integer> getNumberOfNotes();

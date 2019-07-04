@@ -61,13 +61,14 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         ButterKnife.bind(this, v);
         showBackButton(false);
 
-        //eraseCurrentDatabase();
+        eraseCurrentDatabase();
         setUpToolBar();
         setUpNoteAdapter();
         setUpRecyclerView();
 
-        int menuId = Integer.valueOf(getArguments().getString("menu_id"));
         String menuName = getArguments().getString("menu_name");
+
+        getActivity().setTitle(menuName);
 
         this.noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
 
@@ -117,8 +118,12 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
 
     @OnClick(R.id.add_note_btn)
     public void addButtonHandler() {
+        int menuId = Integer.valueOf(getArguments().getString("menu_id"));
+        String menuName = getArguments().getString("menu_name");
+        String menuIcon = getArguments().getString("menu_icon");
+
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.loadAddNoteScreen();
+        mainActivity.loadAddNoteScreen(menuId, menuName, menuIcon);
     }
 
     @Override

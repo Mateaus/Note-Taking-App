@@ -11,13 +11,11 @@ import com.example.mat.note_keeper.expandablerecyclerview.viewholders.ChildViewH
 import com.example.mat.note_keeper.mainactivity.adapter.viewholder.TagFooterViewHolder;
 import com.example.mat.note_keeper.mainactivity.adapter.viewholder.TagListViewHolder;
 import com.example.mat.note_keeper.mainactivity.adapter.viewholder.TagsViewHolder;
-import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
-import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.OnNewTagClickListener;
+import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
+import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagListViewHolder, ChildViewHolder> {
@@ -61,13 +59,13 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
         int viewType = getItemViewType(flatPosition);
         switch (viewType) {
             case TAG_VIEW_TYPE:
-                final Tag tag = ((TagCategory) group).getItems().get(childIndex);
-                ((TagsViewHolder)holder).onTagClickListener(tag, onTagClickListener);
-                ((TagsViewHolder)holder).bind(tag);
+                final DrawerLayoutMenuItem tag = ((TagCategory) group).getItems().get(childIndex);
+                ((TagsViewHolder) holder).onTagClickListener(tag, onTagClickListener);
+                ((TagsViewHolder) holder).bind(tag);
                 break;
             case TAG_FOOTER_VIEW_TYPE:
-                ((TagFooterViewHolder)holder).setNewTagClickListener((TagCategory)getGroups().get(0), onNewTagClickListener);
-                ((TagFooterViewHolder)holder).setFooter("New Tag", footerButtonColor);
+                ((TagFooterViewHolder) holder).setNewTagClickListener((TagCategory) getGroups().get(0), onNewTagClickListener);
+                ((TagFooterViewHolder) holder).setFooter("New Tag", footerButtonColor);
         }
     }
 
@@ -97,10 +95,15 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
             notifyGroupDataChanged();
             notifyDataSetChanged();
         } else { // Else, just populate the items inside that existing category without recreating it.
-            TagCategory tagCategory = (TagCategory)getGroups().get(0);
+            TagCategory tagCategory = (TagCategory) getGroups().get(0);
             tagCategory.setItems(tagCategories.get(0).getItems());
             notifyDataSetChanged();
         }
+    }
+
+    public void setTagList(List<DrawerLayoutMenuItem> tagList) {
+        getGroups().get(0).setItems(tagList);
+        notifyDataSetChanged();
     }
 
     public void updateFooterButtonColor(int color) {
