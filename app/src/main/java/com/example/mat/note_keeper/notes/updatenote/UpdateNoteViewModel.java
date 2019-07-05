@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.mainactivity.MainRepository;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
+import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 import com.example.mat.note_keeper.notes.note.NoteViewModel;
 import com.example.mat.note_keeper.notes.note.entity.Note;
 
@@ -49,5 +50,9 @@ public class UpdateNoteViewModel extends NoteViewModel {
 
     public LiveData<List<TagCategory>> getAllTagCategories() {
         return mainRepository.getAllTagCategories();
+    }
+
+    public LiveData<List<DrawerLayoutMenuItem>> getAllTagMenuItems() {
+        return mainRepository.getAllTagMenuItems();
     }
 }
