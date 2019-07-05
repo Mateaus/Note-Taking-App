@@ -13,6 +13,7 @@ import com.example.mat.note_keeper.mainactivity.adapter.viewholder.TagListViewHo
 import com.example.mat.note_keeper.mainactivity.adapter.viewholder.TagsViewHolder;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 import com.example.mat.note_keeper.mainactivity.listener.OnNewTagClickListener;
+import com.example.mat.note_keeper.mainactivity.listener.OnTagCategoryEditClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
 import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 
@@ -26,12 +27,14 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
 
     private OnTagClickListener onTagClickListener;
     private OnNewTagClickListener onNewTagClickListener;
+    private OnTagCategoryEditClickListener onTagCategoryEditClickListener;
 
     public CategoryAdapter(List<? extends ExpandableGroup> groups, OnTagClickListener onTagClickListener,
-                           OnNewTagClickListener onNewTagClickListener) {
+                           OnNewTagClickListener onNewTagClickListener, OnTagCategoryEditClickListener onTagCategoryEditClickListener) {
         super(groups);
         this.onTagClickListener = onTagClickListener;
         this.onNewTagClickListener = onNewTagClickListener;
+        this.onTagCategoryEditClickListener = onTagCategoryEditClickListener;
     }
 
     @Override
@@ -71,6 +74,7 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
 
     @Override
     public void onBindGroupViewHolder(TagListViewHolder holder, int flatPosition, ExpandableGroup group) {
+        holder.setEditTagClickListener(group, onTagCategoryEditClickListener);
         holder.setCategoryTag(group);
     }
 

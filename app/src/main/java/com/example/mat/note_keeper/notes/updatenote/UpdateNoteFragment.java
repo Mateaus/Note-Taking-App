@@ -59,7 +59,7 @@ public class UpdateNoteFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_update_note, container, false);
+        View v = inflater.inflate(R.layout.fragment_add_note, container, false);
         ButterKnife.bind(this, v);
         showBackButton(true);
 
@@ -83,7 +83,7 @@ public class UpdateNoteFragment extends Fragment {
             public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
                 if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
                     Collections.reverse(drawerLayoutMenuItems);
-                    ArrayAdapter<DrawerLayoutMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerLayoutMenuItem>(getContext(), android.R.layout.simple_list_item_1, drawerLayoutMenuItems);
+                    ArrayAdapter<DrawerLayoutMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerLayoutMenuItem>(getContext(), R.layout.spinner_item_text, drawerLayoutMenuItems);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     tagS.setAdapter(tagArrayAdapter);
                 }

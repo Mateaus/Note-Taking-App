@@ -2,12 +2,15 @@ package com.example.mat.note_keeper.mainactivity.adapter.viewholder;
 
 import android.view.View;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.note_keeper.expandablerecyclerview.viewholders.GroupViewHolder;
+import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
+import com.example.mat.note_keeper.mainactivity.listener.OnTagCategoryEditClickListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,10 +22,8 @@ public class TagListViewHolder extends GroupViewHolder {
     @BindView(R.id.tv_tag_category)
     TextView categoryTag;
 
-    @BindView(R.id.iv_arrow_expand)
-    ImageView mArrowExpandImageView;
-
-    int initialCollapseCtn = 0;
+    @BindView(R.id.b_tag_edit_category)
+    Button categoryTagBtn;
 
     public TagListViewHolder(View itemView) {
         super(itemView);
@@ -36,31 +37,20 @@ public class TagListViewHolder extends GroupViewHolder {
     @Override
     public void expand() {
         super.expand();
-        animateExpand();
     }
 
     @Override
     public void collapse() {
         super.collapse();
-        if (initialCollapseCtn >= 1) {
-            animateCollapse();
-        }
-        initialCollapseCtn++;
     }
 
-    private void animateExpand() {
-        RotateAnimation rotate =
-                new RotateAnimation(360, 180, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f);
-        rotate.setDuration(300);
-        rotate.setFillAfter(true);
-        mArrowExpandImageView.setAnimation(rotate);
-    }
-
-    private void animateCollapse() {
-        RotateAnimation rotate =
-                new RotateAnimation(180, 360, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f);
-        rotate.setDuration(300);
-        rotate.setFillAfter(true);
-        mArrowExpandImageView.setAnimation(rotate);
+    public void setEditTagClickListener(final ExpandableGroup group,
+                                        final OnTagCategoryEditClickListener onTagCategoryEditClickListener) {
+        categoryTagBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTagCategoryEditClickListener.onTagEditClickListener(group);
+            }
+        });
     }
 }

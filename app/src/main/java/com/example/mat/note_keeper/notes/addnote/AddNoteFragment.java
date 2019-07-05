@@ -78,7 +78,7 @@ public class AddNoteFragment extends Fragment {
             public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
                 if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
                     Collections.reverse(drawerLayoutMenuItems);
-                    ArrayAdapter<DrawerLayoutMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerLayoutMenuItem>(getContext(), android.R.layout.simple_list_item_1, drawerLayoutMenuItems);
+                    ArrayAdapter<DrawerLayoutMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerLayoutMenuItem>(getContext(), R.layout.spinner_item_text, drawerLayoutMenuItems);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     tagS.setAdapter(tagArrayAdapter);
                 }

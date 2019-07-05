@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.color.entity.Theme;
 import com.example.mat.note_keeper.color.ui.ColorFragment;
+import com.example.mat.note_keeper.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.note_keeper.mainactivity.MainViewModel;
 import com.example.mat.note_keeper.mainactivity.adapter.CategoryAdapter;
 import com.example.mat.note_keeper.mainactivity.adapter.ItemAdapter;
@@ -31,6 +32,7 @@ import com.example.mat.note_keeper.mainactivity.entity.Tag;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 import com.example.mat.note_keeper.mainactivity.listener.OnMenuItemClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.OnNewTagClickListener;
+import com.example.mat.note_keeper.mainactivity.listener.OnTagCategoryEditClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.StatusBarListener;
 import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
@@ -49,7 +51,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements StatusBarListener, OnTagClickListener,
-        OnMenuItemClickListener, OnNewTagClickListener {
+        OnMenuItemClickListener, OnNewTagClickListener, OnTagCategoryEditClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -117,27 +119,13 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
                 if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
                     expandableAdapter.setTagList(drawerLayoutMenuItems);
+                    // Begins expanded keeps it expanded when changes happen
+                    if (!expandableAdapter.isGroupExpanded(0)) {
+                        expandableAdapter.toggleGroup(0);
+                    }
                 }
             }
         });
-/*
-        this.mainViewModel.getAllMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
-            @Override
-            public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
-                if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
-                    itemAdapter.submitList(drawerLayoutMenuItems);
-                }
-            }
-        });
-*//*
-        this.mainViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
-            @Override
-            public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
-                if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
-                    expandableAdapter.setTagList(drawerLayoutMenuItems);
-                }
-            }
-        });*/
 
         this.mainViewModel.getTheme().observe(this, new Observer<Theme>() {
             @Override
@@ -152,26 +140,6 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                 }
             }
         });
-        // TODO: Replace tag categories to be instead a list of tags to then populate a tag category.
-        this.mainViewModel.getAllTagCategories().observe(this, new Observer<List<TagCategory>>() {
-            @Override
-            public void onChanged(List<TagCategory> tagCategories) {
-                if (tagCategories != null && tagCategories.size() != 0) {
-                    //expandableAdapter.setTagCategories(tagCategories);
-                }
-            }
-        });
-
-        this.mainViewModel.getAllNotesSize().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                if (integer != null) {
-                    //itemAdapter.getMenuItem(1).setMenuItemSize(integer);
-                }
-            }
-        });
-
-        // TODO: Increment the counter of the nav drawer here in the activity
 
         fragmentManager = getSupportFragmentManager();
         Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.note_container);
@@ -318,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         expandableAdapter = new CategoryAdapter(
                 new ArrayList<TagCategory>(Arrays.asList(
                         new TagCategory("Tags", new ArrayList<Tag>()))
-                ), this, this);
+                ), this, this, this);
     }
 
     private void setRecyclerView() {
@@ -343,7 +311,13 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
     @Override
     public void onNewTagClick(TagCategory tagCategory) {
+        tagCategory.getItems();
         TagDialogFragment tagDialogFragment = new TagDialogFragment(tagCategory);
         tagDialogFragment.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void onTagEditClickListener(ExpandableGroup group) {
+        System.out.println(group.getItems().get(0));
     }
 }
