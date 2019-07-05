@@ -34,6 +34,7 @@ import com.example.mat.note_keeper.mainactivity.listener.OnNewTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.OnTagClickListener;
 import com.example.mat.note_keeper.mainactivity.listener.StatusBarListener;
 import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.note_keeper.mainactivity.model.MergedMenu;
 import com.example.mat.note_keeper.notes.addnote.AddNoteFragment;
 import com.example.mat.note_keeper.notes.note.entity.Note;
 import com.example.mat.note_keeper.notes.note.ui.NoteListFragment;
@@ -97,6 +98,29 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
          */
         this.mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
+
+        this.mainViewModel.getMergedMenuLiveData().observe(this, new Observer<MergedMenu>() {
+            @Override
+            public void onChanged(MergedMenu mergedMenu) {
+                if (mergedMenu == null && !mergedMenu.isComplete()) {
+                    return;
+                }
+
+                if (mergedMenu.isComplete()) {
+                    itemAdapter.submitList(mergedMenu.getMenuList());
+                }
+            }
+        });
+
+        this.mainViewModel.getTagMenus().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
+            @Override
+            public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
+                if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
+                    expandableAdapter.setTagList(drawerLayoutMenuItems);
+                }
+            }
+        });
+/*
         this.mainViewModel.getAllMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
             @Override
             public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
@@ -105,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                 }
             }
         });
-
+*//*
         this.mainViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
             @Override
             public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
@@ -113,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                     expandableAdapter.setTagList(drawerLayoutMenuItems);
                 }
             }
-        });
+        });*/
 
         this.mainViewModel.getTheme().observe(this, new Observer<Theme>() {
             @Override
@@ -134,6 +158,15 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             public void onChanged(List<TagCategory> tagCategories) {
                 if (tagCategories != null && tagCategories.size() != 0) {
                     //expandableAdapter.setTagCategories(tagCategories);
+                }
+            }
+        });
+
+        this.mainViewModel.getAllNotesSize().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer != null) {
+                    //itemAdapter.getMenuItem(1).setMenuItemSize(integer);
                 }
             }
         });
@@ -174,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         Bundle bundle = new Bundle();
         bundle.putString("menu_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
         bundle.putString("menu_name", drawerLayoutMenuItem.getMenuItemName());
+        bundle.putString("menu_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
         bundle.putString("menu_icon", drawerLayoutMenuItem.getMenuItemImage());
         noteListFragment.setArguments(bundle);
 
@@ -182,13 +216,14 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                 .replace(R.id.note_container, noteListFragment).commit();
     }
 
-    public void loadAddNoteScreen(int menuId, String menuName, String menuIcon) {
+    public void loadAddNoteScreen(DrawerLayoutMenuItem drawerLayoutMenuItem) {
         AddNoteFragment addNoteFragment = new AddNoteFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("menu_id", String.valueOf(menuId));
-        bundle.putString("menu_name", menuName);
-        bundle.putString("menu_icon", menuIcon);
+        bundle.putString("menu_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
+        bundle.putString("menu_name", drawerLayoutMenuItem.getMenuItemName());
+        bundle.putString("menu_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
+        bundle.putString("menu_icon", drawerLayoutMenuItem.getMenuItemImage());
         addNoteFragment.setArguments(bundle);
 
         fragmentManager.beginTransaction()
@@ -301,6 +336,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
     @Override
     public void onMenuItemClick(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+        itemAdapter.getMenuList();
         loadNoteScreen(drawerLayoutMenuItem);
         drawerLayout.closeDrawer(GravityCompat.START);
     }

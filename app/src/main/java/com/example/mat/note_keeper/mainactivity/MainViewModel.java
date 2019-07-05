@@ -10,6 +10,7 @@ import com.example.mat.note_keeper.color.entity.Color;
 import com.example.mat.note_keeper.color.entity.Theme;
 import com.example.mat.note_keeper.mainactivity.entity.TagCategory;
 import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.note_keeper.mainactivity.model.MergedMenu;
 
 import java.util.List;
 
@@ -21,6 +22,13 @@ public class MainViewModel extends ColorViewModel {
     private LiveData<Integer> allNotesSize;
     private LiveData<List<TagCategory>> allTagCategories;
 
+    private LiveData<Integer> allNoteSize;
+    private LiveData<Integer> allFavoriteNoteSize;
+    private LiveData<List<Integer>> allTagNotesSizeList;
+
+    private LiveData<MergedMenu> mergedMenu;
+    private MergedMenu mergedData = new MergedMenu();
+
     public MainViewModel(@NonNull Application application) {
         super(application);
         this.mainRepository = new MainRepository(application);
@@ -28,6 +36,36 @@ public class MainViewModel extends ColorViewModel {
         this.allTagMenuItems = mainRepository.getAllTagMenuItems();
         this.allNotesSize = mainRepository.getAllNotesSize();
         this.allTagCategories = mainRepository.getAllTagCategories();
+
+        allNoteSize = mainRepository.getAllNoteSize();
+        allFavoriteNoteSize = mainRepository.getAllFavoriteNoteSize();
+        allTagNotesSizeList = mainRepository.getAllTagNotesSizeList();
+
+        mergedMenu = mainRepository.getMergedMenuLiveData();
+    }
+
+    public LiveData<DrawerLayoutMenuItem> getMenuTuple() {
+        return mainRepository.getMenuOne();
+    }
+
+    public LiveData<MergedMenu> getMergedMenuLiveData() {
+        return mergedMenu;
+    }
+
+    public LiveData<List<DrawerLayoutMenuItem>> getTagMenus() {
+        return mainRepository.getTagMenus();
+    }
+
+    public LiveData<Integer> getAllNoteSize() {
+        return allNoteSize;
+    }
+
+    public LiveData<Integer> getAllFavoriteNoteSize() {
+        return allFavoriteNoteSize;
+    }
+
+    public LiveData<List<Integer>> getAllTagNotesSizeList() {
+        return allTagNotesSizeList;
     }
 
     @Override

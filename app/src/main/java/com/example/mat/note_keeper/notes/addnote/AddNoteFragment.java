@@ -101,7 +101,12 @@ public class AddNoteFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.update_note:
-                addNote();
+                int menuId = Integer.valueOf(getArguments().getString("menu_id"));
+                String menuName = getArguments().getString("menu_name");
+                int menuSize = Integer.valueOf(getArguments().getString("menu_size"));
+                String menuIcon = getArguments().getString("menu_icon");
+
+                addNote(new DrawerLayoutMenuItem(menuId, menuName, menuSize, menuIcon));
                 return true;
             default:
                 getFragmentManager().popBackStack();
@@ -114,9 +119,9 @@ public class AddNoteFragment extends Fragment {
         getActivity().setTitle(R.string.note_add);
     }
 
-    private void addNote() {
+    private void addNote(DrawerLayoutMenuItem drawerLayoutMenuItem) {
         this.addNoteViewModel.addNote(new Note(tagS.getSelectedItem().toString(),
-                titleET.getText().toString(), descriptionET.getText().toString()));
+                titleET.getText().toString(), descriptionET.getText().toString()), drawerLayoutMenuItem);
     }
 
     private void showBackButton(Boolean enable) {

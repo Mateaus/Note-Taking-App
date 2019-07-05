@@ -16,6 +16,9 @@ import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.mainactivity.listener.OnMenuItemClickListener;
 import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -69,6 +72,17 @@ public class ItemAdapter extends ListAdapter<DrawerLayoutMenuItem, ItemAdapter.I
 
     public DrawerLayoutMenuItem getMenuItem(int position) {
         return getItem(position);
+    }
+
+    public List<DrawerLayoutMenuItem> getMenuList() {
+        List<DrawerLayoutMenuItem> layoutMenuItems = new ArrayList<>(getItemCount());
+
+        for(int i = 0; i < getItemCount(); i++) {
+            layoutMenuItems.add(getItem(i));
+            System.out.println(getItem(i).getMenuItemName());
+        }
+
+        return layoutMenuItems;
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {

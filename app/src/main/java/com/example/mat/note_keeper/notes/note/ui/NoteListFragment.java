@@ -22,16 +22,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mat.note_keeper.R;
 import com.example.mat.note_keeper.color.ColorViewModel;
 import com.example.mat.note_keeper.color.entity.Theme;
+import com.example.mat.note_keeper.mainactivity.model.DrawerLayoutMenuItem;
 import com.example.mat.note_keeper.mainactivity.ui.MainActivity;
 import com.example.mat.note_keeper.notes.note.NoteViewModel;
 import com.example.mat.note_keeper.notes.note.adapter.NoteAdapter;
 import com.example.mat.note_keeper.notes.note.entity.Note;
-import com.example.mat.note_keeper.notes.note.observable.ObservableColorInteger;
 import com.example.mat.note_keeper.notes.updatenote.UpdateNoteFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
-import java.util.Observable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -122,8 +121,17 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         String menuName = getArguments().getString("menu_name");
         String menuIcon = getArguments().getString("menu_icon");
 
+        int menuNoteSize = 0;
+        if (menuId == 1 && menuName.equals("All Notes")) {
+            menuNoteSize = noteAdapter.getItemCount();
+        } else {
+            menuNoteSize = Integer.valueOf(getArguments().getString("menu_size"));
+        }
+
+        DrawerLayoutMenuItem drawerLayoutMenuItem = new DrawerLayoutMenuItem(menuId, menuName, menuNoteSize, menuIcon);
+
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.loadAddNoteScreen(menuId, menuName, menuIcon);
+        mainActivity.loadAddNoteScreen(drawerLayoutMenuItem);
     }
 
     @Override
