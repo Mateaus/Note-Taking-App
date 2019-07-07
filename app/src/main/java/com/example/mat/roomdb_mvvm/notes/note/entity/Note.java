@@ -2,10 +2,21 @@ package com.example.mat.roomdb_mvvm.notes.note.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "note_table")
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(tableName = "note_table", foreignKeys = {
+        @ForeignKey(onDelete = CASCADE, entity = DrawerLayoutMenuItem.class,
+                parentColumns = "menu_item_name", childColumns = "note_tag")},
+        indices = {
+                @Index("note_tag")
+        })
 public class Note {
 
     @ColumnInfo(name = "note_id")

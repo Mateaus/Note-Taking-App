@@ -11,7 +11,6 @@ import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
 
 import java.util.List;
 
-@Dao
 public interface TagCategoryDao {
 
     @Insert
@@ -23,6 +22,5 @@ public interface TagCategoryDao {
     @Delete
     void delete(TagCategory tagCategory);
 
-    @Query("SELECT * FROM tag_category")
     LiveData<List<TagCategory>> getAllTagCategories();
 }

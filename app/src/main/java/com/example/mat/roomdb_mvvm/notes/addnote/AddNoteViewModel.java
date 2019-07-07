@@ -42,9 +42,6 @@ public class AddNoteViewModel extends NoteViewModel {
         return this.message;
     }
 
-    public LiveData<List<TagCategory>> getAllTagCategories() {
-        return mainRepository.getAllTagCategories();
-    }
 
     public LiveData<List<DrawerLayoutMenuItem>> getAllTagMenuItems() {
         return mainRepository.getAllTagMenuItems();

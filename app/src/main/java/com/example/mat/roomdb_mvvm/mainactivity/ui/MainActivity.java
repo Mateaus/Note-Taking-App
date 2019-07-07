@@ -27,9 +27,11 @@ import com.example.mat.roomdb_mvvm.color.ui.ColorFragment;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.roomdb_mvvm.mainactivity.MainViewModel;
 import com.example.mat.roomdb_mvvm.mainactivity.adapter.CategoryAdapter;
+import com.example.mat.roomdb_mvvm.mainactivity.adapter.CategoryEditAdapter;
 import com.example.mat.roomdb_mvvm.mainactivity.adapter.ItemAdapter;
 import com.example.mat.roomdb_mvvm.mainactivity.entity.Tag;
 import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
+import com.example.mat.roomdb_mvvm.mainactivity.entity.TagEditCategory;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnMenuItemClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnNewTagClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagCategoryEditClickListener;
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
     private ItemAdapter itemAdapter;
     private CategoryAdapter expandableAdapter;
+    private CategoryEditAdapter expandableEditAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,9 +122,14 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
                 if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
                     expandableAdapter.setTagList(drawerLayoutMenuItems);
+                    expandableEditAdapter.setTagList(drawerLayoutMenuItems);
                     // Begins expanded keeps it expanded when changes happen
                     if (!expandableAdapter.isGroupExpanded(0)) {
                         expandableAdapter.toggleGroup(0);
+                    }
+
+                    if (!expandableEditAdapter.isGroupExpanded(0)) {
+                        expandableEditAdapter.toggleGroup(0);
                     }
                 }
             }
@@ -285,8 +293,12 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         itemAdapter = new ItemAdapter(this);
         expandableAdapter = new CategoryAdapter(
                 new ArrayList<TagCategory>(Arrays.asList(
-                        new TagCategory("Tags", new ArrayList<Tag>()))
+                        new TagCategory("Tags", "Edit", new ArrayList<Tag>()))
                 ), this, this, this);
+        expandableEditAdapter = new CategoryEditAdapter(
+                new ArrayList<TagEditCategory>(Arrays.asList(
+                        new TagEditCategory("Tags", "Return", new ArrayList<Tag>()))
+                ), this, this);
     }
 
     private void setRecyclerView() {
@@ -310,14 +322,48 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     @Override
+    public void onMenuUpdateItemClick(DrawerLayoutMenuItem drawerLayoutMenuItem, int position) {
+        TagAddUpdateDialogFragment tagAddUpdateDialogFragment = new TagAddUpdateDialogFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("menu_tag_image", drawerLayoutMenuItem.getMenuItemImage());
+        bundle.putString("menu_tag_name", drawerLayoutMenuItem.getMenuItemName());
+        bundle.putString("menu_tag_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
+        bundle.putString("menu_tag_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
+        tagAddUpdateDialogFragment.setArguments(bundle);
+
+        tagAddUpdateDialogFragment.show(getSupportFragmentManager(), "EDIT_TAG");
+    }
+
+    @Override
+    public void onMenuDeleteClick(DrawerLayoutMenuItem drawerLayoutMenuItem, int position) {
+        /*mainViewModel.deleteMenuItem(drawerLayoutMenuItem);
+        expandableEditAdapter.removeAt(position);
+        expandableEditAdapter.notifyDataSetChanged();*/
+        TagCancelDialogFragment tagEditDialogFragment = new TagCancelDialogFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("menu_tag_image", drawerLayoutMenuItem.getMenuItemImage());
+        bundle.putString("menu_tag_name", drawerLayoutMenuItem.getMenuItemName());
+        bundle.putString("menu_tag_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
+        bundle.putString("menu_tag_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
+        tagEditDialogFragment.setArguments(bundle);
+
+        tagEditDialogFragment.show(getSupportFragmentManager(), "CANCEL_TAG");
+    }
+
+    @Override
     public void onNewTagClick(TagCategory tagCategory) {
-        tagCategory.getItems();
-        TagDialogFragment tagDialogFragment = new TagDialogFragment(tagCategory);
-        tagDialogFragment.show(getSupportFragmentManager(), "");
+        TagAddUpdateDialogFragment tagAddUpdateDialogFragment = new TagAddUpdateDialogFragment();
+        tagAddUpdateDialogFragment.show(getSupportFragmentManager(), "ADD_TAG");
     }
 
     @Override
     public void onTagEditClickListener(ExpandableGroup group) {
-        System.out.println(group.getItems().get(0));
+        if (group.getOption().equals("Edit")) {
+            expandableRv.setAdapter(expandableEditAdapter);
+        } else {
+            expandableRv.setAdapter(expandableAdapter);
+        }
     }
 }

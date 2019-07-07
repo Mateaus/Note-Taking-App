@@ -48,9 +48,6 @@ public class UpdateNoteViewModel extends NoteViewModel {
         return message;
     }
 
-    public LiveData<List<TagCategory>> getAllTagCategories() {
-        return mainRepository.getAllTagCategories();
-    }
 
     public LiveData<List<DrawerLayoutMenuItem>> getAllTagMenuItems() {
         return mainRepository.getAllTagMenuItems();

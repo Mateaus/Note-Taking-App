@@ -27,6 +27,10 @@
     <string name="note_cancelled">Note cancelled</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- Tag delete warning -->
+    <string name="delete_tag_warning">Are you sure you want to delete this tag?\n
+    Deleting this tag will also erase all it\'s notes.</string>
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

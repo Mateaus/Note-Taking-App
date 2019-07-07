@@ -21,14 +21,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Database(entities = {DrawerLayoutMenuItem.class, TagCategory.class, Note.class, Color.class, Theme.class}, version = 1)
+@Database(entities = {DrawerLayoutMenuItem.class, Note.class, Color.class, Theme.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;
 
     public abstract MenuItemDao menuItemDao();
-
-    public abstract TagCategoryDao categoryDao();
 
     public abstract NoteDao noteDao();
 
@@ -63,14 +61,12 @@ public abstract class NoteDatabase extends RoomDatabase {
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
         private MenuItemDao menuItemDao;
-        private TagCategoryDao tagCategoryDao;
         private NoteDao noteDao;
         private ColorDao colorDao;
         private ThemeDao themeDao;
 
         private PopulateDbAsyncTask(NoteDatabase db) {
             menuItemDao = db.menuItemDao();
-            tagCategoryDao = db.categoryDao();
             noteDao = db.noteDao();
             colorDao = db.colorDao();
             themeDao = db.themeDao();
@@ -90,12 +86,6 @@ public abstract class NoteDatabase extends RoomDatabase {
             Theme mainTheme = new Theme(R.style.BrownThemeOverlay, R.color.brown, R.color.darkbrown,
                     R.color.lightbrown);
             themeDao.insert(mainTheme);
-
-            tagCategoryDao.insert(new TagCategory("Tags",
-                    new ArrayList<Tag>(Arrays.asList(
-                            new Tag("Not Tagged", 0, "tag_border_icon")
-                    )))
-            );
 
             for (int i = 0; i < populateThemeColors().size(); i++) {
                 colorDao.insert(populateThemeColors().get(i));

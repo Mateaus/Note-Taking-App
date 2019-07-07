@@ -7,7 +7,7 @@
     android:paddingRight="16dp">
 
     <TextView
-        android:id="@+id/tv_tag_category"
+        android:id="@+id/tv_tag_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e3421835558192a82577ac7a4dfb814c",
+    "identityHash": "5e8775dfdea98f78769baeaef387c5e1",
     "entities": [
       {
         "tableName": "menu_item",
@@ -39,44 +39,21 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "tag_category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `items` TEXT)",
-        "fields": [
+        "indices": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "title",
-            "columnName": "title",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "items",
-            "columnName": "items",
-            "affinity": "TEXT",
-            "notNull": false
+            "name": "index_menu_item_menu_item_name",
+            "unique": true,
+            "columnNames": [
+              "menu_item_name"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_menu_item_menu_item_name` ON `${TABLE_NAME}` (`menu_item_name`)"
           }
         ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": true
-        },
-        "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "note_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`note_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `note_favorite` INTEGER NOT NULL, `note_tag` TEXT, `ntitle` TEXT, `ndescription` TEXT, `ndate` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`note_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `note_favorite` INTEGER NOT NULL, `note_tag` TEXT, `ntitle` TEXT, `ndescription` TEXT, `ndate` TEXT, FOREIGN KEY(`note_tag`) REFERENCES `menu_item`(`menu_item_name`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "noteId",
@@ -121,8 +98,29 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_note_table_note_tag",
+            "unique": false,
+            "columnNames": [
+              "note_tag"
+            ],
+            "createSql": "CREATE  INDEX `index_note_table_note_tag` ON `${TABLE_NAME}` (`note_tag`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "menu_item",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "note_tag"
+            ],
+            "referencedColumns": [
+              "menu_item_name"
+            ]
+          }
+        ]
       },
       {
         "tableName": "color_table",
@@ -221,7 +219,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e3421835558192a82577ac7a4dfb814c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5e8775dfdea98f78769baeaef387c5e1\")"
     ]
   }
 }

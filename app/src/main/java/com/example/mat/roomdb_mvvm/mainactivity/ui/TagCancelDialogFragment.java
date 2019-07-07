@@ -9,7 +9,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,31 +17,19 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mat.roomdb_mvvm.R;
+import com.example.mat.roomdb_mvvm.databinding.FragmentDialogDeleteTagWarningBinding;
 import com.example.mat.roomdb_mvvm.mainactivity.MainViewModel;
-import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
 import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+public class TagCancelDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
 
-public class TagDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
-
-    @BindView(R.id.tagET)
-    EditText tagET;
-
-    private TagCategory tagCategory;
+    private FragmentDialogDeleteTagWarningBinding mBinding;
     private MainViewModel mainViewModel;
-
-    public TagDialogFragment(TagCategory tagCategory) {
-        this.tagCategory = tagCategory;
-    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View customTitleView = LayoutInflater.from(getContext()).inflate(R.layout.add_tag_custom_title, null);
-        TextView customTitleTV = (TextView) customTitleView.findViewById(R.id.dialog_custom_title_TV);
-        customTitleTV.setText("New Tag");
+        View customTitleView = LayoutInflater.from(getContext()).inflate(R.layout.tag_custom_title, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setCustomTitle(customTitleView)
@@ -59,35 +46,37 @@ public class TagDialogFragment extends DialogFragment implements DialogInterface
                     }
                 });
 
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_dialog_add_tag, null);
-        ButterKnife.bind(this, view);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_dialog_delete_tag_warning, null);
         builder.setView(view);
         AlertDialog dialog = builder.create();
         dialog.setOnShowListener(this);
 
-
         return dialog;
     }
+
 
     @Override
     public void onShow(DialogInterface dialogInterface) {
         final AlertDialog dialog = (AlertDialog) getDialog();
         TextView customTitleTV = (TextView) dialog.findViewById(R.id.dialog_custom_title_TV);
-        customTitleTV.setTextColor(fetchThemeColor(R.attr.colorPrimaryDark));
+        customTitleTV.setTextColor(getResources().getColor(R.color.black));
+        customTitleTV.setText("Delete Tag");
 
         Button acceptButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
+        acceptButton.setTextColor(getResources().getColor(R.color.red));
         Button cancelButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
+        cancelButton.setTextColor(getResources().getColor(R.color.blue));
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tagET.getText().toString().isEmpty()) {
-                    dismiss();
-                } else {
-                    mainViewModel.insertTagMenuItem(new DrawerLayoutMenuItem(tagET.getText().toString(), 0, "tag_border_icon"));
-                    dismiss();
-                }
+                String image = getArguments().getString("menu_tag_image");
+                String name = getArguments().getString("menu_tag_name");
+                Integer id = Integer.valueOf(getArguments().getString("menu_tag_id"));
+                Integer size = Integer.valueOf(getArguments().getString("menu_tag_size"));
+                mainViewModel.deleteMenuItem(new DrawerLayoutMenuItem(id, name, size, image));
+                dismiss();
             }
         });
 

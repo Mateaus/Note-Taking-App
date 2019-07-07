@@ -4,9 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "menu_item")
+@Entity(tableName = "menu_item", indices = {@Index(value = {"menu_item_name"}, unique = true)})
 public class DrawerLayoutMenuItem {
 
     @PrimaryKey(autoGenerate = true)

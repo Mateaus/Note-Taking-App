@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 
 public class TagListViewHolder extends GroupViewHolder {
 
-    @BindView(R.id.tv_tag_category)
+    @BindView(R.id.tv_tag_name)
     TextView categoryTag;
 
     @BindView(R.id.b_tag_edit_category)
@@ -27,6 +27,7 @@ public class TagListViewHolder extends GroupViewHolder {
 
     public void setCategoryTag(ExpandableGroup group) {
         categoryTag.setText(group.getTitle());
+        categoryTagBtn.setText(group.getOption());
     }
 
     @Override

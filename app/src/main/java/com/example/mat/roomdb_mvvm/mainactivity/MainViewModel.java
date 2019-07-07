@@ -35,7 +35,6 @@ public class MainViewModel extends ColorViewModel {
         this.allMenuItems = mainRepository.getAllMenuItems();
         this.allTagMenuItems = mainRepository.getAllTagMenuItems();
         this.allNotesSize = mainRepository.getAllNotesSize();
-        this.allTagCategories = mainRepository.getAllTagCategories();
 
         allNoteSize = mainRepository.getAllNoteSize();
         allFavoriteNoteSize = mainRepository.getAllFavoriteNoteSize();
@@ -105,12 +104,12 @@ public class MainViewModel extends ColorViewModel {
         mainRepository.insertTagMenuItem(drawerLayoutMenuItem);
     }
 
-    public void updateTagCategory(TagCategory tagCategory) {
-        mainRepository.updateTagCategory(tagCategory);
-    }
-
     public void updateMenuItem(DrawerLayoutMenuItem drawerLayoutMenuItem) {
         mainRepository.updateMenuItem(drawerLayoutMenuItem);
+    }
+
+    public void deleteMenuItem(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+        mainRepository.deleteMenuItem(drawerLayoutMenuItem);
     }
 
     public LiveData<Integer> getAllNotesSize() {

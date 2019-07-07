@@ -1,44 +1,25 @@
 package com.example.mat.roomdb_mvvm.expandablerecyclerview.models;
 
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.example.mat.roomdb_mvvm.dataconverters.TagDataConverter;
-
 import java.util.List;
 
 public class ExpandableGroup<T> {
 
-    @PrimaryKey(autoGenerate = true)
-    private int id;
     private String title;
-
-    @TypeConverters(TagDataConverter.class)
+    private String option;
     private List<T> items;
 
-    @Ignore
-    public ExpandableGroup(String title, List<T> items) {
+    public ExpandableGroup(String title, String option, List<T> items) {
         this.title = title;
         this.items = items;
-    }
-
-    public ExpandableGroup(int id, String title, List<T> items) {
-        this.id = id;
-        this.title = title;
-        this.items = items;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.option = option;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public String getOption() {
+        return option;
     }
 
     public List<T> getItems() {
