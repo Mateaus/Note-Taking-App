@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -72,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
     @BindView(R.id.expandable_rv)
     RecyclerView expandableRv;
+
+    @BindView(R.id.note_container)
+    FrameLayout noteContainer;
 
     private FragmentManager fragmentManager;
     private MainViewModel mainViewModel;
