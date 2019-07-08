@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -60,7 +61,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         ButterKnife.bind(this, v);
         showBackButton(false);
 
-        eraseCurrentDatabase();
+        // eraseCurrentDatabase();
         setUpToolBar();
         setUpNoteAdapter();
         setUpRecyclerView();
