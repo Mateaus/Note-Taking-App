@@ -337,10 +337,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
     @Override
     public void onMenuDeleteClick(DrawerLayoutMenuItem drawerLayoutMenuItem, int position) {
-        /*mainViewModel.deleteMenuItem(drawerLayoutMenuItem);
-        expandableEditAdapter.removeAt(position);
-        expandableEditAdapter.notifyDataSetChanged();*/
-        TagCancelDialogFragment tagEditDialogFragment = new TagCancelDialogFragment();
+        TagDeleteDialogFragment tagEditDialogFragment = new TagDeleteDialogFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString("menu_tag_image", drawerLayoutMenuItem.getMenuItemImage());

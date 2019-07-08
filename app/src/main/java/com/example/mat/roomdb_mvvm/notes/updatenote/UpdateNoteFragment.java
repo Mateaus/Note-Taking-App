@@ -23,7 +23,6 @@ import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
 import com.example.mat.roomdb_mvvm.notes.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -79,10 +78,10 @@ public class UpdateNoteFragment extends Fragment {
             @Override
             public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
                 if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
-                    Collections.reverse(drawerLayoutMenuItems);
                     ArrayAdapter<DrawerLayoutMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerLayoutMenuItem>(getContext(), R.layout.spinner_item_text, drawerLayoutMenuItems);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     tagS.setAdapter(tagArrayAdapter);
+                    tagS.setSelection(findMenuItemPosition(drawerLayoutMenuItems, getArguments().getString("note_tag")));
                 }
             }
         });
@@ -90,6 +89,15 @@ public class UpdateNoteFragment extends Fragment {
         setupNote();
 
         return v;
+    }
+
+    private int findMenuItemPosition(List<DrawerLayoutMenuItem> drawerLayoutMenuItems, String tagName) {
+        for (int i = 0; i < drawerLayoutMenuItems.size(); i++) {
+            if (drawerLayoutMenuItems.get(i).getMenuItemName().equals(tagName)) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     @Override

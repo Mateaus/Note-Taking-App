@@ -20,8 +20,9 @@ import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.databinding.FragmentDialogDeleteTagWarningBinding;
 import com.example.mat.roomdb_mvvm.mainactivity.MainViewModel;
 import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.notes.note.ui.NoteListFragment;
 
-public class TagCancelDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
+public class TagDeleteDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
 
     private FragmentDialogDeleteTagWarningBinding mBinding;
     private MainViewModel mainViewModel;
@@ -76,6 +77,7 @@ public class TagCancelDialogFragment extends DialogFragment implements DialogInt
                 Integer id = Integer.valueOf(getArguments().getString("menu_tag_id"));
                 Integer size = Integer.valueOf(getArguments().getString("menu_tag_size"));
                 mainViewModel.deleteMenuItem(new DrawerLayoutMenuItem(id, name, size, image));
+                loadAllNotesFragment();
                 dismiss();
             }
         });
@@ -95,5 +97,17 @@ public class TagCancelDialogFragment extends DialogFragment implements DialogInt
         typedArray.recycle();
 
         return color;
+    }
+
+    private void loadAllNotesFragment() {
+        NoteListFragment noteListFragment = new NoteListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("menu_id", "1");
+        bundle.putString("menu_name", "All Notes");
+        bundle.putString("menu_icon", "note_icon");
+        noteListFragment.setArguments(bundle);
+
+        getFragmentManager().beginTransaction().add(R.id.note_container, noteListFragment).commit();
     }
 }
