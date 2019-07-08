@@ -83,8 +83,8 @@ public abstract class NoteDatabase extends RoomDatabase {
             /*
              * This populates the database when it's first initially out of box.
              */
-            Theme mainTheme = new Theme(R.style.BrownThemeOverlay, R.color.brown, R.color.darkbrown,
-                    R.color.lightbrown);
+            Theme mainTheme = new Theme(R.style.AppTheme, R.color.themePrimary, R.color.themePrimaryDark,
+                    R.color.themeAccent);
             themeDao.insert(mainTheme);
 
             for (int i = 0; i < populateThemeColors().size(); i++) {
@@ -115,9 +115,11 @@ public abstract class NoteDatabase extends RoomDatabase {
                     R.color.yellow, R.color.darkyellow, R.color.lightyellow);
             Color brown = new Color("Brown Theme", R.style.BrownThemeOverlay,
                     R.color.brown, R.color.darkbrown, R.color.lightbrown);
+            Color darkTheme = new Color("Dark Theme", R.style.AppTheme,
+                    R.color.themePrimary, R.color.themePrimaryDark, R.color.themeAccent);
 
             List<Color> colorList = new ArrayList<>(Arrays.asList(
-                    red, pink, purple, green, blue, blueGrey, indigo, orange, yellow, brown
+                    red, pink, purple, green, blue, blueGrey, indigo, orange, yellow, brown, darkTheme
             ));
 
             return colorList;

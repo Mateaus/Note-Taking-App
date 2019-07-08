@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5e8775dfdea98f78769baeaef387c5e1",
+    "identityHash": "98f2af5e33ec1edea4999e24186d8b5b",
     "entities": [
       {
         "tableName": "menu_item",
@@ -53,7 +53,7 @@
       },
       {
         "tableName": "note_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`note_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `note_favorite` INTEGER NOT NULL, `note_tag` TEXT, `ntitle` TEXT, `ndescription` TEXT, `ndate` TEXT, FOREIGN KEY(`note_tag`) REFERENCES `menu_item`(`menu_item_name`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`note_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `note_favorite` INTEGER NOT NULL, `note_tag` TEXT, `ntitle` TEXT, `ndescription` TEXT, `ndate` TEXT, FOREIGN KEY(`note_tag`) REFERENCES `menu_item`(`menu_item_name`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "noteId",
@@ -112,7 +112,7 @@
           {
             "table": "menu_item",
             "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
+            "onUpdate": "CASCADE",
             "columns": [
               "note_tag"
             ],
@@ -219,7 +219,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5e8775dfdea98f78769baeaef387c5e1\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"98f2af5e33ec1edea4999e24186d8b5b\")"
     ]
   }
 }

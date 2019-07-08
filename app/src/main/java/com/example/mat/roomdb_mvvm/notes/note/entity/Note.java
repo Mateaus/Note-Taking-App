@@ -12,7 +12,7 @@ import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "note_table", foreignKeys = {
-        @ForeignKey(onDelete = CASCADE, entity = DrawerLayoutMenuItem.class,
+        @ForeignKey(onDelete = CASCADE, onUpdate = CASCADE, entity = DrawerLayoutMenuItem.class,
                 parentColumns = "menu_item_name", childColumns = "note_tag")},
         indices = {
                 @Index("note_tag")
