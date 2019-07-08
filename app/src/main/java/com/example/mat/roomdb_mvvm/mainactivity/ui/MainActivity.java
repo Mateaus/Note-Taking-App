@@ -1,12 +1,15 @@
 package com.example.mat.roomdb_mvvm.mainactivity.ui;
 
 import android.app.ActivityManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -272,6 +275,8 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
             toolBarNavigationListenerIsRegistered = true;
         } else {
+            // TODO : Need to maybe modify this later
+            hideSoftKeyboard(getWindow().getDecorView().getRootView());
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             drawerToggle.setDrawerIndicatorEnabled(true);
@@ -366,5 +371,10 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         } else {
             expandableRv.setAdapter(expandableAdapter);
         }
+    }
+
+    private void hideSoftKeyboard(View view){
+        InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
