@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/lightbrown</item>
         <item name="colorPrimaryDark">@color/darkbrown</item>
-        <item name="colorAccent">@color/white</item>
+        <item name="colorAccent">@color/secondarybrown</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,9 +13,103 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="RedThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/darkred</item>
+        <item name="colorAccent">@color/secondaryred</item>
+    </style>
+
+    <style name="PinkThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/pink</item>
+        <item name="colorPrimaryDark">@color/darkpink</item>
+        <item name="colorAccent">@color/secondarypink</item>
+    </style>
+
+    <style name="PurpleThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryDark">@color/darkpurple</item>
+        <item name="colorAccent">@color/secondarypurple</item>
+    </style>
+
+    <style name="GreenThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/darkgreen</item>
+        <item name="colorAccent">@color/secondarygreen</item>
+    </style>
+
+    <style name="BlueThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/darkblue</item>
+        <item name="colorAccent">@color/secondaryblue</item>
+    </style>
+
+    <style name="BlueGreyThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/bluegrey</item>
+        <item name="colorPrimaryDark">@color/darkbluegrey</item>
+        <item name="colorAccent">@color/secondarybluegrey</item>
+    </style>
+
+    <style name="IndigoThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/indigo</item>
+        <item name="colorPrimaryDark">@color/darkindigo</item>
+        <item name="colorAccent">@color/secondaryindigo</item>
+    </style>
+
+    <style name="OrangeThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/darkorange</item>
+        <item name="colorAccent">@color/secondaryorange</item>
+    </style>
+
+    <style name="YellowThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/yellow</item>
+        <item name="colorPrimaryDark">@color/darkyellow</item>
+        <item name="colorAccent">@color/secondaryyellow</item>
+    </style>
+
+    <style name="BrownThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/brown</item>
+        <item name="colorPrimaryDark">@color/darkbrown</item>
+        <item name="colorAccent">@color/secondarybrown</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="FloatingActionButton" parent="ThemeOverlay.AppCompat.Light">
+
+    </style>
 
     <style name="EditTextThemeNote">
         <item name="colorControlNormal">@color/grey</item>
@@ -24,6 +118,7 @@
     </style>
 
     <style name="AppTheme.Launcher">
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 

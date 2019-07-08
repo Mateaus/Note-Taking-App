@@ -2,34 +2,40 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "53226e04f0d20148e862917fade959bd",
+    "identityHash": "e3421835558192a82577ac7a4dfb814c",
     "entities": [
       {
-        "tableName": "category_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`c_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `csubject` TEXT, `cdescription` TEXT)",
+        "tableName": "menu_item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`menu_item_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `menu_item_name` TEXT, `menu_item_size` INTEGER NOT NULL, `menu_item_image` TEXT)",
         "fields": [
           {
-            "fieldPath": "c_id",
-            "columnName": "c_id",
+            "fieldPath": "menuItemId",
+            "columnName": "menu_item_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "csubject",
-            "columnName": "csubject",
+            "fieldPath": "menuItemName",
+            "columnName": "menu_item_name",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "cdescription",
-            "columnName": "cdescription",
+            "fieldPath": "menuItemSize",
+            "columnName": "menu_item_size",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "menuItemImage",
+            "columnName": "menu_item_image",
             "affinity": "TEXT",
             "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "c_id"
+            "menu_item_id"
           ],
           "autoGenerate": true
         },
@@ -37,73 +43,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "note_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`n_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `c_id` INTEGER NOT NULL, `ntitle` TEXT, `ndescription` TEXT, `ndate` TEXT, FOREIGN KEY(`c_id`) REFERENCES `category_table`(`c_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
-        "fields": [
-          {
-            "fieldPath": "n_id",
-            "columnName": "n_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "c_id",
-            "columnName": "c_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "ntitle",
-            "columnName": "ntitle",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "ndescription",
-            "columnName": "ndescription",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "ndate",
-            "columnName": "ndate",
-            "affinity": "TEXT",
-            "notNull": false
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "n_id"
-          ],
-          "autoGenerate": true
-        },
-        "indices": [
-          {
-            "name": "index_note_table_c_id",
-            "unique": false,
-            "columnNames": [
-              "c_id"
-            ],
-            "createSql": "CREATE  INDEX `index_note_table_c_id` ON `${TABLE_NAME}` (`c_id`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "category_table",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "c_id"
-            ],
-            "referencedColumns": [
-              "c_id"
-            ]
-          }
-        ]
-      },
-      {
-        "tableName": "color_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `status_bar_color` INTEGER NOT NULL, `tool_bar_color` INTEGER NOT NULL, `tool_bar_title_color` INTEGER NOT NULL, `menu_icon_color` INTEGER NOT NULL, `card_color` INTEGER NOT NULL, `card_title_color` INTEGER NOT NULL, `card_description_color` INTEGER NOT NULL, `card_date_color` INTEGER NOT NULL, `body_background_color` INTEGER NOT NULL, `add_button_icon_color` INTEGER NOT NULL, `add_button_background_color` INTEGER NOT NULL)",
+        "tableName": "tag_category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `items` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -112,68 +53,158 @@
             "notNull": true
           },
           {
-            "fieldPath": "statusBarColor",
-            "columnName": "status_bar_color",
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "items",
+            "columnName": "items",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "note_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`note_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `note_favorite` INTEGER NOT NULL, `note_tag` TEXT, `ntitle` TEXT, `ndescription` TEXT, `ndate` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "noteId",
+            "columnName": "note_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "toolBarColor",
-            "columnName": "tool_bar_color",
+            "fieldPath": "noteFavorite",
+            "columnName": "note_favorite",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "toolBarTitleColor",
-            "columnName": "tool_bar_title_color",
+            "fieldPath": "noteTag",
+            "columnName": "note_tag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "noteTitle",
+            "columnName": "ntitle",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "noteDescription",
+            "columnName": "ndescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "noteDate",
+            "columnName": "ndate",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "note_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "color_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cname` TEXT, `cstyle` INTEGER NOT NULL, `cprimary` INTEGER NOT NULL, `cprimary_dark` INTEGER NOT NULL, `cprimary_light` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "menuIconColor",
-            "columnName": "menu_icon_color",
+            "fieldPath": "colorName",
+            "columnName": "cname",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "colorStyle",
+            "columnName": "cstyle",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "cardColor",
-            "columnName": "card_color",
+            "fieldPath": "primaryColor",
+            "columnName": "cprimary",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "cardTitleColor",
-            "columnName": "card_title_color",
+            "fieldPath": "primaryDarkColor",
+            "columnName": "cprimary_dark",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "cardDescriptionColor",
-            "columnName": "card_description_color",
+            "fieldPath": "primaryLightColor",
+            "columnName": "cprimary_light",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "theme_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tstyle` INTEGER NOT NULL, `tprimary` INTEGER NOT NULL, `tprimary_dark` INTEGER NOT NULL, `tprimary_light` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "cardDateColor",
-            "columnName": "card_date_color",
+            "fieldPath": "themeStyle",
+            "columnName": "tstyle",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "bodyBackgroundColor",
-            "columnName": "body_background_color",
+            "fieldPath": "primaryColor",
+            "columnName": "tprimary",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "addButtonIconColor",
-            "columnName": "add_button_icon_color",
+            "fieldPath": "primaryDarkColor",
+            "columnName": "tprimary_dark",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "addButtonBackgroundColor",
-            "columnName": "add_button_background_color",
+            "fieldPath": "primaryLightColor",
+            "columnName": "tprimary_light",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -190,7 +221,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"53226e04f0d20148e862917fade959bd\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e3421835558192a82577ac7a4dfb814c\")"
     ]
   }
 }
