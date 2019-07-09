@@ -10,24 +10,22 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Theme;
 import com.example.mat.roomdb_mvvm.color.ui.ColorFragment;
+import com.example.mat.roomdb_mvvm.databinding.ActivityMainBinding;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.roomdb_mvvm.mainactivity.MainViewModel;
 import com.example.mat.roomdb_mvvm.mainactivity.adapter.CategoryAdapter;
@@ -47,38 +45,13 @@ import com.example.mat.roomdb_mvvm.notes.addnote.AddNoteFragment;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 import com.example.mat.roomdb_mvvm.notes.note.ui.NoteListFragment;
 import com.example.mat.roomdb_mvvm.notes.updatenote.UpdateNoteFragment;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MainActivity extends AppCompatActivity implements StatusBarListener, OnTagClickListener,
         OnMenuItemClickListener, OnNewTagClickListener, OnTagCategoryEditClickListener {
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
-
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
-
-    @BindView(R.id.linearLayout)
-    LinearLayout linearLayout;
-
-    @BindView(R.id.single_rv)
-    RecyclerView singleRv;
-
-    @BindView(R.id.expandable_rv)
-    RecyclerView expandableRv;
-
-    @BindView(R.id.note_container)
-    FrameLayout noteContainer;
 
     private FragmentManager fragmentManager;
     private MainViewModel mainViewModel;
@@ -89,14 +62,15 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     private CategoryAdapter expandableAdapter;
     private CategoryEditAdapter expandableEditAdapter;
 
+    private ActivityMainBinding viewBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_NoActionBar);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(viewBinding.toolbar);
         setUpNavigationView();
         setBurgerToggle();
         setAdapter();
@@ -109,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
          * the fragments.
          */
         this.mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-
 
         this.mainViewModel.getMergedMenuLiveData().observe(this, new Observer<MergedMenu>() {
             @Override
@@ -124,12 +97,13 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             }
         });
 
-        this.mainViewModel.getTagMenus().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
+        this.mainViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
             @Override
             public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
                 if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
                     expandableAdapter.setTagList(drawerLayoutMenuItems);
                     expandableEditAdapter.setTagList(drawerLayoutMenuItems);
+
                     // Begins expanded keeps it expanded when changes happen
                     if (!expandableAdapter.isGroupExpanded(0)) {
                         expandableAdapter.toggleGroup(0);
@@ -148,16 +122,16 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                 if (theme != null) {
                     setUpStatusBar(getResources().getColor(theme.getPrimaryDarkColor()));
                     setTheme(theme.getThemeStyle());
-                    toolbar.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
-                    linearLayout.setBackgroundColor(getResources().getColor(theme.getPrimaryDarkColor()));
-                    navigationView.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
+                    viewBinding.toolbar.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
+                    viewBinding.activityMainNh.setBackgroundColor(getResources().getColor(theme.getPrimaryDarkColor()));
+                    viewBinding.activityMainNv.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
                     expandableAdapter.updateFooterButtonColor(theme.getPrimaryDarkColor());
                 }
             }
         });
 
         fragmentManager = getSupportFragmentManager();
-        Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.note_container);
+        Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.activity_main_fl);
 
         if (mainFragment == null) {
             NoteListFragment noteListFragment = new NoteListFragment();
@@ -168,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             bundle.putString("menu_icon", "note_icon");
             noteListFragment.setArguments(bundle);
 
-            fragmentManager.beginTransaction().add(R.id.note_container, noteListFragment).commit();
+            fragmentManager.beginTransaction().add(R.id.activity_main_fl, noteListFragment).commit();
         }
     }
 
@@ -184,150 +158,17 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         expandableAdapter.onRestoreInstanceState(savedInstanceState);
     }
 
-    public void loadNoteScreen(DrawerLayoutMenuItem drawerLayoutMenuItem) {
-        NoteListFragment noteListFragment = new NoteListFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("menu_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
-        bundle.putString("menu_name", drawerLayoutMenuItem.getMenuItemName());
-        bundle.putString("menu_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
-        bundle.putString("menu_icon", drawerLayoutMenuItem.getMenuItemImage());
-        noteListFragment.setArguments(bundle);
-
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.note_container, noteListFragment).commit();
-    }
-
-    public void loadAddNoteScreen(DrawerLayoutMenuItem drawerLayoutMenuItem) {
-        AddNoteFragment addNoteFragment = new AddNoteFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("menu_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
-        bundle.putString("menu_name", drawerLayoutMenuItem.getMenuItemName());
-        bundle.putString("menu_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
-        bundle.putString("menu_icon", drawerLayoutMenuItem.getMenuItemImage());
-        addNoteFragment.setArguments(bundle);
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.note_container, addNoteFragment).addToBackStack(null).commit();
-    }
-
-    public void loadUpdateNoteScreen(Note note) {
-        UpdateNoteFragment updateNoteFragment = new UpdateNoteFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("note_id", Integer.toString(note.getNoteId()));
-        bundle.putString("note_tag", note.getNoteTag());
-        bundle.putString("note_title", note.getNoteTitle());
-        bundle.putString("note_description", note.getNoteDescription());
-        updateNoteFragment.setArguments(bundle);
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.note_container, updateNoteFragment).addToBackStack(null).commit();
-    }
-
-    public void loadColorScreen() {
-        ColorFragment colorFragment = new ColorFragment();
-        fragmentManager.beginTransaction()
-                .replace(R.id.note_container, colorFragment).addToBackStack(null).commit();
-    }
-
-    /**
-     * setUpStatusBar will change the status bar color and the Task Description's
-     * icon and bar color.
-     * To ensure this feature works, it checks if the api version is 21(LOLLIPOP) or higher.
-     *
-     * @param colorId - color id coming from getResource().getColor(theme.getPrimaryDarkColor()).
-     *                where theme.getPrimaryDarkColor() returns a color from R.color.colorName.
-     */
-
-    @Override
-    public void setUpStatusBar(int colorId) {
-        // Checks if api level is higher than LOLLIPOP(api 21)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // Change the status bar color by the colorId passed.
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(colorId);
-
-            /*
-             * Changes the task description's icon to the transparent icon
-             * and the color based on colorId.
-             */
-            Bitmap bitmapIcon = BitmapFactory.decodeResource(getResources(), R.drawable.novus);
-            setTaskDescription(
-                    new ActivityManager.TaskDescription(null, bitmapIcon, colorId)
-            );
-        }
-    }
-
-    public void showBackButton(Boolean enable) {
-        if (enable) {
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-            drawerToggle.setDrawerIndicatorEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-            if (!toolBarNavigationListenerIsRegistered) {
-                drawerToggle.setToolbarNavigationClickListener(v -> onBackPressed());
-            }
-
-            toolBarNavigationListenerIsRegistered = true;
-        } else {
-            // TODO : Need to maybe modify this later
-            hideSoftKeyboard(getWindow().getDecorView().getRootView());
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            drawerToggle.setDrawerIndicatorEnabled(true);
-            drawerToggle.setToolbarNavigationClickListener(null);
-            toolBarNavigationListenerIsRegistered = false;
-            fragmentManager.popBackStack();
-        }
-    }
-
-    private void setUpNavigationView() {
-        navigationView.setItemIconTintList(null);
-    }
-
-    private void setBurgerToggle() {
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-    }
-
-    private void setAdapter() {
-        itemAdapter = new ItemAdapter(this);
-        expandableAdapter = new CategoryAdapter(
-                new ArrayList<TagCategory>(Arrays.asList(
-                        new TagCategory("Tags", "Edit", new ArrayList<Tag>()))
-                ), this, this, this);
-        expandableEditAdapter = new CategoryEditAdapter(
-                new ArrayList<TagEditCategory>(Arrays.asList(
-                        new TagEditCategory("Tags", "Return", new ArrayList<Tag>()))
-                ), this, this);
-    }
-
-    private void setRecyclerView() {
-        singleRv.setLayoutManager(new LinearLayoutManager(this));
-        singleRv.setAdapter(itemAdapter);
-        expandableRv.setLayoutManager(new LinearLayoutManager(this));
-        expandableRv.setAdapter(expandableAdapter);
-    }
-
     @Override
     public void onTagClick(DrawerLayoutMenuItem tag) {
         loadNoteScreen(tag);
-        drawerLayout.closeDrawer(GravityCompat.START);
+        viewBinding.activityMainActivityDl.closeDrawer(GravityCompat.START);
     }
 
     @Override
     public void onMenuItemClick(DrawerLayoutMenuItem drawerLayoutMenuItem) {
         itemAdapter.getMenuList();
         loadNoteScreen(drawerLayoutMenuItem);
-        drawerLayout.closeDrawer(GravityCompat.START);
+        viewBinding.activityMainActivityDl.closeDrawer(GravityCompat.START);
     }
 
     @Override
@@ -367,14 +208,146 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     @Override
     public void onTagEditClickListener(ExpandableGroup group) {
         if (group.getOption().equals("Edit")) {
-            expandableRv.setAdapter(expandableEditAdapter);
+            viewBinding.activityMainExpandableRv.setAdapter(expandableEditAdapter);
         } else {
-            expandableRv.setAdapter(expandableAdapter);
+            viewBinding.activityMainExpandableRv.setAdapter(expandableAdapter);
         }
     }
 
-    private void hideSoftKeyboard(View view){
-        InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    /**
+     * setUpStatusBar will change the status bar color and the Task Description's
+     * icon and bar color.
+     * To ensure this feature works, it checks if the api version is 21(LOLLIPOP) or higher.
+     *
+     * @param colorId - color id coming from getResource().getColor(theme.getPrimaryDarkColor()).
+     *                where theme.getPrimaryDarkColor() returns a color from R.color.colorName.
+     */
+
+    public void setUpStatusBar(int colorId) {
+        // Checks if api level is higher than LOLLIPOP(api 21)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Change the status bar color by the colorId passed.
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(colorId);
+
+            /*
+             * Changes the task description's icon to the transparent icon
+             * and the color based on colorId.
+             */
+            Bitmap bitmapIcon = BitmapFactory.decodeResource(getResources(), R.drawable.novus);
+            setTaskDescription(
+                    new ActivityManager.TaskDescription(null, bitmapIcon, colorId)
+            );
+        }
+    }
+
+    public void loadNoteScreen(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+        NoteListFragment noteListFragment = new NoteListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("menu_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
+        bundle.putString("menu_name", drawerLayoutMenuItem.getMenuItemName());
+        bundle.putString("menu_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
+        bundle.putString("menu_icon", drawerLayoutMenuItem.getMenuItemImage());
+        noteListFragment.setArguments(bundle);
+
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.activity_main_fl, noteListFragment).commit();
+    }
+
+    public void loadAddNoteScreen(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+        AddNoteFragment addNoteFragment = new AddNoteFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("menu_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
+        bundle.putString("menu_name", drawerLayoutMenuItem.getMenuItemName());
+        bundle.putString("menu_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
+        bundle.putString("menu_icon", drawerLayoutMenuItem.getMenuItemImage());
+        addNoteFragment.setArguments(bundle);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.activity_main_fl, addNoteFragment).addToBackStack(null).commit();
+    }
+
+    public void loadUpdateNoteScreen(Note note) {
+        UpdateNoteFragment updateNoteFragment = new UpdateNoteFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("note_id", Integer.toString(note.getNoteId()));
+        bundle.putString("note_tag", note.getNoteTag());
+        bundle.putString("note_title", note.getNoteTitle());
+        bundle.putString("note_description", note.getNoteDescription());
+        updateNoteFragment.setArguments(bundle);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.activity_main_fl, updateNoteFragment).addToBackStack(null).commit();
+    }
+
+    public void loadColorScreen() {
+        ColorFragment colorFragment = new ColorFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.activity_main_fl, colorFragment).addToBackStack(null).commit();
+    }
+
+    public void showBackButton(Boolean enable) {
+        if (enable) {
+            viewBinding.activityMainActivityDl.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            drawerToggle.setDrawerIndicatorEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            if (!toolBarNavigationListenerIsRegistered) {
+                drawerToggle.setToolbarNavigationClickListener(v -> onBackPressed());
+            }
+
+            toolBarNavigationListenerIsRegistered = true;
+        } else {
+            // TODO : Need to maybe modify this later
+            hideSoftKeyboard(getWindow().getDecorView().getRootView());
+            viewBinding.activityMainActivityDl.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            drawerToggle.setDrawerIndicatorEnabled(true);
+            drawerToggle.setToolbarNavigationClickListener(null);
+            toolBarNavigationListenerIsRegistered = false;
+            fragmentManager.popBackStack();
+        }
+    }
+
+    private void setUpNavigationView() {
+        viewBinding.activityMainNv.setItemIconTintList(null);
+    }
+
+    private void setBurgerToggle() {
+        drawerToggle = new ActionBarDrawerToggle(this, viewBinding.activityMainActivityDl, viewBinding.toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        viewBinding.activityMainActivityDl.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+    }
+
+    private void setAdapter() {
+        itemAdapter = new ItemAdapter(this);
+        expandableAdapter = new CategoryAdapter(
+                new ArrayList<TagCategory>(Arrays.asList(
+                        new TagCategory("Tags", "Edit", new ArrayList<Tag>()))
+                ), this, this, this);
+        expandableEditAdapter = new CategoryEditAdapter(
+                new ArrayList<TagEditCategory>(Arrays.asList(
+                        new TagEditCategory("Tags", "Return", new ArrayList<Tag>()))
+                ), this, this);
+    }
+
+    private void setRecyclerView() {
+        viewBinding.activityMainSingleRv.setLayoutManager(new LinearLayoutManager(this));
+        viewBinding.activityMainSingleRv.setAdapter(itemAdapter);
+        viewBinding.activityMainExpandableRv.setLayoutManager(new LinearLayoutManager(this));
+        viewBinding.activityMainExpandableRv.setAdapter(expandableAdapter);
+    }
+
+    private void hideSoftKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -108,6 +108,6 @@ public class TagDeleteDialogFragment extends DialogFragment implements DialogInt
         bundle.putString("menu_icon", "note_icon");
         noteListFragment.setArguments(bundle);
 
-        getFragmentManager().beginTransaction().add(R.id.note_container, noteListFragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.activity_main_fl, noteListFragment).commit();
     }
 }
