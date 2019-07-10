@@ -17,14 +17,12 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.databinding.FragmentDialogDeleteTagWarningBinding;
 import com.example.mat.roomdb_mvvm.mainactivity.MainViewModel;
 import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
 import com.example.mat.roomdb_mvvm.notes.note.ui.NoteListFragment;
 
 public class TagDeleteDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
 
-    private FragmentDialogDeleteTagWarningBinding mBinding;
     private MainViewModel mainViewModel;
 
     @NonNull
@@ -60,7 +58,7 @@ public class TagDeleteDialogFragment extends DialogFragment implements DialogInt
     public void onShow(DialogInterface dialogInterface) {
         final AlertDialog dialog = (AlertDialog) getDialog();
         TextView customTitleTV = (TextView) dialog.findViewById(R.id.dialog_custom_title_TV);
-        customTitleTV.setTextColor(getResources().getColor(R.color.black));
+        customTitleTV.setTextColor(fetchThemeColor(R.attr.colorPrimaryDark));
         customTitleTV.setText("Delete Tag");
 
         Button acceptButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
