@@ -1,9 +1,9 @@
 package com.example.mat.roomdb_mvvm.mainactivity.listener;
 
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 public interface OnMenuItemClickListener {
-    void onMenuItemClick(DrawerLayoutMenuItem drawerLayoutMenuItem);
-    void onMenuUpdateItemClick(DrawerLayoutMenuItem drawerLayoutMenuItem, int position);
-    void onMenuDeleteClick(DrawerLayoutMenuItem drawerLayoutMenuItem, int position);
+    void onMenuItemClick(DrawerMenuItem drawerMenuItem);
+    void onMenuUpdateItemClick(DrawerMenuItem drawerMenuItem, int position);
+    void onMenuDeleteClick(DrawerMenuItem drawerMenuItem, int position);
 }

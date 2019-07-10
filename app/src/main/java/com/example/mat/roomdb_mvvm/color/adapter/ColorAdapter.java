@@ -1,21 +1,19 @@
 package com.example.mat.roomdb_mvvm.color.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ListAdapter;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
-import com.example.mat.roomdb_mvvm.color.ui.OnColorClickListener;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.example.mat.roomdb_mvvm.color.listener.OnColorClickListener;
+import com.example.mat.roomdb_mvvm.databinding.ColorItemBinding;
 
 public class ColorAdapter extends ListAdapter<Color, ColorAdapter.ColorHolder> {
 
@@ -57,29 +55,22 @@ public class ColorAdapter extends ListAdapter<Color, ColorAdapter.ColorHolder> {
 
         String colorName = color.getColorName();
 
-        holder.colorTV.setText(colorName);
-        holder.colorIV.setBackgroundResource(color.getPrimaryColor());
+        holder.viewBinding.colorItemNameTv.setText(colorName);
+        holder.viewBinding.colorItemImageIv.setBackgroundResource(color.getPrimaryColor());
     }
 
     static class ColorHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.colorTV)
-        TextView colorTV;
-
-        @BindView(R.id.colorIV)
-        ImageView colorIV;
-
-        private View view;
+        private ColorItemBinding viewBinding;
 
         public ColorHolder(View itemView) {
             super(itemView);
-            this.view = itemView;
-            ButterKnife.bind(this, itemView);
+            viewBinding = DataBindingUtil.bind(itemView);
         }
 
         public void setClickListener(final Color color,
                                      final OnColorClickListener onColorClickListener) {
-            view.setOnClickListener(new View.OnClickListener() {
+            viewBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onColorClickListener.onItemClick(color);

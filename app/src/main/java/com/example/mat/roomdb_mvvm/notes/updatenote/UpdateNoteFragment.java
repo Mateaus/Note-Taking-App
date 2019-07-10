@@ -8,55 +8,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.databinding.FragmentAddUpdateNoteBinding;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
-import com.example.mat.roomdb_mvvm.notes.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class UpdateNoteFragment extends Fragment {
-    public static final String EXTRA_CID =
-            "com.example.mat.roomdb_mvvm.EXTRA_CID";
-
-    public static final String EXTRA_NID =
-            "com.example.mat.roomdb_mvvm.EXTRA_NID";
-
-    public static final String EXTRA_TITLE =
-            "com.example.mat.roomdb_mvvm.EXTRA_TITLE";
-
-    public static final String EXTRA_DESCRIPTION =
-            "com.example.mat.roomdb_mvvm.EXTRA_DESCRIPTION";
-
-    @BindView(R.id.titleET)
-    EditText titleET;
-
-    @BindView(R.id.descriptionET)
-    EditText descriptionET;
-
-    @BindView(R.id.tagS)
-    Spinner tagS;
 
     private UpdateNoteViewModel updateNoteViewModel;
-    private NoteViewModel noteViewModel;
+    private FragmentAddUpdateNoteBinding viewBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_add_note, container, false);
-        ButterKnife.bind(this, v);
+        viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_update_note, container, false);
         showBackButton(true);
 
         setUpToolBar();
@@ -74,26 +49,26 @@ public class UpdateNoteFragment extends Fragment {
             }
         });
 
-        this.updateNoteViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
+        this.updateNoteViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerMenuItem>>() {
             @Override
-            public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
-                if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
-                    ArrayAdapter<DrawerLayoutMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerLayoutMenuItem>(getContext(), R.layout.spinner_item_text, drawerLayoutMenuItems);
+            public void onChanged(List<DrawerMenuItem> drawerMenuItems) {
+                if (drawerMenuItems != null && drawerMenuItems.size() != 0) {
+                    ArrayAdapter<DrawerMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerMenuItem>(getContext(), R.layout.spinner_item_text, drawerMenuItems);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    tagS.setAdapter(tagArrayAdapter);
-                    tagS.setSelection(findMenuItemPosition(drawerLayoutMenuItems, getArguments().getString("note_tag")));
+                    viewBinding.fragmentAddNoteTagS.setAdapter(tagArrayAdapter);
+                    viewBinding.fragmentAddNoteTagS.setSelection(findMenuItemPosition(drawerMenuItems, getArguments().getString("note_tag")));
                 }
             }
         });
 
         setupNote();
 
-        return v;
+        return viewBinding.getRoot();
     }
 
-    private int findMenuItemPosition(List<DrawerLayoutMenuItem> drawerLayoutMenuItems, String tagName) {
-        for (int i = 0; i < drawerLayoutMenuItems.size(); i++) {
-            if (drawerLayoutMenuItems.get(i).getMenuItemName().equals(tagName)) {
+    private int findMenuItemPosition(List<DrawerMenuItem> drawerMenuItems, String tagName) {
+        for (int i = 0; i < drawerMenuItems.size(); i++) {
+            if (drawerMenuItems.get(i).getMenuItemName().equals(tagName)) {
                 return i;
             }
         }
@@ -128,8 +103,8 @@ public class UpdateNoteFragment extends Fragment {
         String noteTitle = getArguments().getString("note_title");
         String noteDescription = getArguments().getString("note_description");
 
-        titleET.setText(noteTitle);
-        descriptionET.setText(noteDescription);
+        viewBinding.fragmentAddNoteTitleEt.setText(noteTitle);
+        viewBinding.fragmentAddNoteDescriptionEt.setText(noteDescription);
     }
 
     private void updateNote() {
@@ -141,8 +116,9 @@ public class UpdateNoteFragment extends Fragment {
         Note oldNote = new Note(noteTag, noteTitle, noteDescription);
         oldNote.setNoteId(Integer.valueOf(noteId));
 
-        Note newNote = new Note(tagS.getSelectedItem().toString(),
-                titleET.getText().toString(), descriptionET.getText().toString());
+        Note newNote = new Note(viewBinding.fragmentAddNoteTagS.getSelectedItem().toString(),
+                viewBinding.fragmentAddNoteTitleEt.getText().toString(),
+                viewBinding.fragmentAddNoteDescriptionEt.getText().toString());
 
         this.updateNoteViewModel.updateNote(oldNote, newNote);
     }

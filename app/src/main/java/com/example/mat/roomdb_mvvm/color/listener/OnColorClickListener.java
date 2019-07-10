@@ -1,4 +1,4 @@
-package com.example.mat.roomdb_mvvm.color.ui;
+package com.example.mat.roomdb_mvvm.color.listener;
 
 import com.example.mat.roomdb_mvvm.color.entity.Color;
 

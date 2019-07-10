@@ -8,7 +8,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "menu_item", indices = {@Index(value = {"menu_item_name"}, unique = true)})
-public class DrawerLayoutMenuItem {
+public class DrawerMenuItem {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "menu_item_id")
@@ -24,13 +24,13 @@ public class DrawerLayoutMenuItem {
     private String menuItemImage;
 
     @Ignore
-    public DrawerLayoutMenuItem(String menuItemName, int menuItemSize, String menuItemImage) {
+    public DrawerMenuItem(String menuItemName, int menuItemSize, String menuItemImage) {
         this.menuItemName = menuItemName;
         this.menuItemSize = menuItemSize;
         this.menuItemImage = menuItemImage;
     }
 
-    public DrawerLayoutMenuItem(int menuItemId, String menuItemName, int menuItemSize, String menuItemImage) {
+    public DrawerMenuItem(int menuItemId, String menuItemName, int menuItemSize, String menuItemImage) {
         this.menuItemId = menuItemId;
         this.menuItemName = menuItemName;
         this.menuItemSize = menuItemSize;

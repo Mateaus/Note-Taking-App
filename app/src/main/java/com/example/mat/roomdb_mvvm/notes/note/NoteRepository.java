@@ -12,6 +12,7 @@ import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 import java.util.List;
 
 public class NoteRepository {
+
     private NoteDao noteDao;
 
     public NoteRepository(Application application) {

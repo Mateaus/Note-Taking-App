@@ -7,12 +7,12 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "note_table", foreignKeys = {
-        @ForeignKey(onDelete = CASCADE, onUpdate = CASCADE, entity = DrawerLayoutMenuItem.class,
+        @ForeignKey(onDelete = CASCADE, onUpdate = CASCADE, entity = DrawerMenuItem.class,
                 parentColumns = "menu_item_name", childColumns = "note_tag")},
         indices = {
                 @Index("note_tag")
