@@ -18,7 +18,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
 import com.example.mat.roomdb_mvvm.notes.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
@@ -74,14 +74,14 @@ public class UpdateNoteFragment extends Fragment {
             }
         });
 
-        this.updateNoteViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
+        this.updateNoteViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerMenuItem>>() {
             @Override
-            public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
-                if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
-                    ArrayAdapter<DrawerLayoutMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerLayoutMenuItem>(getContext(), R.layout.spinner_item_text, drawerLayoutMenuItems);
+            public void onChanged(List<DrawerMenuItem> drawerMenuItems) {
+                if (drawerMenuItems != null && drawerMenuItems.size() != 0) {
+                    ArrayAdapter<DrawerMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerMenuItem>(getContext(), R.layout.spinner_item_text, drawerMenuItems);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     tagS.setAdapter(tagArrayAdapter);
-                    tagS.setSelection(findMenuItemPosition(drawerLayoutMenuItems, getArguments().getString("note_tag")));
+                    tagS.setSelection(findMenuItemPosition(drawerMenuItems, getArguments().getString("note_tag")));
                 }
             }
         });
@@ -91,9 +91,9 @@ public class UpdateNoteFragment extends Fragment {
         return v;
     }
 
-    private int findMenuItemPosition(List<DrawerLayoutMenuItem> drawerLayoutMenuItems, String tagName) {
-        for (int i = 0; i < drawerLayoutMenuItems.size(); i++) {
-            if (drawerLayoutMenuItems.get(i).getMenuItemName().equals(tagName)) {
+    private int findMenuItemPosition(List<DrawerMenuItem> drawerMenuItems, String tagName) {
+        for (int i = 0; i < drawerMenuItems.size(); i++) {
+            if (drawerMenuItems.get(i).getMenuItemName().equals(tagName)) {
                 return i;
             }
         }

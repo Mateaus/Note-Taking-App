@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.databinding.FragmentDialogAddUpdateTagBinding;
 import com.example.mat.roomdb_mvvm.mainactivity.MainViewModel;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 import static com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity.ADD_TAG;
 import static com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity.EDIT_TAG;
@@ -84,7 +84,7 @@ public class TagAddUpdateDialogFragment extends DialogFragment implements Dialog
                 } else {
                     if (getTag().equals(ADD_TAG)) {
                         mainViewModel.insertTagMenuItem(
-                                new DrawerLayoutMenuItem(viewBinding.dialogAddUpdateFragmentEt.getText().toString(),
+                                new DrawerMenuItem(viewBinding.dialogAddUpdateFragmentEt.getText().toString(),
                                         0, "tag_border_icon"));
 
                     } else if (getTag().equals(EDIT_TAG)) {
@@ -95,7 +95,7 @@ public class TagAddUpdateDialogFragment extends DialogFragment implements Dialog
                         if (viewBinding.dialogAddUpdateFragmentEt.getText().toString().equals(name)) {
                             dismiss();
                         } else {
-                            mainViewModel.updateMenuItem(new DrawerLayoutMenuItem(id,
+                            mainViewModel.updateMenuItem(new DrawerMenuItem(id,
                                     viewBinding.dialogAddUpdateFragmentEt.getText().toString(), size, image));
                         }
                     }

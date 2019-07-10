@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.mainactivity.MainViewModel;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.notes.note.ui.NoteListFragment;
 
 public class TagDeleteDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
@@ -74,7 +74,7 @@ public class TagDeleteDialogFragment extends DialogFragment implements DialogInt
                 String name = getArguments().getString("menu_tag_name");
                 Integer id = Integer.valueOf(getArguments().getString("menu_tag_id"));
                 Integer size = Integer.valueOf(getArguments().getString("menu_tag_size"));
-                mainViewModel.deleteMenuItem(new DrawerLayoutMenuItem(id, name, size, image));
+                mainViewModel.deleteMenuItem(new DrawerMenuItem(id, name, size, image));
                 loadAllNotesFragment();
                 dismiss();
             }

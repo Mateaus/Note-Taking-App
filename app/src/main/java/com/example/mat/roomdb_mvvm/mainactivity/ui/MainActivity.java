@@ -39,7 +39,7 @@ import com.example.mat.roomdb_mvvm.mainactivity.listener.OnNewTagClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagCategoryEditClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.StatusBarListener;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.model.MergedMenu;
 import com.example.mat.roomdb_mvvm.notes.addnote.AddNoteFragment;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
@@ -101,12 +101,12 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             }
         });
 
-        this.mainViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
+        this.mainViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerMenuItem>>() {
             @Override
-            public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
-                if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
-                    expandableAdapter.setTagList(drawerLayoutMenuItems);
-                    expandableEditAdapter.setTagList(drawerLayoutMenuItems);
+            public void onChanged(List<DrawerMenuItem> drawerMenuItems) {
+                if (drawerMenuItems != null && drawerMenuItems.size() != 0) {
+                    expandableAdapter.setTagList(drawerMenuItems);
+                    expandableEditAdapter.setTagList(drawerMenuItems);
 
                     // Begins expanded keeps it expanded when changes happen
                     if (!expandableAdapter.isGroupExpanded(0)) {
@@ -163,15 +163,15 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     @Override
-    public void onTagClick(DrawerLayoutMenuItem tag) {
+    public void onTagClick(DrawerMenuItem tag) {
         loadNoteScreen(tag);
         viewBinding.activityMainActivityDl.closeDrawer(GravityCompat.START);
     }
 
     @Override
-    public void onMenuItemClick(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+    public void onMenuItemClick(DrawerMenuItem drawerMenuItem) {
         itemAdapter.getMenuList();
-        loadNoteScreen(drawerLayoutMenuItem);
+        loadNoteScreen(drawerMenuItem);
         viewBinding.activityMainActivityDl.closeDrawer(GravityCompat.START);
     }
 
@@ -182,28 +182,28 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     @Override
-    public void onMenuUpdateItemClick(DrawerLayoutMenuItem drawerLayoutMenuItem, int position) {
+    public void onMenuUpdateItemClick(DrawerMenuItem drawerMenuItem, int position) {
         TagAddUpdateDialogFragment tagAddUpdateDialogFragment = new TagAddUpdateDialogFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("menu_tag_image", drawerLayoutMenuItem.getMenuItemImage());
-        bundle.putString("menu_tag_name", drawerLayoutMenuItem.getMenuItemName());
-        bundle.putString("menu_tag_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
-        bundle.putString("menu_tag_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
+        bundle.putString("menu_tag_image", drawerMenuItem.getMenuItemImage());
+        bundle.putString("menu_tag_name", drawerMenuItem.getMenuItemName());
+        bundle.putString("menu_tag_id", String.valueOf(drawerMenuItem.getMenuItemId()));
+        bundle.putString("menu_tag_size", String.valueOf(drawerMenuItem.getMenuItemSize()));
         tagAddUpdateDialogFragment.setArguments(bundle);
 
         tagAddUpdateDialogFragment.show(getSupportFragmentManager(), EDIT_TAG);
     }
 
     @Override
-    public void onMenuDeleteClick(DrawerLayoutMenuItem drawerLayoutMenuItem, int position) {
+    public void onMenuDeleteClick(DrawerMenuItem drawerMenuItem, int position) {
         TagDeleteDialogFragment tagEditDialogFragment = new TagDeleteDialogFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("menu_tag_image", drawerLayoutMenuItem.getMenuItemImage());
-        bundle.putString("menu_tag_name", drawerLayoutMenuItem.getMenuItemName());
-        bundle.putString("menu_tag_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
-        bundle.putString("menu_tag_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
+        bundle.putString("menu_tag_image", drawerMenuItem.getMenuItemImage());
+        bundle.putString("menu_tag_name", drawerMenuItem.getMenuItemName());
+        bundle.putString("menu_tag_id", String.valueOf(drawerMenuItem.getMenuItemId()));
+        bundle.putString("menu_tag_size", String.valueOf(drawerMenuItem.getMenuItemSize()));
         tagEditDialogFragment.setArguments(bundle);
 
         tagEditDialogFragment.show(getSupportFragmentManager(), DELETE_TAG);
@@ -247,14 +247,14 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         }
     }
 
-    public void loadNoteScreen(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+    public void loadNoteScreen(DrawerMenuItem drawerMenuItem) {
         NoteListFragment noteListFragment = new NoteListFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("menu_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
-        bundle.putString("menu_name", drawerLayoutMenuItem.getMenuItemName());
-        bundle.putString("menu_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
-        bundle.putString("menu_icon", drawerLayoutMenuItem.getMenuItemImage());
+        bundle.putString("menu_id", String.valueOf(drawerMenuItem.getMenuItemId()));
+        bundle.putString("menu_name", drawerMenuItem.getMenuItemName());
+        bundle.putString("menu_size", String.valueOf(drawerMenuItem.getMenuItemSize()));
+        bundle.putString("menu_icon", drawerMenuItem.getMenuItemImage());
         noteListFragment.setArguments(bundle);
 
 
@@ -262,14 +262,14 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                 .replace(R.id.activity_main_fl, noteListFragment).commit();
     }
 
-    public void loadAddNoteScreen(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+    public void loadAddNoteScreen(DrawerMenuItem drawerMenuItem) {
         AddNoteFragment addNoteFragment = new AddNoteFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("menu_id", String.valueOf(drawerLayoutMenuItem.getMenuItemId()));
-        bundle.putString("menu_name", drawerLayoutMenuItem.getMenuItemName());
-        bundle.putString("menu_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
-        bundle.putString("menu_icon", drawerLayoutMenuItem.getMenuItemImage());
+        bundle.putString("menu_id", String.valueOf(drawerMenuItem.getMenuItemId()));
+        bundle.putString("menu_name", drawerMenuItem.getMenuItemName());
+        bundle.putString("menu_size", String.valueOf(drawerMenuItem.getMenuItemSize()));
+        bundle.putString("menu_icon", drawerMenuItem.getMenuItemImage());
         addNoteFragment.setArguments(bundle);
 
         fragmentManager.beginTransaction()

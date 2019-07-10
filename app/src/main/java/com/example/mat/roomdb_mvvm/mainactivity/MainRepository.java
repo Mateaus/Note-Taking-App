@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer;
 import com.example.mat.roomdb_mvvm.database.MenuItemDao;
 import com.example.mat.roomdb_mvvm.database.NoteDao;
 import com.example.mat.roomdb_mvvm.database.NoteDatabase;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.model.MergedMenu;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class MainRepository {
 
     private MenuItemDao menuItemDao;
     private NoteDao noteDao;
-    private LiveData<List<DrawerLayoutMenuItem>> allMenuItems;
+    private LiveData<List<DrawerMenuItem>> allMenuItems;
 
     private MergedMenu mergedMenu = new MergedMenu();
 
@@ -30,35 +30,35 @@ public class MainRepository {
         allMenuItems = menuItemDao.getMenuItems();
     }
 
-    public LiveData<DrawerLayoutMenuItem> getMenuOne() {
+    public LiveData<DrawerMenuItem> getMenuOne() {
         return noteDao.getMenuOne();
     }
 
-    public LiveData<DrawerLayoutMenuItem> getMenuTwo() {
+    public LiveData<DrawerMenuItem> getMenuTwo() {
         return noteDao.getMenuTwo();
     }
 
     private MediatorLiveData<MergedMenu> getMergeData() {
         MediatorLiveData<MergedMenu> mergedMenuMediatorLiveData = new MediatorLiveData<>();
-        mergedMenuMediatorLiveData.addSource(getMenuOne(), new Observer<DrawerLayoutMenuItem>() {
+        mergedMenuMediatorLiveData.addSource(getMenuOne(), new Observer<DrawerMenuItem>() {
             @Override
-            public void onChanged(DrawerLayoutMenuItem drawerLayoutMenuItem) {
-                mergedMenu.setMenuOne(drawerLayoutMenuItem);
+            public void onChanged(DrawerMenuItem drawerMenuItem) {
+                mergedMenu.setMenuOne(drawerMenuItem);
                 mergedMenuMediatorLiveData.setValue(mergedMenu);
             }
         });
 
-        mergedMenuMediatorLiveData.addSource(getMenuTwo(), new Observer<DrawerLayoutMenuItem>() {
+        mergedMenuMediatorLiveData.addSource(getMenuTwo(), new Observer<DrawerMenuItem>() {
             @Override
-            public void onChanged(DrawerLayoutMenuItem drawerLayoutMenuItem) {
-                mergedMenu.setMenuTwo(drawerLayoutMenuItem);
+            public void onChanged(DrawerMenuItem drawerMenuItem) {
+                mergedMenu.setMenuTwo(drawerMenuItem);
                 mergedMenuMediatorLiveData.setValue(mergedMenu);
             }
         });
         return mergedMenuMediatorLiveData;
     }
 
-    public LiveData<List<DrawerLayoutMenuItem>> getAllTagMenuItems() {
+    public LiveData<List<DrawerMenuItem>> getAllTagMenuItems() {
         return noteDao.getTagMenus();
     }
 
@@ -66,19 +66,19 @@ public class MainRepository {
         return getMergeData();
     }
 
-    public void insertTagMenuItem(DrawerLayoutMenuItem drawerLayoutMenuItem) {
-        new InsertMenuItem(menuItemDao).execute(drawerLayoutMenuItem);
+    public void insertTagMenuItem(DrawerMenuItem drawerMenuItem) {
+        new InsertMenuItem(menuItemDao).execute(drawerMenuItem);
     }
 
-    public void updateMenuItem(DrawerLayoutMenuItem drawerLayoutMenuItem) {
-        new UpdateMenuItem(menuItemDao).execute(drawerLayoutMenuItem);
+    public void updateMenuItem(DrawerMenuItem drawerMenuItem) {
+        new UpdateMenuItem(menuItemDao).execute(drawerMenuItem);
     }
 
-    public void deleteMenuItem(DrawerLayoutMenuItem drawerLayoutMenuItem) {
-        new DeleteMenuItem(menuItemDao).execute(drawerLayoutMenuItem);
+    public void deleteMenuItem(DrawerMenuItem drawerMenuItem) {
+        new DeleteMenuItem(menuItemDao).execute(drawerMenuItem);
     }
 
-    public static class InsertMenuItem extends AsyncTask<DrawerLayoutMenuItem, Void, Void> {
+    public static class InsertMenuItem extends AsyncTask<DrawerMenuItem, Void, Void> {
 
         private MenuItemDao menuItemDao;
 
@@ -87,13 +87,13 @@ public class MainRepository {
         }
 
         @Override
-        protected Void doInBackground(DrawerLayoutMenuItem... drawerLayoutMenuItems) {
-            this.menuItemDao.insert(drawerLayoutMenuItems[0]);
+        protected Void doInBackground(DrawerMenuItem... drawerMenuItems) {
+            this.menuItemDao.insert(drawerMenuItems[0]);
             return null;
         }
     }
 
-    public static class UpdateMenuItem extends AsyncTask<DrawerLayoutMenuItem, Void, Void> {
+    public static class UpdateMenuItem extends AsyncTask<DrawerMenuItem, Void, Void> {
 
         private MenuItemDao menuItemDao;
 
@@ -102,13 +102,13 @@ public class MainRepository {
         }
 
         @Override
-        protected Void doInBackground(DrawerLayoutMenuItem... drawerLayoutMenuItems) {
-            this.menuItemDao.update(drawerLayoutMenuItems[0]);
+        protected Void doInBackground(DrawerMenuItem... drawerMenuItems) {
+            this.menuItemDao.update(drawerMenuItems[0]);
             return null;
         }
     }
 
-    public static class DeleteMenuItem extends AsyncTask<DrawerLayoutMenuItem, Void, Void> {
+    public static class DeleteMenuItem extends AsyncTask<DrawerMenuItem, Void, Void> {
 
         private MenuItemDao menuItemDao;
 
@@ -117,8 +117,8 @@ public class MainRepository {
         }
 
         @Override
-        protected Void doInBackground(DrawerLayoutMenuItem... drawerLayoutMenuItems) {
-            this.menuItemDao.delete(drawerLayoutMenuItems[0]);
+        protected Void doInBackground(DrawerMenuItem... drawerMenuItems) {
+            this.menuItemDao.delete(drawerMenuItems[0]);
             return null;
         }
     }

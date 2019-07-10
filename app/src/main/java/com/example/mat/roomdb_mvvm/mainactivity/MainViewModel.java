@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.mat.roomdb_mvvm.color.ColorViewModel;
 import com.example.mat.roomdb_mvvm.color.entity.Theme;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.model.MergedMenu;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class MainViewModel extends ColorViewModel {
 
     private MainRepository mainRepository;
     private LiveData<MergedMenu> mergedMenu;
-    private LiveData<List<DrawerLayoutMenuItem>> allTagMenuItems;
+    private LiveData<List<DrawerMenuItem>> allTagMenuItems;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
@@ -34,20 +34,20 @@ public class MainViewModel extends ColorViewModel {
         return mergedMenu;
     }
 
-    public LiveData<List<DrawerLayoutMenuItem>> getAllTagMenuItems() {
+    public LiveData<List<DrawerMenuItem>> getAllTagMenuItems() {
         return allTagMenuItems;
     }
 
-    public void insertTagMenuItem(DrawerLayoutMenuItem drawerLayoutMenuItem) {
-        mainRepository.insertTagMenuItem(drawerLayoutMenuItem);
+    public void insertTagMenuItem(DrawerMenuItem drawerMenuItem) {
+        mainRepository.insertTagMenuItem(drawerMenuItem);
     }
 
-    public void updateMenuItem(DrawerLayoutMenuItem drawerLayoutMenuItem) {
-        mainRepository.updateMenuItem(drawerLayoutMenuItem);
+    public void updateMenuItem(DrawerMenuItem drawerMenuItem) {
+        mainRepository.updateMenuItem(drawerMenuItem);
     }
 
-    public void deleteMenuItem(DrawerLayoutMenuItem drawerLayoutMenuItem) {
-        mainRepository.deleteMenuItem(drawerLayoutMenuItem);
+    public void deleteMenuItem(DrawerMenuItem drawerMenuItem) {
+        mainRepository.deleteMenuItem(drawerMenuItem);
     }
 }
 

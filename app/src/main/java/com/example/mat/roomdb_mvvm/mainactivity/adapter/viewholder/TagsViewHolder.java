@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.viewholders.ChildViewHolder;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagClickListener;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +32,7 @@ public class TagsViewHolder extends ChildViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void bind(DrawerLayoutMenuItem tag) {
+    public void bind(DrawerMenuItem tag) {
         mTagTextView.setText(tag.getMenuItemName());
         mTagSizeTextView.setText(String.valueOf(tag.getMenuItemSize()));
 
@@ -42,12 +42,12 @@ public class TagsViewHolder extends ChildViewHolder {
         mTagIconImageView.setImageResource(menuIcon);
     }
 
-    public void onTagClickListener(final DrawerLayoutMenuItem drawerLayoutMenuItem,
+    public void onTagClickListener(final DrawerMenuItem drawerMenuItem,
                                    final OnTagClickListener onTagClickListener) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onTagClickListener.onTagClick(drawerLayoutMenuItem);
+                onTagClickListener.onTagClick(drawerMenuItem);
             }
         });
     }

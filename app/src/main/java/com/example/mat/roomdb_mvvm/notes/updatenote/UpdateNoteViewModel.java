@@ -8,8 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.mainactivity.MainRepository;
-import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.notes.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 
@@ -49,7 +48,7 @@ public class UpdateNoteViewModel extends NoteViewModel {
     }
 
 
-    public LiveData<List<DrawerLayoutMenuItem>> getAllTagMenuItems() {
+    public LiveData<List<DrawerMenuItem>> getAllTagMenuItems() {
         return mainRepository.getAllTagMenuItems();
     }
 }

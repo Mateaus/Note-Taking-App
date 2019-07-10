@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -23,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.ColorViewModel;
 import com.example.mat.roomdb_mvvm.color.entity.Theme;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
 import com.example.mat.roomdb_mvvm.notes.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.notes.note.adapter.NoteAdapter;
@@ -129,10 +128,10 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
             menuNoteSize = Integer.valueOf(getArguments().getString("menu_size"));
         }
 
-        DrawerLayoutMenuItem drawerLayoutMenuItem = new DrawerLayoutMenuItem(menuId, menuName, menuNoteSize, menuIcon);
+        DrawerMenuItem drawerMenuItem = new DrawerMenuItem(menuId, menuName, menuNoteSize, menuIcon);
 
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.loadAddNoteScreen(drawerLayoutMenuItem);
+        mainActivity.loadAddNoteScreen(drawerMenuItem);
     }
 
     @Override

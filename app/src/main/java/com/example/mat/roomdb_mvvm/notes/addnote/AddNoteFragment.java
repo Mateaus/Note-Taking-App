@@ -4,8 +4,6 @@ package com.example.mat.roomdb_mvvm.notes.addnote;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,13 +14,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
@@ -73,12 +70,12 @@ public class AddNoteFragment extends Fragment {
             }
         });
 
-        this.addNoteViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerLayoutMenuItem>>() {
+        this.addNoteViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerMenuItem>>() {
             @Override
-            public void onChanged(List<DrawerLayoutMenuItem> drawerLayoutMenuItems) {
-                if (drawerLayoutMenuItems != null && drawerLayoutMenuItems.size() != 0) {
-                    Collections.reverse(drawerLayoutMenuItems);
-                    ArrayAdapter<DrawerLayoutMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerLayoutMenuItem>(getContext(), R.layout.spinner_item_text, drawerLayoutMenuItems);
+            public void onChanged(List<DrawerMenuItem> drawerMenuItems) {
+                if (drawerMenuItems != null && drawerMenuItems.size() != 0) {
+                    Collections.reverse(drawerMenuItems);
+                    ArrayAdapter<DrawerMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerMenuItem>(getContext(), R.layout.spinner_item_text, drawerMenuItems);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     tagS.setAdapter(tagArrayAdapter);
                 }
@@ -106,7 +103,7 @@ public class AddNoteFragment extends Fragment {
                 int menuSize = Integer.valueOf(getArguments().getString("menu_size"));
                 String menuIcon = getArguments().getString("menu_icon");
 
-                addNote(new DrawerLayoutMenuItem(menuId, menuName, menuSize, menuIcon));
+                addNote(new DrawerMenuItem(menuId, menuName, menuSize, menuIcon));
                 return true;
             default:
                 getFragmentManager().popBackStack();
@@ -119,9 +116,9 @@ public class AddNoteFragment extends Fragment {
         getActivity().setTitle(R.string.note_add);
     }
 
-    private void addNote(DrawerLayoutMenuItem drawerLayoutMenuItem) {
+    private void addNote(DrawerMenuItem drawerMenuItem) {
         this.addNoteViewModel.addNote(new Note(tagS.getSelectedItem().toString(),
-                titleET.getText().toString(), descriptionET.getText().toString()), drawerLayoutMenuItem);
+                titleET.getText().toString(), descriptionET.getText().toString()), drawerMenuItem);
     }
 
     private void showBackButton(Boolean enable) {

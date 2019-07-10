@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnMenuItemClickListener;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItemAdapter extends ListAdapter<DrawerLayoutMenuItem, ItemAdapter.ItemViewHolder> {
+public class ItemAdapter extends ListAdapter<DrawerMenuItem, ItemAdapter.ItemViewHolder> {
 
     private OnMenuItemClickListener onMenuItemClickListener;
 
@@ -31,14 +31,14 @@ public class ItemAdapter extends ListAdapter<DrawerLayoutMenuItem, ItemAdapter.I
         this.onMenuItemClickListener = onMenuItemClickListener;
     }
 
-    public static final DiffUtil.ItemCallback<DrawerLayoutMenuItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<DrawerLayoutMenuItem>() {
+    public static final DiffUtil.ItemCallback<DrawerMenuItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<DrawerMenuItem>() {
         @Override
-        public boolean areItemsTheSame(@NonNull DrawerLayoutMenuItem oldItem, @NonNull DrawerLayoutMenuItem newItem) {
+        public boolean areItemsTheSame(@NonNull DrawerMenuItem oldItem, @NonNull DrawerMenuItem newItem) {
             return oldItem.getMenuItemId() == newItem.getMenuItemId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull DrawerLayoutMenuItem oldItem, @NonNull DrawerLayoutMenuItem newItem) {
+        public boolean areContentsTheSame(@NonNull DrawerMenuItem oldItem, @NonNull DrawerMenuItem newItem) {
             return oldItem.getMenuItemName().equals(newItem.getMenuItemName()) &&
                     oldItem.getMenuItemSize() == newItem.getMenuItemSize();
         }
@@ -54,12 +54,12 @@ public class ItemAdapter extends ListAdapter<DrawerLayoutMenuItem, ItemAdapter.I
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        DrawerLayoutMenuItem drawerLayoutMenuItem = getItem(position);
-        holder.onItemClickListener(drawerLayoutMenuItem, onMenuItemClickListener);
+        DrawerMenuItem drawerMenuItem = getItem(position);
+        holder.onItemClickListener(drawerMenuItem, onMenuItemClickListener);
 
-        String menuItemName = drawerLayoutMenuItem.getMenuItemName();
-        int menuItemSize = drawerLayoutMenuItem.getMenuItemSize();
-        String menuIconName = drawerLayoutMenuItem.getMenuItemImage();
+        String menuItemName = drawerMenuItem.getMenuItemName();
+        int menuItemSize = drawerMenuItem.getMenuItemSize();
+        String menuIconName = drawerMenuItem.getMenuItemImage();
 
         Resources resources = holder.view.getResources();
         Integer menuIcon = resources.getIdentifier(menuIconName, "drawable",
@@ -70,12 +70,12 @@ public class ItemAdapter extends ListAdapter<DrawerLayoutMenuItem, ItemAdapter.I
         holder.menuIconIV.setImageResource(menuIcon);
     }
 
-    public DrawerLayoutMenuItem getMenuItem(int position) {
+    public DrawerMenuItem getMenuItem(int position) {
         return getItem(position);
     }
 
-    public List<DrawerLayoutMenuItem> getMenuList() {
-        List<DrawerLayoutMenuItem> layoutMenuItems = new ArrayList<>(getItemCount());
+    public List<DrawerMenuItem> getMenuList() {
+        List<DrawerMenuItem> layoutMenuItems = new ArrayList<>(getItemCount());
 
         for(int i = 0; i < getItemCount(); i++) {
             layoutMenuItems.add(getItem(i));
@@ -103,12 +103,12 @@ public class ItemAdapter extends ListAdapter<DrawerLayoutMenuItem, ItemAdapter.I
             this.view = itemView;
         }
 
-        public void onItemClickListener(final DrawerLayoutMenuItem drawerLayoutMenuItem,
+        public void onItemClickListener(final DrawerMenuItem drawerMenuItem,
                                         final OnMenuItemClickListener onMenuItemClickListener) {
             this.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onMenuItemClickListener.onMenuItemClick(drawerLayoutMenuItem);
+                    onMenuItemClickListener.onMenuItemClick(drawerMenuItem);
                 }
             });
         }

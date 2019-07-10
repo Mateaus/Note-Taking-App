@@ -15,7 +15,7 @@ import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnNewTagClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagCategoryEditClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagClickListener;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 import java.util.List;
 
@@ -62,7 +62,7 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
         int viewType = getItemViewType(flatPosition);
         switch (viewType) {
             case TAG_VIEW_TYPE:
-                final DrawerLayoutMenuItem tag = ((TagCategory) group).getItems().get(childIndex);
+                final DrawerMenuItem tag = ((TagCategory) group).getItems().get(childIndex);
                 ((TagsViewHolder) holder).onTagClickListener(tag, onTagClickListener);
                 ((TagsViewHolder) holder).bind(tag);
                 break;
@@ -105,7 +105,7 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
         }
     }
 
-    public void setTagList(List<DrawerLayoutMenuItem> tagList) {
+    public void setTagList(List<DrawerMenuItem> tagList) {
         getGroups().get(0).setItems(tagList);
         notifyDataSetChanged();
     }

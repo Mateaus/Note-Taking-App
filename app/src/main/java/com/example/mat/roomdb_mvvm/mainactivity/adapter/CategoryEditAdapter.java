@@ -12,7 +12,7 @@ import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.TagListViewHo
 import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnMenuItemClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagCategoryEditClickListener;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 import java.util.List;
 
@@ -42,10 +42,10 @@ public class CategoryEditAdapter extends ExpandableRecyclerViewAdapter<TagListVi
 
     @Override
     public void onBindChildViewHolder(TagEditViewHolder holder, int flatPosition, ExpandableGroup group, int childIndex) {
-        final DrawerLayoutMenuItem drawerLayoutMenuItem = ((TagCategory) group).getItems().get(childIndex);
-        holder.setUI(drawerLayoutMenuItem);
-        holder.onTagClickListener(drawerLayoutMenuItem, onMenuItemClickListener, childIndex);
-        holder.onDeleteClickListener(drawerLayoutMenuItem, onMenuItemClickListener, childIndex);
+        final DrawerMenuItem drawerMenuItem = ((TagCategory) group).getItems().get(childIndex);
+        holder.setUI(drawerMenuItem);
+        holder.onTagClickListener(drawerMenuItem, onMenuItemClickListener, childIndex);
+        holder.onDeleteClickListener(drawerMenuItem, onMenuItemClickListener, childIndex);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class CategoryEditAdapter extends ExpandableRecyclerViewAdapter<TagListVi
         holder.setCategoryTag(group);
     }
 
-    public void setTagList(List<DrawerLayoutMenuItem> tagList) {
+    public void setTagList(List<DrawerMenuItem> tagList) {
         getGroups().get(0).setItems(tagList);
         notifyDataSetChanged();
     }
