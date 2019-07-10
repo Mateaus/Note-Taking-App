@@ -1,40 +1,37 @@
 package com.example.mat.roomdb_mvvm.color.ui;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.mat.roomdb_mvvm.R;
-import com.example.mat.roomdb_mvvm.mainactivity.listener.StatusBarListener;
 import com.example.mat.roomdb_mvvm.color.ColorViewModel;
 import com.example.mat.roomdb_mvvm.color.adapter.ColorAdapter;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.color.entity.Theme;
+import com.example.mat.roomdb_mvvm.databinding.FragmentColorBinding;
+import com.example.mat.roomdb_mvvm.mainactivity.listener.StatusBarListener;
+import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public class ColorFragment extends Fragment implements OnColorClickListener {
 
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-
-    private ColorViewModel colorViewModel;
     private ColorAdapter colorAdapter;
+    private ColorViewModel colorViewModel;
     private StatusBarListener statusBarListener;
+
+    private FragmentColorBinding viewBinding;
 
     @Override
     public void onAttach(Context context) {
@@ -45,12 +42,10 @@ public class ColorFragment extends Fragment implements OnColorClickListener {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_color, container, false);
-        ButterKnife.bind(this, v);
+        viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_color, container, false);
         showBackButton(true);
 
         setUpToolBar();
-
         setUpCategoryAdapter();
         setUpRecyclerView();
 
@@ -58,7 +53,9 @@ public class ColorFragment extends Fragment implements OnColorClickListener {
         this.colorViewModel.getAllColors().observe(this, new Observer<List<Color>>() {
             @Override
             public void onChanged(@Nullable List<Color> colors) {
-                colorAdapter.submitList(colors);
+                if (colors != null && colors.size() != 0) {
+                    colorAdapter.submitList(colors);
+                }
             }
         });
 
@@ -70,7 +67,7 @@ public class ColorFragment extends Fragment implements OnColorClickListener {
             }
         });
 
-        return v;
+        return viewBinding.getRoot();
     }
 
     @Override
@@ -89,12 +86,12 @@ public class ColorFragment extends Fragment implements OnColorClickListener {
     }
 
     private void setUpRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        recyclerView.setAdapter(colorAdapter);
+        viewBinding.fragmentColorListRv.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        viewBinding.fragmentColorListRv.setAdapter(colorAdapter);
     }
 
     private void showBackButton(Boolean enable) {
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.showBackButton(enable);
     }
 }

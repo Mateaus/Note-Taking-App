@@ -43,7 +43,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     public static final int ADD_NOTE_REQUEST = 3;
     public static final int UPDATE_NOTE_REQUEST = 4;
 
-    @BindView(R.id.recycler_view)
+    @BindView(R.id.fragment_color_list_rv)
     RecyclerView recyclerView;
 
     @BindView(R.id.add_note_btn)
