@@ -2,49 +2,36 @@ package com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder;
 
 import android.content.res.Resources;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.mat.roomdb_mvvm.R;
+import androidx.databinding.DataBindingUtil;
+
+import com.example.mat.roomdb_mvvm.databinding.TagItemBinding;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.viewholders.ChildViewHolder;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class TagsViewHolder extends ChildViewHolder {
 
-    @BindView(R.id.tag_name_tv)
-    public TextView mTagTextView;
-
-    @BindView(R.id.tag_size_tv)
-    public TextView mTagSizeTextView;
-
-    @BindView(R.id.tag_icon_iv)
-    public ImageView mTagIconImageView;
-
-    private View view;
+    private TagItemBinding viewBinding;
 
     public TagsViewHolder(View itemView) {
         super(itemView);
-        this.view = itemView;
-        ButterKnife.bind(this, itemView);
+        viewBinding = DataBindingUtil.bind(itemView);
     }
 
     public void bind(DrawerMenuItem tag) {
-        mTagTextView.setText(tag.getMenuItemName());
-        mTagSizeTextView.setText(String.valueOf(tag.getMenuItemSize()));
+        viewBinding.tagItemNameTv.setText(tag.getMenuItemName());
+        viewBinding.tagItemSizeTv.setText(String.valueOf(tag.getMenuItemSize()));
 
-        Resources resources = view.getResources();
+        Resources resources = viewBinding.getRoot().getResources();
         Integer menuIcon = resources.getIdentifier(tag.getMenuItemImage(), "drawable",
-                view.getContext().getPackageName());
-        mTagIconImageView.setImageResource(menuIcon);
+                viewBinding.getRoot().getContext().getPackageName());
+        viewBinding.tagItemIconIv.setImageResource(menuIcon);
     }
 
     public void onTagClickListener(final DrawerMenuItem drawerMenuItem,
                                    final OnTagClickListener onTagClickListener) {
-        view.setOnClickListener(new View.OnClickListener() {
+        viewBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onTagClickListener.onTagClick(drawerMenuItem);

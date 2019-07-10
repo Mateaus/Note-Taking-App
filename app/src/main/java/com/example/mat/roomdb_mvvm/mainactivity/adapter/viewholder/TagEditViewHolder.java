@@ -11,15 +11,15 @@ import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 public class TagEditViewHolder extends ChildViewHolder {
 
-    private TagEditItemBinding tagEditItemBinding;
+    private TagEditItemBinding viewBinding;
 
     public TagEditViewHolder(View itemView) {
         super(itemView);
-        tagEditItemBinding = DataBindingUtil.bind(itemView);
+        viewBinding = DataBindingUtil.bind(itemView);
     }
 
     public void setUI(DrawerMenuItem drawerMenuItem) {
-        tagEditItemBinding.tvTagName.setText(drawerMenuItem.getMenuItemName());
+        viewBinding.tvTagName.setText(drawerMenuItem.getMenuItemName());
         if (drawerMenuItem.getMenuItemId() == 3) {
             hideDeleteButton();
         }
@@ -27,7 +27,7 @@ public class TagEditViewHolder extends ChildViewHolder {
 
     public void onDeleteClickListener(final DrawerMenuItem drawerMenuItem,
                                       final OnMenuItemClickListener onMenuItemClickListener, int position) {
-        tagEditItemBinding.ibEditTag.setOnClickListener(new View.OnClickListener() {
+        viewBinding.ibEditTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onMenuItemClickListener.onMenuDeleteClick(drawerMenuItem, position);
@@ -37,7 +37,7 @@ public class TagEditViewHolder extends ChildViewHolder {
 
     public void onTagClickListener(final DrawerMenuItem drawerMenuItem,
                                    final OnMenuItemClickListener onMenuItemClickListener, int position) {
-        tagEditItemBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+        viewBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onMenuItemClickListener.onMenuUpdateItemClick(drawerMenuItem, position);
@@ -46,6 +46,6 @@ public class TagEditViewHolder extends ChildViewHolder {
     }
 
     private void hideDeleteButton() {
-        tagEditItemBinding.ibEditTag.setVisibility(View.GONE);
+        viewBinding.ibEditTag.setVisibility(View.GONE);
     }
 }
