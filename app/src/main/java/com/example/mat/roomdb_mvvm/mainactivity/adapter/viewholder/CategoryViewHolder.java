@@ -1,33 +1,26 @@
 package com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder;
 
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.example.mat.roomdb_mvvm.R;
+import androidx.databinding.DataBindingUtil;
+
+import com.example.mat.roomdb_mvvm.databinding.TagCategoryItemBinding;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.viewholders.GroupViewHolder;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagCategoryEditClickListener;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class CategoryViewHolder extends GroupViewHolder {
 
-    @BindView(R.id.tv_tag_name)
-    TextView categoryTag;
-
-    @BindView(R.id.b_tag_edit_category)
-    Button categoryTagBtn;
+    private TagCategoryItemBinding viewBinding;
 
     public CategoryViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
+        viewBinding = DataBindingUtil.bind(itemView);
     }
 
     public void setCategoryTag(ExpandableGroup group) {
-        categoryTag.setText(group.getTitle());
-        categoryTagBtn.setText(group.getOption());
+        viewBinding.tvTagName.setText(group.getTitle());
+        viewBinding.bTagEditCategory.setText(group.getOption());
     }
 
     @Override
@@ -42,7 +35,7 @@ public class CategoryViewHolder extends GroupViewHolder {
 
     public void setEditTagClickListener(final ExpandableGroup group,
                                         final OnTagCategoryEditClickListener onTagCategoryEditClickListener) {
-        categoryTagBtn.setOnClickListener(new View.OnClickListener() {
+        viewBinding.bTagEditCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onTagCategoryEditClickListener.onTagEditClickListener(group);
