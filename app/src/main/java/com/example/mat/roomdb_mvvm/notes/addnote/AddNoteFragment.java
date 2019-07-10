@@ -23,7 +23,6 @@ import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 
-import java.util.Collections;
 import java.util.List;
 
 public class AddNoteFragment extends Fragment {
@@ -54,10 +53,10 @@ public class AddNoteFragment extends Fragment {
             @Override
             public void onChanged(List<DrawerMenuItem> drawerMenuItems) {
                 if (drawerMenuItems != null && drawerMenuItems.size() != 0) {
-                    Collections.reverse(drawerMenuItems);
                     ArrayAdapter<DrawerMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerMenuItem>(getContext(), R.layout.spinner_item_text, drawerMenuItems);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     viewBinding.fragmentAddNoteTagS.setAdapter(tagArrayAdapter);
+                    viewBinding.fragmentAddNoteTagS.setSelection(findMenuItemPosition(drawerMenuItems, getArguments().getString("menu_name")));
                 }
             }
         });
@@ -105,5 +104,14 @@ public class AddNoteFragment extends Fragment {
     private void showBackButton(Boolean enable) {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.showBackButton(enable);
+    }
+
+    private int findMenuItemPosition(List<DrawerMenuItem> drawerMenuItems, String tagName) {
+        for (int i = 0; i < drawerMenuItems.size(); i++) {
+            if (drawerMenuItems.get(i).getMenuItemName().equals(tagName)) {
+                return i;
+            }
+        }
+        return drawerMenuItems.size() - 1;
     }
 }
