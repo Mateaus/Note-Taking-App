@@ -36,6 +36,8 @@ public class AddNoteFragment extends Fragment {
         viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_update_note, container, false);
         showBackButton(true);
 
+        setUpToolBar();
+
         this.addNoteViewModel = ViewModelProviders.of(this).get(AddNoteViewModel.class);
         this.addNoteViewModel.getMessage().observe(this, new Observer<Integer>() {
             @Override
@@ -61,28 +63,20 @@ public class AddNoteFragment extends Fragment {
             }
         });
 
-        setUpToolBar();
-
         return viewBinding.getRoot();
     }
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.update_note_menu, menu);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.update_note:
-                int menuId = Integer.valueOf(getArguments().getString("menu_id"));
-                String menuName = getArguments().getString("menu_name");
-                int menuSize = Integer.valueOf(getArguments().getString("menu_size"));
-                String menuIcon = getArguments().getString("menu_icon");
-
-                addNote(new DrawerMenuItem(menuId, menuName, menuSize, menuIcon));
+            case R.id.add_update_note:
+                addNote();
                 return true;
             default:
                 getFragmentManager().popBackStack();
@@ -95,10 +89,10 @@ public class AddNoteFragment extends Fragment {
         getActivity().setTitle(R.string.note_add);
     }
 
-    private void addNote(DrawerMenuItem drawerMenuItem) {
+    private void addNote() {
         this.addNoteViewModel.addNote(new Note(viewBinding.fragmentAddNoteTagS.getSelectedItem().toString(),
                 viewBinding.fragmentAddNoteTitleEt.getText().toString(),
-                viewBinding.fragmentAddNoteDescriptionEt.getText().toString()), drawerMenuItem);
+                viewBinding.fragmentAddNoteDescriptionEt.getText().toString()));
     }
 
     private void showBackButton(Boolean enable) {

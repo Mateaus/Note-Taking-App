@@ -75,7 +75,7 @@ public class UpdateNoteFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.update_note:
+            case R.id.add_update_note:
                 updateNote();
                 return true;
             default:
