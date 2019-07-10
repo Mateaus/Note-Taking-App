@@ -1,13 +1,7 @@
 package com.example.mat.roomdb_mvvm.notes.addnote;
 
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,46 +9,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.example.mat.roomdb_mvvm.R;
+import com.example.mat.roomdb_mvvm.databinding.FragmentAddUpdateNoteBinding;
 import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
-import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class AddNoteFragment extends Fragment {
 
-    public static final String EXTRA_TAG =
-            "com.example.mat.roomdb_mvvm.EXTRA_TAG";
-
-    public static final String EXTRA_TITLE =
-            "com.example.mat.roomdb_mvvm.EXTRA_TITLE";
-
-    public static final String EXTRA_DESCRIPTION =
-            "com.example.mat.roomdb_mvvm.EXTRA_DESCRIPTION";
-
-    @BindView(R.id.titleET)
-    EditText titleET;
-    @BindView(R.id.descriptionET)
-    EditText descriptionET;
-    @BindView(R.id.tagS)
-    Spinner tagS;
-
     private AddNoteViewModel addNoteViewModel;
+    private FragmentAddUpdateNoteBinding viewBinding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_add_note, container, false);
-        ButterKnife.bind(this, v);
+        viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_update_note, container, false);
         showBackButton(true);
 
         this.addNoteViewModel = ViewModelProviders.of(this).get(AddNoteViewModel.class);
@@ -77,14 +57,14 @@ public class AddNoteFragment extends Fragment {
                     Collections.reverse(drawerMenuItems);
                     ArrayAdapter<DrawerMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerMenuItem>(getContext(), R.layout.spinner_item_text, drawerMenuItems);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    tagS.setAdapter(tagArrayAdapter);
+                    viewBinding.fragmentAddNoteTagS.setAdapter(tagArrayAdapter);
                 }
             }
         });
 
         setUpToolBar();
 
-        return v;
+        return viewBinding.getRoot();
     }
 
     @Override
@@ -117,12 +97,13 @@ public class AddNoteFragment extends Fragment {
     }
 
     private void addNote(DrawerMenuItem drawerMenuItem) {
-        this.addNoteViewModel.addNote(new Note(tagS.getSelectedItem().toString(),
-                titleET.getText().toString(), descriptionET.getText().toString()), drawerMenuItem);
+        this.addNoteViewModel.addNote(new Note(viewBinding.fragmentAddNoteTagS.getSelectedItem().toString(),
+                viewBinding.fragmentAddNoteTitleEt.getText().toString(),
+                viewBinding.fragmentAddNoteDescriptionEt.getText().toString()), drawerMenuItem);
     }
 
     private void showBackButton(Boolean enable) {
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.showBackButton(enable);
     }
 }
