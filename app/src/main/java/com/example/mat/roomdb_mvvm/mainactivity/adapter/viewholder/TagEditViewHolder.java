@@ -19,15 +19,15 @@ public class TagEditViewHolder extends ChildViewHolder {
     }
 
     public void setUI(DrawerMenuItem drawerMenuItem) {
-        viewBinding.tvTagName.setText(drawerMenuItem.getMenuItemName());
+        viewBinding.tagEditItemNameTv.setText(drawerMenuItem.getMenuItemName());
         if (drawerMenuItem.getMenuItemId() == 3) {
             hideDeleteButton();
         }
     }
 
     public void onDeleteClickListener(final DrawerMenuItem drawerMenuItem,
-                                      final OnMenuItemClickListener onMenuItemClickListener, int position) {
-        viewBinding.ibEditTag.setOnClickListener(new View.OnClickListener() {
+                                      final OnMenuItemClickListener onMenuItemClickListener, final int position) {
+        viewBinding.tagEditItemDeleteIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onMenuItemClickListener.onMenuDeleteClick(drawerMenuItem, position);
@@ -36,7 +36,7 @@ public class TagEditViewHolder extends ChildViewHolder {
     }
 
     public void onTagClickListener(final DrawerMenuItem drawerMenuItem,
-                                   final OnMenuItemClickListener onMenuItemClickListener, int position) {
+                                   final OnMenuItemClickListener onMenuItemClickListener, final int position) {
         viewBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +46,6 @@ public class TagEditViewHolder extends ChildViewHolder {
     }
 
     private void hideDeleteButton() {
-        viewBinding.ibEditTag.setVisibility(View.GONE);
+        viewBinding.tagEditItemDeleteIb.setVisibility(View.GONE);
     }
 }

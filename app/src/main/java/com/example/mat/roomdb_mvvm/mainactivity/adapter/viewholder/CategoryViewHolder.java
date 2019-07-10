@@ -19,8 +19,8 @@ public class CategoryViewHolder extends GroupViewHolder {
     }
 
     public void setCategoryTag(ExpandableGroup group) {
-        viewBinding.tvTagName.setText(group.getTitle());
-        viewBinding.bTagEditCategory.setText(group.getOption());
+        viewBinding.tagCategoryItemNameTv.setText(group.getTitle());
+        viewBinding.tagCategoryItemEditB.setText(group.getOption());
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CategoryViewHolder extends GroupViewHolder {
 
     public void setEditTagClickListener(final ExpandableGroup group,
                                         final OnTagCategoryEditClickListener onTagCategoryEditClickListener) {
-        viewBinding.bTagEditCategory.setOnClickListener(new View.OnClickListener() {
+        viewBinding.tagCategoryItemEditB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onTagCategoryEditClickListener.onTagEditClickListener(group);

@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
+        android:id="@+id/tag_category_item_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -9,7 +10,7 @@
         android:paddingRight="16dp">
 
         <TextView
-            android:id="@+id/tv_tag_name"
+            android:id="@+id/tag_category_item_name_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -19,7 +20,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/b_tag_edit_category"
+            android:id="@+id/tag_category_item_edit_b"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"

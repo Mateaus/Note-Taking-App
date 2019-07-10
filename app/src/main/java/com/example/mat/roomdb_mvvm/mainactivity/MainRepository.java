@@ -37,7 +37,7 @@ public class MainRepository {
     }
 
     private MediatorLiveData<MergedMenu> getMergeData() {
-        MediatorLiveData<MergedMenu> mergedMenuMediatorLiveData = new MediatorLiveData<>();
+        final MediatorLiveData<MergedMenu> mergedMenuMediatorLiveData = new MediatorLiveData<>();
         mergedMenuMediatorLiveData.addSource(getMenuOne(), new Observer<DrawerMenuItem>() {
             @Override
             public void onChanged(DrawerMenuItem drawerMenuItem) {

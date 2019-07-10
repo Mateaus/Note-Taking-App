@@ -302,7 +302,12 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
             if (!toolBarNavigationListenerIsRegistered) {
-                drawerToggle.setToolbarNavigationClickListener(v -> onBackPressed());
+                drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onBackPressed();
+                    }
+                });
             }
 
             toolBarNavigationListenerIsRegistered = true;
