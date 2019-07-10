@@ -39,15 +39,6 @@ public interface NoteDao {
     @Query("SELECT * FROM note_table ORDER BY note_id DESC")
     LiveData<List<Note>> getAllNotesByIds();
 
-    @Query("SELECT COUNT() FROM note_table")
-    LiveData<Integer> getAllNotesSize();
-
-    @Query("SELECT COUNT() FROM note_table WHERE note_favorite = 1")
-    LiveData<Integer> getAllFavoriteNotesSize();
-
-    @Query("SELECT COUNT(note_tag) FROM note_table GROUP BY note_tag")
-    LiveData<List<Integer>> getAllTagNotesSizeList();
-
     @Query("SELECT *, (SELECT COUNT(*) FROM note_table) as menu_item_size FROM menu_item WHERE menu_item_id = 1")
     LiveData<DrawerMenuItem> getMenuOne();
 
