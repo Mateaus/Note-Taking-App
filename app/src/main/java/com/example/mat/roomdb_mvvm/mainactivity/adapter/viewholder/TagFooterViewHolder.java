@@ -9,8 +9,6 @@ import com.example.mat.roomdb_mvvm.expandablerecyclerview.viewholders.ChildViewH
 import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnNewTagClickListener;
 
-import butterknife.ButterKnife;
-
 public class TagFooterViewHolder extends ChildViewHolder {
 
     private TagFooterItemBinding viewBinding;
@@ -18,7 +16,6 @@ public class TagFooterViewHolder extends ChildViewHolder {
     public TagFooterViewHolder(View itemView) {
         super(itemView);
         viewBinding = DataBindingUtil.bind(itemView);
-        ButterKnife.bind(this, itemView);
     }
 
     public void setFooter(String footer, int color) {
