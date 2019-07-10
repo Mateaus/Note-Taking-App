@@ -2,9 +2,9 @@ package com.example.mat.roomdb_mvvm.mainactivity.entity;
 
 import androidx.room.Ignore;
 
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
-public class Tag extends DrawerLayoutMenuItem {
+public class Tag extends DrawerMenuItem {
 
     @Ignore
     public Tag(String menuItemName, int menuItemSize, String menuItemIcon) {

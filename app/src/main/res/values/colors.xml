@@ -8,6 +8,13 @@
     <color name="black">#000000</color>
     <color name="grey">#757575</color>
 
+    <!-- Dark Color Theme -->
+    <color name="themePrimary">#212121</color>
+    <color name="themePrimaryDark">#000000</color>
+    <color name="themeAccent">#303030</color>
+    <color name="themeGrey">#434343</color>
+
+
     <!-- Red Colors Interface -->
     <color name="red">#d32f2f</color>
     <color name="darkred">#9a0007</color>

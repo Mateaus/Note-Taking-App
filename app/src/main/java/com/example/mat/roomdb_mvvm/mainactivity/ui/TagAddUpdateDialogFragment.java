@@ -9,27 +9,26 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mat.roomdb_mvvm.R;
+import com.example.mat.roomdb_mvvm.databinding.FragmentDialogAddUpdateTagBinding;
 import com.example.mat.roomdb_mvvm.mainactivity.MainViewModel;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import static com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity.ADD_TAG;
+import static com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity.EDIT_TAG;
 
 public class TagAddUpdateDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
 
-    @BindView(R.id.tagET)
-    EditText tagET;
-
     private MainViewModel mainViewModel;
+    private FragmentDialogAddUpdateTagBinding viewBinding;
 
     @NonNull
     @Override
@@ -50,26 +49,26 @@ public class TagAddUpdateDialogFragment extends DialogFragment implements Dialog
                     }
                 });
 
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_dialog_add_tag, null);
-        ButterKnife.bind(this, view);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_dialog_add_update_tag, null);
         builder.setView(view);
+        viewBinding = DataBindingUtil.bind(view);
         AlertDialog dialog = builder.create();
         dialog.setOnShowListener(this);
-
 
         return dialog;
     }
 
     @Override
     public void onShow(DialogInterface dialogInterface) {
-        System.out.println(getTag());
         final AlertDialog dialog = (AlertDialog) getDialog();
+
         TextView customTitleTV = (TextView) dialog.findViewById(R.id.dialog_custom_title_TV);
         customTitleTV.setTextColor(fetchThemeColor(R.attr.colorPrimaryDark));
-        if (getTag().equals("ADD_TAG")) {
+
+        if (getTag().equals(ADD_TAG)) {
             customTitleTV.setText("New Tag");
-        } else if (getTag().equals("EDIT_TAG")) {
-            tagET.setText(getArguments().getString("menu_tag_name"));
+        } else if (getTag().equals(EDIT_TAG)) {
+            viewBinding.dialogAddUpdateFragmentEt.setText(getArguments().getString("menu_tag_name"));
             customTitleTV.setText("Edit Tag");
         }
 
@@ -80,20 +79,24 @@ public class TagAddUpdateDialogFragment extends DialogFragment implements Dialog
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tagET.getText().toString().isEmpty()) {
+                if (viewBinding.dialogAddUpdateFragmentEt.getText().toString().isEmpty()) {
                     dismiss();
                 } else {
-                    if (getTag().equals("ADD_TAG")) {
-                        mainViewModel.insertTagMenuItem(new DrawerLayoutMenuItem(tagET.getText().toString(), 0, "tag_border_icon"));
-                    } else if (getTag().equals("EDIT_TAG")) {
+                    if (getTag().equals(ADD_TAG)) {
+                        mainViewModel.insertTagMenuItem(
+                                new DrawerMenuItem(viewBinding.dialogAddUpdateFragmentEt.getText().toString(),
+                                        0, "tag_border_icon"));
+
+                    } else if (getTag().equals(EDIT_TAG)) {
                         String image = getArguments().getString("menu_tag_image");
                         String name = getArguments().getString("menu_tag_name");
                         Integer id = Integer.valueOf(getArguments().getString("menu_tag_id"));
                         Integer size = Integer.valueOf(getArguments().getString("menu_tag_size"));
-                        if (tagET.getText().toString().equals(name)) {
+                        if (viewBinding.dialogAddUpdateFragmentEt.getText().toString().equals(name)) {
                             dismiss();
                         } else {
-                            mainViewModel.updateMenuItem(new DrawerLayoutMenuItem(id, tagET.getText().toString(), size, image));
+                            mainViewModel.updateMenuItem(new DrawerMenuItem(id,
+                                    viewBinding.dialogAddUpdateFragmentEt.getText().toString(), size, image));
                         }
                     }
                     dismiss();

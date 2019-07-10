@@ -12,16 +12,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
 import com.example.mat.roomdb_mvvm.color.entity.Theme;
-import com.example.mat.roomdb_mvvm.mainactivity.entity.Tag;
-import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Database(entities = {DrawerLayoutMenuItem.class, Note.class, Color.class, Theme.class}, version = 1)
+@Database(entities = {DrawerMenuItem.class, Note.class, Color.class, Theme.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;
@@ -75,16 +73,16 @@ public abstract class NoteDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
 
-            menuItemDao.insert(new DrawerLayoutMenuItem("All Notes", 0, "note_icon"));
-            menuItemDao.insert(new DrawerLayoutMenuItem("Favorites", 0, "favorite_star_icon"));
-            menuItemDao.insert(new DrawerLayoutMenuItem("Not Tagged", 0, "tag_border_icon"));
+            menuItemDao.insert(new DrawerMenuItem("All Notes", 0, "note_icon"));
+            menuItemDao.insert(new DrawerMenuItem("Favorites", 0, "favorite_star_icon"));
+            menuItemDao.insert(new DrawerMenuItem("Not Tagged", 0, "tag_border_icon"));
 
 
             /*
              * This populates the database when it's first initially out of box.
              */
-            Theme mainTheme = new Theme(R.style.BrownThemeOverlay, R.color.brown, R.color.darkbrown,
-                    R.color.lightbrown);
+            Theme mainTheme = new Theme(R.style.AppTheme, R.color.themePrimary, R.color.themePrimaryDark,
+                    R.color.themeAccent);
             themeDao.insert(mainTheme);
 
             for (int i = 0; i < populateThemeColors().size(); i++) {
@@ -115,9 +113,11 @@ public abstract class NoteDatabase extends RoomDatabase {
                     R.color.yellow, R.color.darkyellow, R.color.lightyellow);
             Color brown = new Color("Brown Theme", R.style.BrownThemeOverlay,
                     R.color.brown, R.color.darkbrown, R.color.lightbrown);
+            Color darkTheme = new Color("Dark Theme", R.style.AppTheme,
+                    R.color.themePrimary, R.color.themePrimaryDark, R.color.themeAccent);
 
             List<Color> colorList = new ArrayList<>(Arrays.asList(
-                    red, pink, purple, green, blue, blueGrey, indigo, orange, yellow, brown
+                    red, pink, purple, green, blue, blueGrey, indigo, orange, yellow, brown, darkTheme
             ));
 
             return colorList;

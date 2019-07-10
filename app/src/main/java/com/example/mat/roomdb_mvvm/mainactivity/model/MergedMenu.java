@@ -6,30 +6,30 @@ import java.util.List;
 
 public class MergedMenu {
 
-    private DrawerLayoutMenuItem menuOne;
-    private DrawerLayoutMenuItem menuTwo;
+    private DrawerMenuItem menuOne;
+    private DrawerMenuItem menuTwo;
 
     public MergedMenu() {
 
     }
 
-    public DrawerLayoutMenuItem getMenuOne() {
+    public DrawerMenuItem getMenuOne() {
         return menuOne;
     }
 
-    public void setMenuOne(DrawerLayoutMenuItem menuOne) {
+    public void setMenuOne(DrawerMenuItem menuOne) {
         this.menuOne = menuOne;
     }
 
-    public DrawerLayoutMenuItem getMenuTwo() {
+    public DrawerMenuItem getMenuTwo() {
         return menuTwo;
     }
 
-    public void setMenuTwo(DrawerLayoutMenuItem menuTwo) {
+    public void setMenuTwo(DrawerMenuItem menuTwo) {
         this.menuTwo = menuTwo;
     }
 
-    public List<DrawerLayoutMenuItem> getMenuList() {
+    public List<DrawerMenuItem> getMenuList() {
         return new ArrayList<>(Arrays.asList(menuOne, menuTwo));
     }
 

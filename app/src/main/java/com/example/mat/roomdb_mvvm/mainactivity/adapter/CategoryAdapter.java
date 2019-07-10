@@ -8,18 +8,18 @@ import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.MultiTypeExpandableRecyclerViewAdapter;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.viewholders.ChildViewHolder;
+import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.CategoryViewHolder;
 import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.TagFooterViewHolder;
-import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.TagListViewHolder;
 import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.TagsViewHolder;
 import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnNewTagClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagCategoryEditClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagClickListener;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerLayoutMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 import java.util.List;
 
-public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagListViewHolder, ChildViewHolder> {
+public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<CategoryViewHolder, ChildViewHolder> {
 
     public static final int TAG_VIEW_TYPE = 3;
     public static final int TAG_FOOTER_VIEW_TYPE = 4;
@@ -38,16 +38,16 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
     }
 
     @Override
-    public TagListViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
+    public CategoryViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_category_item, parent, false);
-        return new TagListViewHolder(view);
+        return new CategoryViewHolder(view);
     }
 
     @Override
     public ChildViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TAG_VIEW_TYPE:
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_item, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
                 return new TagsViewHolder(view);
             case TAG_FOOTER_VIEW_TYPE:
                 View footer = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_footer_item, parent, false);
@@ -62,7 +62,7 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
         int viewType = getItemViewType(flatPosition);
         switch (viewType) {
             case TAG_VIEW_TYPE:
-                final DrawerLayoutMenuItem tag = ((TagCategory) group).getItems().get(childIndex);
+                final DrawerMenuItem tag = ((TagCategory) group).getItems().get(childIndex);
                 ((TagsViewHolder) holder).onTagClickListener(tag, onTagClickListener);
                 ((TagsViewHolder) holder).bind(tag);
                 break;
@@ -73,7 +73,7 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
     }
 
     @Override
-    public void onBindGroupViewHolder(TagListViewHolder holder, int flatPosition, ExpandableGroup group) {
+    public void onBindGroupViewHolder(CategoryViewHolder holder, int flatPosition, ExpandableGroup group) {
         holder.setEditTagClickListener(group, onTagCategoryEditClickListener);
         holder.setCategoryTag(group);
     }
@@ -105,7 +105,7 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
         }
     }
 
-    public void setTagList(List<DrawerLayoutMenuItem> tagList) {
+    public void setTagList(List<DrawerMenuItem> tagList) {
         getGroups().get(0).setItems(tagList);
         notifyDataSetChanged();
     }
