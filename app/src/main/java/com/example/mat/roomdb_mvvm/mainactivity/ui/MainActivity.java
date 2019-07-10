@@ -53,6 +53,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements StatusBarListener, OnTagClickListener,
         OnMenuItemClickListener, OnNewTagClickListener, OnTagCategoryEditClickListener {
 
+    public final static String ADD_TAG = "ADD_TAG";
+    public final static String EDIT_TAG = "EDIT_TAG";
+    public final static String DELETE_TAG = "DELETE_TAG";
+
     private FragmentManager fragmentManager;
     private MainViewModel mainViewModel;
     private ActionBarDrawerToggle drawerToggle;
@@ -172,6 +176,12 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     @Override
+    public void onNewTagClick(TagCategory tagCategory) {
+        TagAddUpdateDialogFragment tagAddUpdateDialogFragment = new TagAddUpdateDialogFragment();
+        tagAddUpdateDialogFragment.show(getSupportFragmentManager(), ADD_TAG);
+    }
+
+    @Override
     public void onMenuUpdateItemClick(DrawerLayoutMenuItem drawerLayoutMenuItem, int position) {
         TagAddUpdateDialogFragment tagAddUpdateDialogFragment = new TagAddUpdateDialogFragment();
 
@@ -182,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         bundle.putString("menu_tag_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
         tagAddUpdateDialogFragment.setArguments(bundle);
 
-        tagAddUpdateDialogFragment.show(getSupportFragmentManager(), "EDIT_TAG");
+        tagAddUpdateDialogFragment.show(getSupportFragmentManager(), EDIT_TAG);
     }
 
     @Override
@@ -196,13 +206,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         bundle.putString("menu_tag_size", String.valueOf(drawerLayoutMenuItem.getMenuItemSize()));
         tagEditDialogFragment.setArguments(bundle);
 
-        tagEditDialogFragment.show(getSupportFragmentManager(), "CANCEL_TAG");
-    }
-
-    @Override
-    public void onNewTagClick(TagCategory tagCategory) {
-        TagAddUpdateDialogFragment tagAddUpdateDialogFragment = new TagAddUpdateDialogFragment();
-        tagAddUpdateDialogFragment.show(getSupportFragmentManager(), "ADD_TAG");
+        tagEditDialogFragment.show(getSupportFragmentManager(), DELETE_TAG);
     }
 
     @Override
