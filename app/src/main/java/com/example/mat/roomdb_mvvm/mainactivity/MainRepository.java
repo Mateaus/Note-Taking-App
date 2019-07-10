@@ -19,7 +19,6 @@ public class MainRepository {
 
     private MenuItemDao menuItemDao;
     private NoteDao noteDao;
-    private LiveData<List<DrawerMenuItem>> allMenuItems;
 
     private MergedMenu mergedMenu = new MergedMenu();
 
@@ -27,7 +26,6 @@ public class MainRepository {
         NoteDatabase noteDatabase = NoteDatabase.getInstance(application);
         menuItemDao = noteDatabase.menuItemDao();
         noteDao = noteDatabase.noteDao();
-        allMenuItems = menuItemDao.getMenuItems();
     }
 
     public LiveData<DrawerMenuItem> getMenuOne() {
