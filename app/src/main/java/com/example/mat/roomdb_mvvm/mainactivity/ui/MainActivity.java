@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
     @Override
     public void onMenuItemClick(DrawerMenuItem drawerMenuItem) {
-        itemAdapter.getMenuList();
         loadNoteScreen(drawerMenuItem);
         viewBinding.activityMainActivityDl.closeDrawer(GravityCompat.START);
     }

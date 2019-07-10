@@ -47,7 +47,7 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<Cate
     public ChildViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TAG_VIEW_TYPE:
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_item, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
                 return new TagsViewHolder(view);
             case TAG_FOOTER_VIEW_TYPE:
                 View footer = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_footer_item, parent, false);
