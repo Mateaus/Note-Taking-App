@@ -3,22 +3,18 @@ package com.example.mat.roomdb_mvvm.notes.note.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mat.roomdb_mvvm.R;
+import com.example.mat.roomdb_mvvm.databinding.NoteItemBinding;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 import com.example.mat.roomdb_mvvm.notes.note.ui.OnFavoriteClickListener;
 import com.example.mat.roomdb_mvvm.notes.note.ui.OnItemClickListener;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
 
@@ -66,14 +62,14 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
         String date = note.getNoteDate();
         Boolean favorite = note.isNoteFavorite();
 
-        holder.titleTV.setText(title);
-        holder.descriptionTV.setText(description);
-        holder.dateTV.setText(date);
+        holder.viewBinding.noteItemTitleTv.setText(title);
+        holder.viewBinding.noteItemDescriptionTv.setText(description);
+        holder.viewBinding.noteItemDateTv.setText(date);
 
         if (favorite) {
-            holder.favoriteIB.setImageResource(R.drawable.ic_star_full_black_24dp);
+            holder.viewBinding.noteItemFavoriteIb.setImageResource(R.drawable.ic_star_full_black_24dp);
         } else {
-            holder.favoriteIB.setImageResource(R.drawable.ic_star_border_black_24dp);
+            holder.viewBinding.noteItemFavoriteIb.setImageResource(R.drawable.ic_star_border_black_24dp);
         }
     }
 
@@ -85,30 +81,18 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
         getItem(position).setNoteFavorite(val);
     }
 
-    static class NoteHolder extends RecyclerView.ViewHolder {
+    public static class NoteHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.color_item_cv)
-        CardView cardView;
-        @BindView(R.id.titleTV)
-        TextView titleTV;
-        @BindView(R.id.descriptionTV)
-        TextView descriptionTV;
-        @BindView(R.id.favoriteIB)
-        ImageButton favoriteIB;
-        @BindView(R.id.dateTV)
-        TextView dateTV;
-
-        private View view;
+        private NoteItemBinding viewBinding;
 
         public NoteHolder(View itemView) {
             super(itemView);
-            this.view = itemView;
-            ButterKnife.bind(this, itemView);
+            viewBinding = DataBindingUtil.bind(itemView);
         }
 
         public void setClickListener(final Note note,
                                      final OnItemClickListener listener) {
-            view.setOnClickListener(new View.OnClickListener() {
+            viewBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onItemClick(note);
@@ -118,7 +102,7 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
 
         public void setFavoriteClickListener(final Note note,
                                              final OnFavoriteClickListener listener) {
-            favoriteIB.setOnClickListener(new View.OnClickListener() {
+            viewBinding.noteItemFavoriteIb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onFavoriteClick(note, getAdapterPosition());
