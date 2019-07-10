@@ -12,7 +12,7 @@ import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagCategoryEditClickL
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TagListViewHolder extends GroupViewHolder {
+public class CategoryViewHolder extends GroupViewHolder {
 
     @BindView(R.id.tv_tag_name)
     TextView categoryTag;
@@ -20,7 +20,7 @@ public class TagListViewHolder extends GroupViewHolder {
     @BindView(R.id.b_tag_edit_category)
     Button categoryTagBtn;
 
-    public TagListViewHolder(View itemView) {
+    public CategoryViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

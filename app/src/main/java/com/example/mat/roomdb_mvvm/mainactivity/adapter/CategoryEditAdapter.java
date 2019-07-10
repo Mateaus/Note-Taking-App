@@ -8,7 +8,7 @@ import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.TagEditViewHolder;
-import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.TagListViewHolder;
+import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.CategoryViewHolder;
 import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnMenuItemClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagCategoryEditClickListener;
@@ -16,7 +16,7 @@ import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 import java.util.List;
 
-public class CategoryEditAdapter extends ExpandableRecyclerViewAdapter<TagListViewHolder, TagEditViewHolder> {
+public class CategoryEditAdapter extends ExpandableRecyclerViewAdapter<CategoryViewHolder, TagEditViewHolder> {
 
     private OnMenuItemClickListener onMenuItemClickListener;
     private OnTagCategoryEditClickListener onTagCategoryEditClickListener;
@@ -29,9 +29,9 @@ public class CategoryEditAdapter extends ExpandableRecyclerViewAdapter<TagListVi
     }
 
     @Override
-    public TagListViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
+    public CategoryViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_category_item, parent, false);
-        return new TagListViewHolder(view);
+        return new CategoryViewHolder(view);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CategoryEditAdapter extends ExpandableRecyclerViewAdapter<TagListVi
     }
 
     @Override
-    public void onBindGroupViewHolder(TagListViewHolder holder, int flatPosition, ExpandableGroup group) {
+    public void onBindGroupViewHolder(CategoryViewHolder holder, int flatPosition, ExpandableGroup group) {
         holder.setEditTagClickListener(group, onTagCategoryEditClickListener);
         holder.setCategoryTag(group);
     }

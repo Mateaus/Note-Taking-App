@@ -8,8 +8,8 @@ import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.MultiTypeExpandableRecyclerViewAdapter;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.models.ExpandableGroup;
 import com.example.mat.roomdb_mvvm.expandablerecyclerview.viewholders.ChildViewHolder;
+import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.CategoryViewHolder;
 import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.TagFooterViewHolder;
-import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.TagListViewHolder;
 import com.example.mat.roomdb_mvvm.mainactivity.adapter.viewholder.TagsViewHolder;
 import com.example.mat.roomdb_mvvm.mainactivity.entity.TagCategory;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnNewTagClickListener;
@@ -19,7 +19,7 @@ import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 
 import java.util.List;
 
-public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagListViewHolder, ChildViewHolder> {
+public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<CategoryViewHolder, ChildViewHolder> {
 
     public static final int TAG_VIEW_TYPE = 3;
     public static final int TAG_FOOTER_VIEW_TYPE = 4;
@@ -38,9 +38,9 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
     }
 
     @Override
-    public TagListViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
+    public CategoryViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_category_item, parent, false);
-        return new TagListViewHolder(view);
+        return new CategoryViewHolder(view);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<TagL
     }
 
     @Override
-    public void onBindGroupViewHolder(TagListViewHolder holder, int flatPosition, ExpandableGroup group) {
+    public void onBindGroupViewHolder(CategoryViewHolder holder, int flatPosition, ExpandableGroup group) {
         holder.setEditTagClickListener(group, onTagCategoryEditClickListener);
         holder.setCategoryTag(group);
     }
