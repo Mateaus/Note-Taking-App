@@ -87,7 +87,7 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
 
     static class NoteHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.card_view)
+        @BindView(R.id.color_item_cv)
         CardView cardView;
         @BindView(R.id.titleTV)
         TextView titleTV;
