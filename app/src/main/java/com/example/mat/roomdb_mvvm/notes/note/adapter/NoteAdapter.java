@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.databinding.NoteItemBinding;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
-import com.example.mat.roomdb_mvvm.notes.note.ui.OnFavoriteClickListener;
-import com.example.mat.roomdb_mvvm.notes.note.ui.OnItemClickListener;
+import com.example.mat.roomdb_mvvm.notes.note.listener.OnFavoriteClickListener;
+import com.example.mat.roomdb_mvvm.notes.note.listener.OnItemClickListener;
 
 public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
 

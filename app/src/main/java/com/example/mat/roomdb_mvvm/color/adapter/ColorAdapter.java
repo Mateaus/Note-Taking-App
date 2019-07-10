@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
-import com.example.mat.roomdb_mvvm.color.ui.OnColorClickListener;
+import com.example.mat.roomdb_mvvm.color.listener.OnColorClickListener;
 import com.example.mat.roomdb_mvvm.databinding.ColorItemBinding;
 
 public class ColorAdapter extends ListAdapter<Color, ColorAdapter.ColorHolder> {

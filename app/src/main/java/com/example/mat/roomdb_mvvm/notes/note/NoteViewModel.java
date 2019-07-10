@@ -1,9 +1,11 @@
 package com.example.mat.roomdb_mvvm.notes.note;
 
 import android.app.Application;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.mat.roomdb_mvvm.color.ColorViewModel;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 
 import java.text.DateFormat;
@@ -11,13 +13,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-public class NoteViewModel extends AndroidViewModel {
+public class NoteViewModel extends ColorViewModel {
 
+    private LiveData<List<Note>> allNotes;
     private NoteRepository noteRepository;
 
     public NoteViewModel(Application application) {
         super(application);
         this.noteRepository = new NoteRepository(application);
+        this.allNotes = noteRepository.getAllNotes();
     }
 
     public void insert(Note note) {
@@ -39,7 +43,7 @@ public class NoteViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Note>> getAllNotes() {
-        return noteRepository.getAllNotes();
+        return allNotes;
     }
 
     public LiveData<List<Note>> getAllFavoriteNotes(Boolean isFavorite) {
