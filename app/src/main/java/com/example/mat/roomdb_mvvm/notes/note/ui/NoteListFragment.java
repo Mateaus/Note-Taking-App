@@ -53,7 +53,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         this.noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
 
         if (menuName.equals(ALL_NOTES)) {
-            this.noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
+            this.noteViewModel.getAllNotesById().observe(this, new Observer<List<Note>>() {
                 @Override
                 public void onChanged(@Nullable List<Note> notes) {
                     if (notes != null) {
