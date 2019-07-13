@@ -14,7 +14,11 @@
     <color name="themeAccent">#303030</color>
     <color name="themeGrey">#434343</color>
 
-
+    <!-- Discord Color Theme -->
+    <color name="dPrimary">#2F3136</color>
+    <color name="dPrimaryDark">#202225</color>
+    <color name="dAccent">#36393F</color>
+    
     <!-- Red Colors Interface -->
     <color name="red">#d32f2f</color>
     <color name="darkred">#9a0007</color>

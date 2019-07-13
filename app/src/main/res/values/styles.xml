@@ -103,6 +103,15 @@
         <item name="colorAccent">@color/secondarybrown</item>
     </style>
 
+    <style name="DsThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/dPrimary</item>
+        <item name="colorPrimaryDark">@color/dPrimaryDark</item>
+        <item name="colorAccent">@color/dAccent</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
