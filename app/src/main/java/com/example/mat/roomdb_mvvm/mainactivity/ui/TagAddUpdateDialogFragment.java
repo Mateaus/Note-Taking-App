@@ -3,7 +3,9 @@ package com.example.mat.roomdb_mvvm.mainactivity.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -63,7 +65,7 @@ public class TagAddUpdateDialogFragment extends DialogFragment implements Dialog
         final AlertDialog dialog = (AlertDialog) getDialog();
 
         TextView customTitleTV = (TextView) dialog.findViewById(R.id.dialog_custom_title_TV);
-        customTitleTV.setTextColor(fetchThemeColor(R.attr.colorPrimaryDark));
+        customTitleTV.setTextColor(getResources().getColor(R.color.themePrimary));
 
         if (getTag().equals(ADD_TAG)) {
             customTitleTV.setText("New Tag");
@@ -73,7 +75,11 @@ public class TagAddUpdateDialogFragment extends DialogFragment implements Dialog
         }
 
         Button acceptButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
+        acceptButton.setTextColor(fetchThemeColor(R.attr.colorAccent));
+        acceptButton.setTypeface(null, Typeface.BOLD);
         Button cancelButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
+        cancelButton.setTextColor(fetchThemeColor(R.attr.colorAccent));
+        cancelButton.setTypeface(null, Typeface.BOLD);
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         acceptButton.setOnClickListener(new View.OnClickListener() {

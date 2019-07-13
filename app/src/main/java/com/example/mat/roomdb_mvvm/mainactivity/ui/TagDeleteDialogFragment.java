@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -58,13 +59,15 @@ public class TagDeleteDialogFragment extends DialogFragment implements DialogInt
     public void onShow(DialogInterface dialogInterface) {
         final AlertDialog dialog = (AlertDialog) getDialog();
         TextView customTitleTV = (TextView) dialog.findViewById(R.id.dialog_custom_title_TV);
-        customTitleTV.setTextColor(fetchThemeColor(R.attr.colorPrimaryDark));
+        customTitleTV.setTextColor(getResources().getColor(R.color.themePrimary));
         customTitleTV.setText("Delete Tag");
 
         Button acceptButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
         acceptButton.setTextColor(getResources().getColor(R.color.red));
+        acceptButton.setTypeface(null, Typeface.BOLD);
         Button cancelButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
         cancelButton.setTextColor(getResources().getColor(R.color.blue));
+        cancelButton.setTypeface(null, Typeface.BOLD);
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         acceptButton.setOnClickListener(new View.OnClickListener() {

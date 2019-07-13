@@ -25,7 +25,7 @@ public class AddNoteViewModel extends NoteViewModel {
         this.message = new MutableLiveData<>();
     }
 
-    public void addNote(Note note, DrawerMenuItem drawerMenuItem) {
+    public void addNote(Note note) {
         String title = note.getNoteTitle();
         String description = note.getNoteDescription();
 

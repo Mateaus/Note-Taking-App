@@ -23,7 +23,7 @@ public class CategoryAdapter extends MultiTypeExpandableRecyclerViewAdapter<Cate
 
     public static final int TAG_VIEW_TYPE = 3;
     public static final int TAG_FOOTER_VIEW_TYPE = 4;
-    private int footerButtonColor = R.color.darkbrown;
+    private int footerButtonColor = R.color.themePrimaryDark;
 
     private OnTagClickListener onTagClickListener;
     private OnNewTagClickListener onNewTagClickListener;

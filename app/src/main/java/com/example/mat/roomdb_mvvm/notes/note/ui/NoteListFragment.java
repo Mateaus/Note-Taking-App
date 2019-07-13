@@ -53,7 +53,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         this.noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
 
         if (menuName.equals(ALL_NOTES)) {
-            this.noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
+            this.noteViewModel.getAllNotesById().observe(this, new Observer<List<Note>>() {
                 @Override
                 public void onChanged(@Nullable List<Note> notes) {
                     if (notes != null) {
@@ -121,10 +121,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.sync_data:
-                syncData();
-                return true;
-            case R.id.settings:
+            case R.id.themes:
                 settings();
                 return true;
             default:
@@ -180,10 +177,6 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     private void showBackButton(Boolean enable) {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.showBackButton(enable);
-    }
-
-    private void syncData() {
-        // TODO: Sync data from current DB into Firebase auth + realtime DB.
     }
 
     private void settings() {

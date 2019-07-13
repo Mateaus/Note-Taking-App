@@ -30,10 +30,10 @@ public interface NoteDao {
     @Query("SELECT * FROM note_table")
     LiveData<List<Note>> getAllNotes();
 
-    @Query("SELECT * FROM note_table WHERE note_favorite=:isFavorite")
+    @Query("SELECT * FROM note_table WHERE note_favorite=:isFavorite ORDER BY note_id DESC")
     LiveData<List<Note>> getAllFavoriteNotes(Boolean isFavorite);
 
-    @Query("SELECT * FROM note_table WHERE note_tag=:tag")
+    @Query("SELECT * FROM note_table WHERE note_tag=:tag ORDER BY note_id DESC")
     LiveData<List<Note>> getAllNotesByTag(String tag);
 
     @Query("SELECT * FROM note_table ORDER BY note_id DESC")

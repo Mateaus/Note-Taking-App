@@ -93,31 +93,17 @@ public abstract class NoteDatabase extends RoomDatabase {
         }
 
         private List<Color> populateThemeColors() {
-            Color red = new Color("Red Theme", R.style.RedThemeOverlay,
-                    R.color.red, R.color.darkred, R.color.lightred);
-            Color pink = new Color("Pink Theme", R.style.PinkThemeOverlay,
-                    R.color.pink, R.color.darkpink, R.color.lightpink);
-            Color purple = new Color("Purple Theme", R.style.PurpleThemeOverlay,
-                    R.color.purple, R.color.darkpurple, R.color.lightpurple);
-            Color green = new Color("Green Theme", R.style.GreenThemeOverlay,
-                    R.color.green, R.color.darkgreen, R.color.lightgreen);
-            Color blue = new Color("Blue Theme", R.style.BlueThemeOverlay,
-                    R.color.blue, R.color.darkblue, R.color.lightblue);
             Color blueGrey = new Color("Blue Grey Theme", R.style.BlueGreyThemeOverlay,
                     R.color.bluegrey, R.color.darkbluegrey, R.color.lightbluegrey);
-            Color indigo = new Color("Indigo Theme", R.style.IndigoThemeOverlay,
-                    R.color.indigo, R.color.darkindigo, R.color.lightindigo);
-            Color orange = new Color("Orange Theme", R.style.OrangeThemeOverlay,
-                    R.color.orange, R.color.darkorange, R.color.lightorange);
-            Color yellow = new Color("Yellow Theme", R.style.YellowThemeOverlay,
-                    R.color.yellow, R.color.darkyellow, R.color.lightyellow);
-            Color brown = new Color("Brown Theme", R.style.BrownThemeOverlay,
-                    R.color.brown, R.color.darkbrown, R.color.lightbrown);
             Color darkTheme = new Color("Dark Theme", R.style.AppTheme,
                     R.color.themePrimary, R.color.themePrimaryDark, R.color.themeAccent);
+            Color dTheme = new Color("Discord Theme", R.style.DsThemeOverlay,
+                    R.color.dPrimary, R.color.dPrimaryDark, R.color.dAccent);
+            Color limeTheme = new Color("Brown Theme", R.style.BrownThemeOverlay,
+                    R.color.brownPrimary, R.color.brownPrimaryDark, R.color.brownAccent);
 
             List<Color> colorList = new ArrayList<>(Arrays.asList(
-                    red, pink, purple, green, blue, blueGrey, indigo, orange, yellow, brown, darkTheme
+                    dTheme, blueGrey, darkTheme, limeTheme
             ));
 
             return colorList;

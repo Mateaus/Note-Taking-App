@@ -40,6 +40,10 @@ public class NoteRepository {
         return noteDao.getAllNotes();
     }
 
+    public LiveData<List<Note>> getAllNotesById() {
+        return noteDao.getAllNotesByIds();
+    }
+
     public LiveData<List<Note>> getAllFavoriteNotes(Boolean isFavorite) {
         return noteDao.getAllFavoriteNotes(isFavorite);
     }

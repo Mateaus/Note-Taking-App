@@ -66,15 +66,6 @@ public class UpdateNoteFragment extends Fragment {
         return viewBinding.getRoot();
     }
 
-    private int findMenuItemPosition(List<DrawerMenuItem> drawerMenuItems, String tagName) {
-        for (int i = 0; i < drawerMenuItems.size(); i++) {
-            if (drawerMenuItems.get(i).getMenuItemName().equals(tagName)) {
-                return i;
-            }
-        }
-        return 0;
-    }
-
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.update_note_menu, menu);
@@ -84,7 +75,7 @@ public class UpdateNoteFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.update_note:
+            case R.id.add_update_note:
                 updateNote();
                 return true;
             default:
@@ -126,5 +117,14 @@ public class UpdateNoteFragment extends Fragment {
     private void showBackButton(Boolean enable) {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.showBackButton(enable);
+    }
+
+    private int findMenuItemPosition(List<DrawerMenuItem> drawerMenuItems, String tagName) {
+        for (int i = 0; i < drawerMenuItems.size(); i++) {
+            if (drawerMenuItems.get(i).getMenuItemName().equals(tagName)) {
+                return i;
+            }
+        }
+        return 0;
     }
 }

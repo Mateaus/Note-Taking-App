@@ -23,7 +23,6 @@ import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 
-import java.util.Collections;
 import java.util.List;
 
 public class AddNoteFragment extends Fragment {
@@ -36,6 +35,8 @@ public class AddNoteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_update_note, container, false);
         showBackButton(true);
+
+        setUpToolBar();
 
         this.addNoteViewModel = ViewModelProviders.of(this).get(AddNoteViewModel.class);
         this.addNoteViewModel.getMessage().observe(this, new Observer<Integer>() {
@@ -54,15 +55,13 @@ public class AddNoteFragment extends Fragment {
             @Override
             public void onChanged(List<DrawerMenuItem> drawerMenuItems) {
                 if (drawerMenuItems != null && drawerMenuItems.size() != 0) {
-                    Collections.reverse(drawerMenuItems);
                     ArrayAdapter<DrawerMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerMenuItem>(getContext(), R.layout.spinner_item_text, drawerMenuItems);
                     tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     viewBinding.fragmentAddNoteTagS.setAdapter(tagArrayAdapter);
+                    viewBinding.fragmentAddNoteTagS.setSelection(findMenuItemPosition(drawerMenuItems, getArguments().getString("menu_name")));
                 }
             }
         });
-
-        setUpToolBar();
 
         return viewBinding.getRoot();
     }
@@ -70,20 +69,14 @@ public class AddNoteFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.update_note_menu, menu);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.update_note:
-                int menuId = Integer.valueOf(getArguments().getString("menu_id"));
-                String menuName = getArguments().getString("menu_name");
-                int menuSize = Integer.valueOf(getArguments().getString("menu_size"));
-                String menuIcon = getArguments().getString("menu_icon");
-
-                addNote(new DrawerMenuItem(menuId, menuName, menuSize, menuIcon));
+            case R.id.add_update_note:
+                addNote();
                 return true;
             default:
                 getFragmentManager().popBackStack();
@@ -96,14 +89,23 @@ public class AddNoteFragment extends Fragment {
         getActivity().setTitle(R.string.note_add);
     }
 
-    private void addNote(DrawerMenuItem drawerMenuItem) {
+    private void addNote() {
         this.addNoteViewModel.addNote(new Note(viewBinding.fragmentAddNoteTagS.getSelectedItem().toString(),
                 viewBinding.fragmentAddNoteTitleEt.getText().toString(),
-                viewBinding.fragmentAddNoteDescriptionEt.getText().toString()), drawerMenuItem);
+                viewBinding.fragmentAddNoteDescriptionEt.getText().toString()));
     }
 
     private void showBackButton(Boolean enable) {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.showBackButton(enable);
+    }
+
+    private int findMenuItemPosition(List<DrawerMenuItem> drawerMenuItems, String tagName) {
+        for (int i = 0; i < drawerMenuItems.size(); i++) {
+            if (drawerMenuItems.get(i).getMenuItemName().equals(tagName)) {
+                return i;
+            }
+        }
+        return drawerMenuItems.size() - 1;
     }
 }

@@ -1,8 +1,10 @@
 package com.example.mat.roomdb_mvvm.color.adapter;
 
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -54,9 +56,16 @@ public class ColorAdapter extends ListAdapter<Color, ColorAdapter.ColorHolder> {
         holder.setClickListener(color, onColorClickListener);
 
         String colorName = color.getColorName();
+        colorName = colorName.replace(" Theme", "");
 
         holder.viewBinding.colorItemNameTv.setText(colorName);
-        holder.viewBinding.colorItemImageIv.setBackgroundResource(color.getPrimaryColor());
+        holder.viewBinding.colorItemStatusBar.setBackgroundResource(color.getPrimaryDarkColor());
+        holder.viewBinding.colorItemToolbar.setBackgroundResource(color.getPrimaryColor());
+        holder.viewBinding.colorItemDrawer.setBackgroundResource(color.getPrimaryLightColor());
+
+        LinearLayout imgIcon = holder.viewBinding.colorItemFloatingB;
+        GradientDrawable backgroundGradient = (GradientDrawable)imgIcon.getBackground();
+        backgroundGradient.setColor(holder.viewBinding.getRoot().getResources().getColor(color.getPrimaryDarkColor()));
     }
 
     static class ColorHolder extends RecyclerView.ViewHolder {

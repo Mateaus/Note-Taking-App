@@ -16,12 +16,14 @@ import java.util.List;
 public class NoteViewModel extends ColorViewModel {
 
     private LiveData<List<Note>> allNotes;
+    private LiveData<List<Note>> allNotesById;
     private NoteRepository noteRepository;
 
     public NoteViewModel(Application application) {
         super(application);
         this.noteRepository = new NoteRepository(application);
         this.allNotes = noteRepository.getAllNotes();
+        this.allNotesById = noteRepository.getAllNotesById();
     }
 
     public void insert(Note note) {
@@ -44,6 +46,10 @@ public class NoteViewModel extends ColorViewModel {
 
     public LiveData<List<Note>> getAllNotes() {
         return allNotes;
+    }
+
+    public LiveData<List<Note>> getAllNotesById() {
+        return allNotesById;
     }
 
     public LiveData<List<Note>> getAllFavoriteNotes(Boolean isFavorite) {
