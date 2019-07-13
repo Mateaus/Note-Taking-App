@@ -54,6 +54,7 @@ public class ColorAdapter extends ListAdapter<Color, ColorAdapter.ColorHolder> {
         holder.setClickListener(color, onColorClickListener);
 
         String colorName = color.getColorName();
+        colorName = colorName.replace(" Theme", "");
 
         holder.viewBinding.colorItemNameTv.setText(colorName);
         holder.viewBinding.colorItemImageIv.setBackgroundResource(color.getPrimaryColor());

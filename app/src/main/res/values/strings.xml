@@ -18,7 +18,7 @@
     <string name="note_list">Notes</string>
     <string name="note_add">Add Note</string>
     <string name="note_update">Update Note</string>
-    <string name="color_list">Colors</string>
+    <string name="color_list">Appearance</string>
 
     <!-- Note interaction messages -->
     <string name="note_created">Note added</string>

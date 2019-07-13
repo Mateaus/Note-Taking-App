@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mat.roomdb_mvvm.R;
@@ -87,7 +88,7 @@ public class ColorFragment extends Fragment implements OnColorClickListener {
     }
 
     private void setUpRecyclerView() {
-        viewBinding.fragmentColorListRv.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        viewBinding.fragmentColorListRv.setLayoutManager(new GridLayoutManager(this.getActivity(), 2));
         viewBinding.fragmentColorListRv.setAdapter(colorAdapter);
     }
 
