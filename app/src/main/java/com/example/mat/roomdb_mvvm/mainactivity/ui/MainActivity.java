@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -75,11 +76,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         setTheme(R.style.AppTheme_NoActionBar);
         viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        setSupportActionBar(viewBinding.toolbar);
-        setUpNavigationView();
-        setBurgerToggle();
-        setAdapter();
-        setRecyclerView();
+        initUI();
 
         /*
          * Update the activity's Theme and StatusBar to affect all the fragments in this activity.
@@ -148,6 +145,15 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             noteListFragment.setArguments(bundle);
 
             fragmentManager.beginTransaction().add(R.id.activity_main_fl, noteListFragment).commit();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -296,7 +302,9 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     public void loadColorScreen() {
         ColorFragment colorFragment = new ColorFragment();
         fragmentManager.beginTransaction()
-                .replace(R.id.activity_main_fl, colorFragment).addToBackStack(null).commit();
+                .replace(R.id.activity_main_fl, colorFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     public void showBackButton(Boolean enable) {
@@ -325,6 +333,15 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             toolBarNavigationListenerIsRegistered = false;
             fragmentManager.popBackStack();
         }
+    }
+
+    private void initUI() {
+        setSupportActionBar(viewBinding.toolbar);
+        setUpNavigationView();
+        setBurgerToggle();
+        setAdapter();
+        setRecyclerView();
+        viewBinding.activityMainActivityDl.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
     }
 
     private void setUpNavigationView() {
