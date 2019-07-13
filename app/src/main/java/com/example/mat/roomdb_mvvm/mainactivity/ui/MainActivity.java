@@ -53,6 +53,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements StatusBarListener, OnTagClickListener,
         OnMenuItemClickListener, OnNewTagClickListener, OnTagCategoryEditClickListener {
 
+    public static String CURR_TAG = "All Notes";
     public final static String ADD_TAG = "ADD_TAG";
     public final static String EDIT_TAG = "EDIT_TAG";
     public final static String DELETE_TAG = "DELETE_TAG";
@@ -247,18 +248,21 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     public void loadNoteScreen(DrawerMenuItem drawerMenuItem) {
-        NoteListFragment noteListFragment = new NoteListFragment();
+        if (!CURR_TAG.equals(drawerMenuItem.getMenuItemName())) {
+            NoteListFragment noteListFragment = new NoteListFragment();
 
-        Bundle bundle = new Bundle();
-        bundle.putString("menu_id", String.valueOf(drawerMenuItem.getMenuItemId()));
-        bundle.putString("menu_name", drawerMenuItem.getMenuItemName());
-        bundle.putString("menu_size", String.valueOf(drawerMenuItem.getMenuItemSize()));
-        bundle.putString("menu_icon", drawerMenuItem.getMenuItemImage());
-        noteListFragment.setArguments(bundle);
+            Bundle bundle = new Bundle();
+            bundle.putString("menu_id", String.valueOf(drawerMenuItem.getMenuItemId()));
+            bundle.putString("menu_name", drawerMenuItem.getMenuItemName());
+            bundle.putString("menu_size", String.valueOf(drawerMenuItem.getMenuItemSize()));
+            bundle.putString("menu_icon", drawerMenuItem.getMenuItemImage());
+            noteListFragment.setArguments(bundle);
 
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.activity_main_fl, noteListFragment).commit();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.activity_main_fl, noteListFragment).commit();
+            CURR_TAG = drawerMenuItem.getMenuItemName();
+        }
     }
 
     public void loadAddNoteScreen(DrawerMenuItem drawerMenuItem) {
