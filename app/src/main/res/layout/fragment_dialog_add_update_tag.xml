@@ -15,7 +15,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="16dp"
+            android:theme="@style/EditTextThemeNote">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/dialog_add_update_fragment_et"
