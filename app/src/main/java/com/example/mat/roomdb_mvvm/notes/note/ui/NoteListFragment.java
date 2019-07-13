@@ -146,7 +146,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
 
     private void setUI() {
         showBackButton(false);
-        eraseCurrentDatabase();
+        // eraseCurrentDatabase();
         setUpToolBar();
         setUpNoteAdapter();
         setUpRecyclerView();
