@@ -18,7 +18,12 @@
     <color name="dPrimary">#2F3136</color>
     <color name="dPrimaryDark">#202225</color>
     <color name="dAccent">#36393F</color>
-    
+
+    <!-- Lime Color Theme -->
+    <color name="limePrimary">#827616</color>
+    <color name="limePrimaryDark">#524b00</color>
+    <color name="limeAccent">#b4a446</color>
+
     <!-- Red Colors Interface -->
     <color name="red">#d32f2f</color>
     <color name="darkred">#9a0007</color>
@@ -74,9 +79,9 @@
     <color name="secondaryyellow">#f9a825</color>
 
     <!-- Brown Colors Interface -->
-    <color name="brown">#5d4037</color>
-    <color name="darkbrown">#321911</color>
-    <color name="lightbrown">#8b6b61</color>
+    <color name="brownPrimary">#5d4037</color>
+    <color name="brownPrimaryDark">#321911</color>
+    <color name="brownAccent">#8b6b61</color>
     <color name="secondarybrown">#4e342e</color>
 
 </resources>

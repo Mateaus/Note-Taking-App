@@ -99,9 +99,11 @@ public abstract class NoteDatabase extends RoomDatabase {
                     R.color.themePrimary, R.color.themePrimaryDark, R.color.themeAccent);
             Color dTheme = new Color("Discord Theme", R.style.DsThemeOverlay,
                     R.color.dPrimary, R.color.dPrimaryDark, R.color.dAccent);
+            Color limeTheme = new Color("Brown Theme", R.style.BrownThemeOverlay,
+                    R.color.brownPrimary, R.color.brownPrimaryDark, R.color.brownAccent);
 
             List<Color> colorList = new ArrayList<>(Arrays.asList(
-                    dTheme, blueGrey, darkTheme
+                    dTheme, blueGrey, darkTheme, limeTheme
             ));
 
             return colorList;

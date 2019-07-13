@@ -98,9 +98,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="colorPrimary">@color/brown</item>
-        <item name="colorPrimaryDark">@color/darkbrown</item>
-        <item name="colorAccent">@color/secondarybrown</item>
+        <item name="colorPrimary">@color/brownPrimary</item>
+        <item name="colorPrimaryDark">@color/brownPrimaryDark</item>
+        <item name="colorAccent">@color/brownAccent</item>
     </style>
 
     <style name="DsThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -110,6 +110,15 @@
         <item name="colorPrimary">@color/dPrimary</item>
         <item name="colorPrimaryDark">@color/dPrimaryDark</item>
         <item name="colorAccent">@color/dAccent</item>
+    </style>
+
+    <style name="LimeThemeOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/limePrimary</item>
+        <item name="colorPrimaryDark">@color/limePrimaryDark</item>
+        <item name="colorAccent">@color/limeAccent</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
