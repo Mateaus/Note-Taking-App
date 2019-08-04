@@ -321,8 +321,8 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             @Override
             public void onChanged(Theme theme) {
                 if (theme != null) {
-                    setUpStatusBar(getResources().getColor(theme.getPrimaryDarkColor()));
-                    setTheme(theme.getThemeStyle());
+                    //setUpStatusBar(getResources().getColor(theme.getPrimaryDarkColor()));
+                    //setTheme(theme.getThemeStyle());
                     viewBinding.toolbar.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
                     viewBinding.activityMainNh.setBackgroundColor(getResources().getColor(theme.getPrimaryDarkColor()));
                     viewBinding.activityMainNv.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
