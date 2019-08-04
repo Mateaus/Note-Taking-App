@@ -75,77 +75,6 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_NoActionBar);
         viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        initUI();
-
-        /*
-         * Update the activity's Theme and StatusBar to affect all the fragments in this activity.
-         * This also ensures all fragments will remain updated with the selected color theme
-         * from the database when we decide to change screen orientation while being inside
-         * the fragments.
-         */
-        this.mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-
-        this.mainViewModel.getMergedMenuLiveData().observe(this, new Observer<MergedMenu>() {
-            @Override
-            public void onChanged(MergedMenu mergedMenu) {
-                if (mergedMenu == null && !mergedMenu.isComplete()) {
-                    return;
-                }
-
-                if (mergedMenu.isComplete()) {
-                    itemAdapter.submitList(mergedMenu.getMenuList());
-                }
-            }
-        });
-
-        this.mainViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerMenuItem>>() {
-            @Override
-            public void onChanged(List<DrawerMenuItem> drawerMenuItems) {
-                if (drawerMenuItems != null && drawerMenuItems.size() != 0) {
-                    expandableAdapter.setTagList(drawerMenuItems);
-                    expandableEditAdapter.setTagList(drawerMenuItems);
-
-                    // Begins expanded keeps it expanded when changes happen
-                    if (!expandableAdapter.isGroupExpanded(0)) {
-                        expandableAdapter.toggleGroup(0);
-                    }
-
-                    if (!expandableEditAdapter.isGroupExpanded(0)) {
-                        expandableEditAdapter.toggleGroup(0);
-                    }
-                }
-            }
-        });
-
-        this.mainViewModel.getTheme().observe(this, new Observer<Theme>() {
-            @Override
-            public void onChanged(Theme theme) {
-                if (theme != null) {
-                    setUpStatusBar(getResources().getColor(theme.getPrimaryDarkColor()));
-                    setTheme(theme.getThemeStyle());
-                    viewBinding.toolbar.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
-                    viewBinding.activityMainNh.setBackgroundColor(getResources().getColor(theme.getPrimaryDarkColor()));
-                    viewBinding.activityMainNv.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
-                    expandableAdapter.updateFooterButtonColor(theme.getPrimaryDarkColor());
-                }
-            }
-        });
-
-        fragmentManager = getSupportFragmentManager();
-        Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.activity_main_fl);
-
-        if (mainFragment == null) {
-            NoteListFragment noteListFragment = new NoteListFragment();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("menu_id", "1");
-            bundle.putString("menu_name", "All Notes");
-            bundle.putString("menu_icon", "note_icon");
-            noteListFragment.setArguments(bundle);
-
-            fragmentManager.beginTransaction().add(R.id.activity_main_fl, noteListFragment).commit();
-        }
     }
 
     @Override
@@ -161,6 +90,12 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         expandableAdapter.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initUI();
     }
 
     @Override
@@ -342,6 +277,74 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         setAdapter();
         setRecyclerView();
         viewBinding.activityMainActivityDl.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+
+        /*
+         * Update the activity's Theme and StatusBar to affect all the fragments in this activity.
+         * This also ensures all fragments will remain updated with the selected color theme
+         * from the database when we decide to change screen orientation while being inside
+         * the fragments.
+         */
+        this.mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        this.mainViewModel.getMergedMenuLiveData().observe(this, new Observer<MergedMenu>() {
+            @Override
+            public void onChanged(MergedMenu mergedMenu) {
+                if (mergedMenu == null && !mergedMenu.isComplete()) {
+                    return;
+                }
+
+                if (mergedMenu.isComplete()) {
+                    itemAdapter.submitList(mergedMenu.getMenuList());
+                }
+            }
+        });
+
+        this.mainViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerMenuItem>>() {
+            @Override
+            public void onChanged(List<DrawerMenuItem> drawerMenuItems) {
+                if (drawerMenuItems != null && drawerMenuItems.size() != 0) {
+                    expandableAdapter.setTagList(drawerMenuItems);
+                    expandableEditAdapter.setTagList(drawerMenuItems);
+
+                    // Begins expanded keeps it expanded when changes happen
+                    if (!expandableAdapter.isGroupExpanded(0)) {
+                        expandableAdapter.toggleGroup(0);
+                    }
+
+                    if (!expandableEditAdapter.isGroupExpanded(0)) {
+                        expandableEditAdapter.toggleGroup(0);
+                    }
+                }
+            }
+        });
+
+        this.mainViewModel.getTheme().observe(this, new Observer<Theme>() {
+            @Override
+            public void onChanged(Theme theme) {
+                if (theme != null) {
+                    setUpStatusBar(getResources().getColor(theme.getPrimaryDarkColor()));
+                    setTheme(theme.getThemeStyle());
+                    viewBinding.toolbar.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
+                    viewBinding.activityMainNh.setBackgroundColor(getResources().getColor(theme.getPrimaryDarkColor()));
+                    viewBinding.activityMainNv.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
+                    expandableAdapter.updateFooterButtonColor(theme.getPrimaryDarkColor());
+                }
+            }
+        });
+
+        fragmentManager = getSupportFragmentManager();
+        Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.activity_main_fl);
+
+        if (mainFragment == null) {
+            NoteListFragment noteListFragment = new NoteListFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("menu_id", "1");
+            bundle.putString("menu_name", "All Notes");
+            bundle.putString("menu_icon", "note_icon");
+            noteListFragment.setArguments(bundle);
+
+            fragmentManager.beginTransaction().add(R.id.activity_main_fl, noteListFragment).commit();
+        }
     }
 
     private void setUpNavigationView() {

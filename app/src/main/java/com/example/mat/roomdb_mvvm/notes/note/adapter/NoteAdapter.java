@@ -1,5 +1,7 @@
 package com.example.mat.roomdb_mvvm.notes.note.adapter;
 
+import android.content.res.TypedArray;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,6 +110,15 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
                     listener.onFavoriteClick(note, getAdapterPosition());
                 }
             });
+        }
+
+        private int fetchThemeColor(int attr) {
+            TypedValue typedValue = new TypedValue();
+            TypedArray typedArray = viewBinding.getRoot().getContext().obtainStyledAttributes(typedValue.data, new int[]{attr});
+            int color = typedArray.getColor(0, 0);
+            typedArray.recycle();
+
+            return color;
         }
     }
 }
