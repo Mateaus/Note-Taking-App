@@ -40,6 +40,10 @@ public class ColorRepository {
         new UpdateThemeAsyncTask(themeDao).execute(theme);
     }
 
+    public void updateThemeMode(boolean isDarkMode) {
+        new UpdateThemeModeAsyncTask(themeDao).execute(isDarkMode);
+    }
+
     public LiveData<List<Color>> getAllColors() {
         return allColors;
     }
@@ -89,6 +93,21 @@ public class ColorRepository {
         @Override
         protected Void doInBackground(Theme... themes) {
             this.themeDao.update(themes[0]);
+            return null;
+        }
+    }
+
+    public static class UpdateThemeModeAsyncTask extends AsyncTask<Boolean, Void, Void> {
+
+        private ThemeDao themeDao;
+
+        private UpdateThemeModeAsyncTask(ThemeDao themeDao) {
+            this.themeDao = themeDao;
+        }
+
+        @Override
+        protected Void doInBackground(Boolean... booleans) {
+            this.themeDao.updateMode(booleans[0]);
             return null;
         }
     }

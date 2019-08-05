@@ -36,6 +36,10 @@ public class ColorViewModel extends AndroidViewModel {
         colorRepository.updateTheme(theme);
     }
 
+    public void updateThemeMode(boolean isDarkMode) {
+        colorRepository.updateThemeMode(isDarkMode);
+    }
+
     public LiveData<List<Color>> getAllColors() {
         return allColors;
     }

@@ -9,6 +9,14 @@
         android:layout_height="match_parent"
         tools:context="com.example.mat.roomdb_mvvm.color.ui.ColorFragment">
 
+        <Switch
+            android:id="@+id/fragment_color_theme_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:text="Theme" />
+
         <TextView
             android:id="@+id/fragment_title_tv"
             android:layout_width="wrap_content"

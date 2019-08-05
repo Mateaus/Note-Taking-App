@@ -146,7 +146,6 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
 
     private void setUI() {
         showBackButton(false);
-        // eraseCurrentDatabase();
         setUpToolBar();
         setUpNoteAdapter();
         setUpRecyclerView();
@@ -182,10 +181,6 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     private void settings() {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.loadColorScreen();
-    }
-
-    private void eraseCurrentDatabase() {
-        getContext().deleteDatabase("note_database");
     }
 
     private void addButtonHandler() {

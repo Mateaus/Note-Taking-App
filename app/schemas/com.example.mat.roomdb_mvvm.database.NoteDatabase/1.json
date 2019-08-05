@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "98f2af5e33ec1edea4999e24186d8b5b",
+    "identityHash": "1e98306354f8109b5ed6abd505ccc0ef",
     "entities": [
       {
         "tableName": "menu_item",
@@ -174,7 +174,7 @@
       },
       {
         "tableName": "theme_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tstyle` INTEGER NOT NULL, `tprimary` INTEGER NOT NULL, `tprimary_dark` INTEGER NOT NULL, `tprimary_light` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tstyle` INTEGER NOT NULL, `tprimary` INTEGER NOT NULL, `tprimary_dark` INTEGER NOT NULL, `tprimary_light` INTEGER NOT NULL, `ttheme_type` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -205,6 +205,12 @@
             "columnName": "tprimary_light",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "isDarkTheme",
+            "columnName": "ttheme_type",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -219,7 +225,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"98f2af5e33ec1edea4999e24186d8b5b\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1e98306354f8109b5ed6abd505ccc0ef\")"
     ]
   }
 }

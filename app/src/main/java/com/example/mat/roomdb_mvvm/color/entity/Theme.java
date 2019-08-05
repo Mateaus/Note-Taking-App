@@ -23,22 +23,29 @@ public class Theme {
     @ColumnInfo(name = "tprimary_light")
     private int primaryLightColor;
 
+    @ColumnInfo(name = "ttheme_type")
+    private boolean isDarkTheme;
+
     @Ignore
     public Theme(int themeStyle, int primaryColor,
-                 int primaryDarkColor, int primaryLightColor) {
+                 int primaryDarkColor, int primaryLightColor,
+                 boolean isDarkTheme) {
         this.themeStyle = themeStyle;
         this.primaryColor = primaryColor;
         this.primaryDarkColor = primaryDarkColor;
         this.primaryLightColor = primaryLightColor;
+        this.isDarkTheme = isDarkTheme;
     }
 
     public Theme(int id, int themeStyle, int primaryColor,
-                 int primaryDarkColor, int primaryLightColor) {
+                 int primaryDarkColor, int primaryLightColor,
+                 boolean isDarkTheme) {
         this.id = id;
         this.themeStyle = themeStyle;
         this.primaryColor = primaryColor;
         this.primaryDarkColor = primaryDarkColor;
         this.primaryLightColor = primaryLightColor;
+        this.isDarkTheme = isDarkTheme;
     }
 
     public int getId() {
@@ -79,5 +86,13 @@ public class Theme {
 
     public void setPrimaryLightColor(int primaryLightColor) {
         this.primaryLightColor = primaryLightColor;
+    }
+
+    public boolean isDarkTheme() {
+        return isDarkTheme;
+    }
+
+    public void setDarkTheme(boolean darkTheme) {
+        isDarkTheme = darkTheme;
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -27,7 +28,8 @@ import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
 import java.util.List;
 
 
-public class ColorFragment extends Fragment implements OnColorClickListener {
+public class ColorFragment extends Fragment implements OnColorClickListener,
+        CompoundButton.OnCheckedChangeListener {
 
     private ColorAdapter colorAdapter;
     private ColorViewModel colorViewModel;
@@ -69,13 +71,25 @@ public class ColorFragment extends Fragment implements OnColorClickListener {
             }
         });
 
+        viewBinding.fragmentColorThemeSwitch.setOnCheckedChangeListener(this);
+
         return viewBinding.getRoot();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.fragment_color_theme_switch:
+                colorViewModel.updateThemeMode(isChecked);
+                break;
+        }
     }
 
     @Override
     public void onItemClick(Color color) {
         colorViewModel.updateTheme(new Theme(color.getColorStyle(), color.getPrimaryColor(),
-                color.getPrimaryDarkColor(), color.getPrimaryLightColor()));
+                color.getPrimaryDarkColor(), color.getPrimaryLightColor(),
+                viewBinding.fragmentColorThemeSwitch.isChecked()));
     }
 
     private void setUpToolBar() {

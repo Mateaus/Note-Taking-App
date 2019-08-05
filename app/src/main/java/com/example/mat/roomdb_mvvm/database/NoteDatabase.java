@@ -82,7 +82,7 @@ public abstract class NoteDatabase extends RoomDatabase {
              * This populates the database when it's first initially out of box.
              */
             Theme mainTheme = new Theme(R.style.AppTheme, R.color.themePrimary, R.color.themePrimaryDark,
-                    R.color.themeAccent);
+                    R.color.themeAccent, false);
             themeDao.insert(mainTheme);
 
             for (int i = 0; i < populateThemeColors().size(); i++) {

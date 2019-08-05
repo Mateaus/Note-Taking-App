@@ -271,6 +271,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     private void initUI() {
+        eraseCurrentDatabase();
         setSupportActionBar(viewBinding.toolbar);
         setUpNavigationView();
         setBurgerToggle();
@@ -327,6 +328,12 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                     viewBinding.activityMainNh.setBackgroundColor(getResources().getColor(theme.getPrimaryDarkColor()));
                     viewBinding.activityMainNv.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
                     expandableAdapter.updateFooterButtonColor(theme.getPrimaryDarkColor());
+
+                    if (theme.isDarkTheme()) {
+                        viewBinding.activityMainFl.setBackgroundColor(getResources().getColor(theme.getPrimaryLightColor()));
+                    } else {
+                        viewBinding.activityMainFl.setBackgroundColor(getResources().getColor(R.color.white));
+                    }
                 }
             }
         });
@@ -381,5 +388,9 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     private void hideSoftKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void eraseCurrentDatabase() {
+        deleteDatabase("note_database");
     }
 }

@@ -23,4 +23,7 @@ public interface ThemeDao {
 
     @Query("SELECT * FROM theme_table")
     LiveData<Theme> getTheme();
+
+    @Query("UPDATE theme_table SET ttheme_type =:isDarkMode WHERE id = 1")
+    void updateMode(boolean isDarkMode);
 }
