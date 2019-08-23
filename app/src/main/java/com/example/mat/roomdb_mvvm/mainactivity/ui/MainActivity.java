@@ -52,7 +52,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements StatusBarListener, OnTagClickListener,
-        OnMenuItemClickListener, OnNewTagClickListener, OnTagCategoryEditClickListener {
+        OnMenuItemClickListener, OnNewTagClickListener, OnTagCategoryEditClickListener,
+        NoteListFragment.NoteListFragmentListener {
 
     public static String CURR_TAG = "All Notes";
     public final static String ADD_TAG = "ADD_TAG";
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     public final static String DELETE_TAG = "DELETE_TAG";
 
     private FragmentManager fragmentManager;
-    private MainViewModel mainViewModel;
     private ActionBarDrawerToggle drawerToggle;
     private boolean toolBarNavigationListenerIsRegistered = false;
 
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     private CategoryAdapter expandableAdapter;
     private CategoryEditAdapter expandableEditAdapter;
 
+    private MainViewModel mainViewModel;
     private ActivityMainBinding viewBinding;
 
     @Override
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_NoActionBar);
         viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        initUI();
     }
 
     @Override
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     @Override
     protected void onResume() {
         super.onResume();
-        initUI();
+        setUpLiveData();
     }
 
     @Override
@@ -156,6 +158,38 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             viewBinding.activityMainExpandableRv.setAdapter(expandableEditAdapter);
         } else {
             viewBinding.activityMainExpandableRv.setAdapter(expandableAdapter);
+        }
+    }
+
+    @Override
+    public void setNoteToolbarTitle(String titleName) {
+        setTitle(titleName);
+    }
+
+    @Override
+    public void setNoteBackButtonVisible(boolean enabled) {
+        showBackButton(enabled);
+    }
+
+    @Override
+    public void onNoteAddButtonClick(DrawerMenuItem drawerMenuItem) {
+        loadAddNoteScreen(drawerMenuItem);
+    }
+
+    @Override
+    public void onNoteCardViewClick(Note note) {
+        loadUpdateNoteScreen(note);
+    }
+
+    @Override
+    public boolean onNoteOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.themes:
+                loadColorScreen();
+                return true;
+            default:
+                fragmentManager.popBackStack();
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 
@@ -279,6 +313,23 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         setRecyclerView();
         viewBinding.activityMainActivityDl.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
 
+        fragmentManager = getSupportFragmentManager();
+        Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.activity_main_fl);
+
+        if (mainFragment == null) {
+            NoteListFragment noteListFragment = new NoteListFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("menu_id", "1");
+            bundle.putString("menu_name", "All Notes");
+            bundle.putString("menu_icon", "note_icon");
+            noteListFragment.setArguments(bundle);
+
+            fragmentManager.beginTransaction().add(R.id.activity_main_fl, noteListFragment).commit();
+        }
+    }
+
+    private void setUpLiveData() {
         /*
          * Update the activity's Theme and StatusBar to affect all the fragments in this activity.
          * This also ensures all fragments will remain updated with the selected color theme
@@ -337,21 +388,6 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
                 }
             }
         });
-
-        fragmentManager = getSupportFragmentManager();
-        Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.activity_main_fl);
-
-        if (mainFragment == null) {
-            NoteListFragment noteListFragment = new NoteListFragment();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("menu_id", "1");
-            bundle.putString("menu_name", "All Notes");
-            bundle.putString("menu_icon", "note_icon");
-            noteListFragment.setArguments(bundle);
-
-            fragmentManager.beginTransaction().add(R.id.activity_main_fl, noteListFragment).commit();
-        }
     }
 
     private void setUpNavigationView() {
@@ -360,7 +396,15 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
 
     private void setBurgerToggle() {
         drawerToggle = new ActionBarDrawerToggle(this, viewBinding.activityMainActivityDl, viewBinding.toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                if (expandableEditAdapter.getGroups().get(0).getOption().equals("Return")) {
+                    viewBinding.activityMainExpandableRv.setAdapter(expandableAdapter);
+                }
+            }
+        };
 
         viewBinding.activityMainActivityDl.addDrawerListener(drawerToggle);
         drawerToggle.syncState();

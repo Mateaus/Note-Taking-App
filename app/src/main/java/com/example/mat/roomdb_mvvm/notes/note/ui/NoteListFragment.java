@@ -1,5 +1,6 @@
 package com.example.mat.roomdb_mvvm.notes.note.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -20,7 +22,6 @@ import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Theme;
 import com.example.mat.roomdb_mvvm.databinding.FragmentNoteListBinding;
 import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
-import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
 import com.example.mat.roomdb_mvvm.notes.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.notes.note.adapter.NoteAdapter;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
@@ -35,20 +36,56 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     public static final String ALL_NOTES = "All Notes";
     public static final String FAVORITES_NOTES = "Favorites";
 
+    private int menuId;
+    private String menuName;
+    private String menuIcon;
+    private int menuSize;
+
     private NoteViewModel noteViewModel;
     private NoteAdapter noteAdapter;
-
+    private NoteListFragmentListener listener;
     private FragmentNoteListBinding viewBinding;
+
+    public interface NoteListFragmentListener {
+        void setNoteToolbarTitle(String titleName);
+
+        void setNoteBackButtonVisible(boolean enabled);
+
+        void onNoteAddButtonClick(DrawerMenuItem drawerMenuItem);
+
+        void onNoteCardViewClick(Note note);
+
+        boolean onNoteOptionsItemSelected(MenuItem menuItem);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = (NoteListFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement NoteListFragmentListener");
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        String menuStringId = getArguments() != null ? getArguments().getString("menu_id") : null;
+        String menuStringSize = getArguments() != null ? getArguments().getString("menu_size") : null;
+        menuId = menuStringId != null ? Integer.valueOf(menuStringId) : 0;
+        menuName = getArguments() != null ? getArguments().getString("menu_name") : "";
+        menuIcon = getArguments() != null ? getArguments().getString("menu_icon") : "";
+        menuSize = menuStringSize != null ? Integer.valueOf(menuStringSize) : 0;
+    }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_note_list, container, false);
 
         setUI();
-
-        String menuName = getArguments().getString("menu_name");
-        getActivity().setTitle(menuName);
 
         this.noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
 
@@ -107,8 +144,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
 
     @Override
     public void onItemClick(Note note) {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.loadUpdateNoteScreen(note);
+        listener.onNoteCardViewClick(note);
     }
 
     @Override
@@ -120,14 +156,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.themes:
-                settings();
-                return true;
-            default:
-                getFragmentManager().popBackStack();
-                return super.onOptionsItemSelected(item);
-        }
+        return listener.onNoteOptionsItemSelected(item);
     }
 
     @Override
@@ -145,7 +174,8 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     }
 
     private void setUI() {
-        showBackButton(false);
+        listener.setNoteToolbarTitle(menuName);
+        listener.setNoteBackButtonVisible(false);
         setUpToolBar();
         setUpNoteAdapter();
         setUpRecyclerView();
@@ -154,7 +184,6 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
 
     private void setUpToolBar() {
         setHasOptionsMenu(true);
-        getActivity().setTitle(R.string.note_list);
     }
 
     private void setUpNoteAdapter() {
@@ -173,32 +202,10 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         itemTouchHelper.attachToRecyclerView(viewBinding.fragmentNoteListRv);
     }
 
-    private void showBackButton(Boolean enable) {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.showBackButton(enable);
-    }
-
-    private void settings() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.loadColorScreen();
-    }
-
     private void addButtonHandler() {
-        int menuId = Integer.valueOf(getArguments().getString("menu_id"));
-        String menuName = getArguments().getString("menu_name");
-        String menuIcon = getArguments().getString("menu_icon");
-
-        int menuNoteSize = 0;
-        if (menuId == 1 && menuName.equals("All Notes")) {
-            menuNoteSize = noteAdapter.getItemCount();
-        } else {
-            menuNoteSize = Integer.valueOf(getArguments().getString("menu_size"));
-        }
-
-        DrawerMenuItem drawerMenuItem = new DrawerMenuItem(menuId, menuName, menuNoteSize, menuIcon);
-
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.loadAddNoteScreen(drawerMenuItem);
+        int menuNoteSize = menuId == 1 && menuName.equals("All Notes") ?
+                noteAdapter.getItemCount() : menuSize;
+        listener.onNoteAddButtonClick(new DrawerMenuItem(menuId, menuName, menuNoteSize, menuIcon));
     }
 }
 
