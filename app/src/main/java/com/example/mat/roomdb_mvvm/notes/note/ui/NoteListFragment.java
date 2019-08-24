@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Theme;
 import com.example.mat.roomdb_mvvm.databinding.FragmentNoteListBinding;
+import com.example.mat.roomdb_mvvm.fragmentbasecallback.BaseFragmentListener;
 import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.notes.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.notes.note.adapter.NoteAdapter;
@@ -30,8 +31,8 @@ import com.example.mat.roomdb_mvvm.notes.note.listener.OnItemClickListener;
 
 import java.util.List;
 
-public class NoteListFragment extends Fragment implements OnItemClickListener, OnFavoriteClickListener,
-        View.OnClickListener {
+public class NoteListFragment extends Fragment implements OnItemClickListener,
+        OnFavoriteClickListener, View.OnClickListener {
 
     public static final String ALL_NOTES = "All Notes";
     public static final String FAVORITES_NOTES = "Favorites";
@@ -46,16 +47,35 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     private NoteListFragmentListener listener;
     private FragmentNoteListBinding viewBinding;
 
-    public interface NoteListFragmentListener {
-        void setNoteToolbarTitle(String titleName);
-
-        void setNoteBackButtonVisible(boolean enabled);
-
+    public interface NoteListFragmentListener extends BaseFragmentListener {
         void onNoteAddButtonClick(DrawerMenuItem drawerMenuItem);
-
         void onNoteCardViewClick(Note note);
-
         boolean onNoteOptionsItemSelected(MenuItem menuItem);
+    }
+
+    public static NoteListFragment newStartUpInstance() {
+        NoteListFragment noteListFragment = new NoteListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("menu_id", "1");
+        bundle.putString("menu_name", "All Notes");
+        bundle.putString("menu_icon", "note_icon");
+        noteListFragment.setArguments(bundle);
+
+        return noteListFragment;
+    }
+
+    public static NoteListFragment newOnMenuSelectInstance(DrawerMenuItem drawerMenuItem) {
+        NoteListFragment noteListFragment = new NoteListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("menu_id", String.valueOf(drawerMenuItem.getMenuItemId()));
+        bundle.putString("menu_name", drawerMenuItem.getMenuItemName());
+        bundle.putString("menu_size", String.valueOf(drawerMenuItem.getMenuItemSize()));
+        bundle.putString("menu_icon", drawerMenuItem.getMenuItemImage());
+        noteListFragment.setArguments(bundle);
+
+        return noteListFragment;
     }
 
     @Override
@@ -86,48 +106,6 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
         viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_note_list, container, false);
 
         setUI();
-
-        this.noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
-
-        if (menuName.equals(ALL_NOTES)) {
-            this.noteViewModel.getAllNotesById().observe(this, new Observer<List<Note>>() {
-                @Override
-                public void onChanged(@Nullable List<Note> notes) {
-                    if (notes != null) {
-                        noteAdapter.submitList(notes);
-                    }
-                }
-            });
-        } else if (menuName.equals(FAVORITES_NOTES)) {
-            this.noteViewModel.getAllFavoriteNotes(true).observe(this, new Observer<List<Note>>() {
-                @Override
-                public void onChanged(List<Note> notes) {
-                    if (notes != null) {
-                        noteAdapter.submitList(notes);
-                    }
-                }
-            });
-        } else {
-            this.noteViewModel.getAllTagNotes(menuName).observe(this, new Observer<List<Note>>() {
-                @Override
-                public void onChanged(@Nullable List<Note> notes) {
-                    if (notes != null) {
-                        noteAdapter.submitList(notes);
-                    }
-                }
-            });
-        }
-
-        this.noteViewModel.getTheme().observe(this, new Observer<Theme>() {
-            @Override
-            public void onChanged(Theme theme) {
-                if (theme != null) {
-                    viewBinding.fragmentNoteAddBtn.setBackgroundTintList(getResources().getColorStateList(theme.getPrimaryDarkColor()));
-                }
-            }
-        });
-
-        setUpItemTouchHelper();
 
         return viewBinding.getRoot();
     }
@@ -174,12 +152,14 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     }
 
     private void setUI() {
-        listener.setNoteToolbarTitle(menuName);
-        listener.setNoteBackButtonVisible(false);
+        listener.setToolbarTitle(menuName);
+        listener.setBackButtonVisible(false);
+        viewBinding.fragmentNoteAddBtn.setOnClickListener(this);
         setUpToolBar();
         setUpNoteAdapter();
         setUpRecyclerView();
-        viewBinding.fragmentNoteAddBtn.setOnClickListener(this);
+        setUpLiveData();
+        setUpItemTouchHelper();
     }
 
     private void setUpToolBar() {
@@ -193,6 +173,49 @@ public class NoteListFragment extends Fragment implements OnItemClickListener, O
     private void setUpRecyclerView() {
         viewBinding.fragmentNoteListRv.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         viewBinding.fragmentNoteListRv.setAdapter(noteAdapter);
+    }
+
+    private void setUpLiveData() {
+        this.noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+
+        if (menuName.equals(ALL_NOTES)) {
+            this.noteViewModel.getAllNotesById().observe(this, new Observer<List<Note>>() {
+                @Override
+                public void onChanged(@Nullable List<Note> notes) {
+                    if (notes != null) {
+                        noteAdapter.submitList(notes);
+                    }
+                }
+            });
+        } else if (menuName.equals(FAVORITES_NOTES)) {
+            this.noteViewModel.getAllFavoriteNotes(true).observe(this, new Observer<List<Note>>() {
+                @Override
+                public void onChanged(List<Note> notes) {
+                    if (notes != null) {
+                        noteAdapter.submitList(notes);
+                    }
+                }
+            });
+        } else {
+            this.noteViewModel.getAllTagNotes(menuName).observe(this, new Observer<List<Note>>() {
+                @Override
+                public void onChanged(@Nullable List<Note> notes) {
+                    if (notes != null) {
+                        noteAdapter.submitList(notes);
+                    }
+                }
+            });
+        }
+
+        this.noteViewModel.getTheme().observe(this, new Observer<Theme>() {
+            @Override
+            public void onChanged(Theme theme) {
+                if (theme != null) {
+                    viewBinding.fragmentNoteAddBtn.setBackgroundTintList(
+                            getResources().getColorStateList(theme.getPrimaryDarkColor()));
+                }
+            }
+        });
     }
 
     private void setUpItemTouchHelper() {

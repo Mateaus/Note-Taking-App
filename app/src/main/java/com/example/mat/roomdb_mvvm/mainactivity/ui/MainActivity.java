@@ -39,7 +39,6 @@ import com.example.mat.roomdb_mvvm.mainactivity.listener.OnMenuItemClickListener
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnNewTagClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagCategoryEditClickListener;
 import com.example.mat.roomdb_mvvm.mainactivity.listener.OnTagClickListener;
-import com.example.mat.roomdb_mvvm.mainactivity.listener.StatusBarListener;
 import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
 import com.example.mat.roomdb_mvvm.mainactivity.model.MergedMenu;
 import com.example.mat.roomdb_mvvm.notes.addnote.AddNoteFragment;
@@ -51,9 +50,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements StatusBarListener, OnTagClickListener,
+public class MainActivity extends AppCompatActivity implements OnTagClickListener,
         OnMenuItemClickListener, OnNewTagClickListener, OnTagCategoryEditClickListener,
-        NoteListFragment.NoteListFragmentListener {
+        NoteListFragment.NoteListFragmentListener, ColorFragment.ColorFragmentListener {
 
     public static String CURR_TAG = "All Notes";
     public final static String ADD_TAG = "ADD_TAG";
@@ -162,13 +161,42 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     @Override
-    public void setNoteToolbarTitle(String titleName) {
+    public void setToolbarTitle(String titleName) {
         setTitle(titleName);
     }
 
     @Override
-    public void setNoteBackButtonVisible(boolean enabled) {
+    public void setBackButtonVisible(boolean enabled) {
         showBackButton(enabled);
+    }
+
+    /**
+     * setUpStatusBar will change the status bar color and the Task Description's
+     * icon and bar color.
+     * To ensure this feature works, it checks if the api version is 21(LOLLIPOP) or higher.
+     *
+     * @param colorId - color id coming from getResource().getColor(theme.getPrimaryDarkColor()).
+     *                where theme.getPrimaryDarkColor() returns a color from R.color.colorName.
+     */
+    @Override
+    public void setUpStatusBarColor(int colorId) {
+        // Checks if api level is higher than LOLLIPOP(api 21)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Change the status bar color by the colorId passed.
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(colorId);
+
+            /*
+             * Changes the task description's icon to the transparent icon
+             * and the color based on colorId.
+             */
+            Bitmap bitmapIcon = BitmapFactory.decodeResource(getResources(), R.drawable.novus);
+            setTaskDescription(
+                    new ActivityManager.TaskDescription(null, bitmapIcon, colorId)
+            );
+        }
     }
 
     @Override
@@ -193,49 +221,12 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         }
     }
 
-    /**
-     * setUpStatusBar will change the status bar color and the Task Description's
-     * icon and bar color.
-     * To ensure this feature works, it checks if the api version is 21(LOLLIPOP) or higher.
-     *
-     * @param colorId - color id coming from getResource().getColor(theme.getPrimaryDarkColor()).
-     *                where theme.getPrimaryDarkColor() returns a color from R.color.colorName.
-     */
-
-    public void setUpStatusBar(int colorId) {
-        // Checks if api level is higher than LOLLIPOP(api 21)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // Change the status bar color by the colorId passed.
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(colorId);
-
-            /*
-             * Changes the task description's icon to the transparent icon
-             * and the color based on colorId.
-             */
-            Bitmap bitmapIcon = BitmapFactory.decodeResource(getResources(), R.drawable.novus);
-            setTaskDescription(
-                    new ActivityManager.TaskDescription(null, bitmapIcon, colorId)
-            );
-        }
-    }
-
     public void loadNoteScreen(DrawerMenuItem drawerMenuItem) {
         if (!CURR_TAG.equals(drawerMenuItem.getMenuItemName())) {
-            NoteListFragment noteListFragment = new NoteListFragment();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("menu_id", String.valueOf(drawerMenuItem.getMenuItemId()));
-            bundle.putString("menu_name", drawerMenuItem.getMenuItemName());
-            bundle.putString("menu_size", String.valueOf(drawerMenuItem.getMenuItemSize()));
-            bundle.putString("menu_icon", drawerMenuItem.getMenuItemImage());
-            noteListFragment.setArguments(bundle);
-
-
             fragmentManager.beginTransaction()
-                    .replace(R.id.activity_main_fl, noteListFragment).commit();
+                    .replace(R.id.activity_main_fl,
+                            NoteListFragment.newOnMenuSelectInstance(drawerMenuItem))
+                    .commit();
             CURR_TAG = drawerMenuItem.getMenuItemName();
         }
     }
@@ -269,9 +260,8 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     public void loadColorScreen() {
-        ColorFragment colorFragment = new ColorFragment();
         fragmentManager.beginTransaction()
-                .replace(R.id.activity_main_fl, colorFragment)
+                .replace(R.id.activity_main_fl, ColorFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
     }
@@ -311,21 +301,15 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
         setBurgerToggle();
         setAdapter();
         setRecyclerView();
-        viewBinding.activityMainActivityDl.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+        viewBinding.activityMainActivityDl
+                .setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
 
         fragmentManager = getSupportFragmentManager();
         Fragment mainFragment = (Fragment) fragmentManager.findFragmentById(R.id.activity_main_fl);
 
         if (mainFragment == null) {
-            NoteListFragment noteListFragment = new NoteListFragment();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("menu_id", "1");
-            bundle.putString("menu_name", "All Notes");
-            bundle.putString("menu_icon", "note_icon");
-            noteListFragment.setArguments(bundle);
-
-            fragmentManager.beginTransaction().add(R.id.activity_main_fl, noteListFragment).commit();
+            fragmentManager.beginTransaction()
+                    .add(R.id.activity_main_fl, NoteListFragment.newStartUpInstance()).commit();
         }
     }
 
@@ -373,17 +357,21 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
             @Override
             public void onChanged(Theme theme) {
                 if (theme != null) {
-                    setUpStatusBar(getResources().getColor(theme.getPrimaryDarkColor()));
-                    setTheme(theme.getThemeStyle());
-                    viewBinding.toolbar.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
-                    viewBinding.activityMainNh.setBackgroundColor(getResources().getColor(theme.getPrimaryDarkColor()));
-                    viewBinding.activityMainNv.setBackgroundColor(getResources().getColor(theme.getPrimaryColor()));
-                    expandableAdapter.updateFooterButtonColor(theme.getPrimaryDarkColor());
+                    viewBinding.toolbar.setBackgroundColor(getResources()
+                            .getColor(theme.getPrimaryColor()));
+                    viewBinding.activityMainNh.setBackgroundColor(getResources()
+                            .getColor(theme.getPrimaryDarkColor()));
+                    viewBinding.activityMainNv.setBackgroundColor(getResources()
+                            .getColor(theme.getPrimaryColor()));
+                    expandableAdapter.updateFooterButtonColor(theme
+                            .getPrimaryDarkColor());
 
                     if (theme.isDarkTheme()) {
-                        viewBinding.activityMainFl.setBackgroundColor(getResources().getColor(theme.getPrimaryLightColor()));
+                        viewBinding.activityMainFl.setBackgroundColor(getResources()
+                                .getColor(theme.getPrimaryLightColor()));
                     } else {
-                        viewBinding.activityMainFl.setBackgroundColor(getResources().getColor(R.color.white));
+                        viewBinding.activityMainFl.setBackgroundColor(getResources()
+                                .getColor(R.color.white));
                     }
                 }
             }
@@ -395,8 +383,9 @@ public class MainActivity extends AppCompatActivity implements StatusBarListener
     }
 
     private void setBurgerToggle() {
-        drawerToggle = new ActionBarDrawerToggle(this, viewBinding.activityMainActivityDl, viewBinding.toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+        drawerToggle = new ActionBarDrawerToggle(this, viewBinding.activityMainActivityDl,
+                viewBinding.toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
