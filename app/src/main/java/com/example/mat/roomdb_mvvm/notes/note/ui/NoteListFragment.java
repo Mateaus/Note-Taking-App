@@ -50,7 +50,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener,
     public interface NoteListFragmentListener extends BaseFragmentListener {
         void onNoteAddButtonClick(DrawerMenuItem drawerMenuItem);
         void onNoteCardViewClick(Note note);
-        boolean onNoteOptionsItemSelected(MenuItem menuItem);
+        void onColorToolbarIconClick();
     }
 
     public static NoteListFragment newStartUpInstance() {
@@ -117,7 +117,6 @@ public class NoteListFragment extends Fragment implements OnItemClickListener,
                 addButtonHandler();
                 break;
         }
-
     }
 
     @Override
@@ -128,13 +127,18 @@ public class NoteListFragment extends Fragment implements OnItemClickListener,
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.note_list_menu, menu);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return listener.onNoteOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.themes:
+                listener.onColorToolbarIconClick();
+                return true;
+            default:
+                return super.onOptionsItemSelected(menuItem);
+        }
     }
 
     @Override

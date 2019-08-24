@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -52,7 +51,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnTagClickListener,
         OnMenuItemClickListener, OnNewTagClickListener, OnTagCategoryEditClickListener,
-        NoteListFragment.NoteListFragmentListener, ColorFragment.ColorFragmentListener {
+        NoteListFragment.NoteListFragmentListener, AddNoteFragment.AddNoteFragmentListener,
+        UpdateNoteFragment.UpdateNoteFragmentListener, ColorFragment.ColorFragmentListener {
 
     public static String CURR_TAG = "All Notes";
     public final static String ADD_TAG = "ADD_TAG";
@@ -200,6 +200,16 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
     }
 
     @Override
+    public void onNoteCreationCompleted() {
+        fragmentManager.popBackStack();
+    }
+
+    @Override
+    public void onNoteUpdateCompleted() {
+        fragmentManager.popBackStack();
+    }
+
+    @Override
     public void onNoteAddButtonClick(DrawerMenuItem drawerMenuItem) {
         loadAddNoteScreen(drawerMenuItem);
     }
@@ -210,15 +220,8 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
     }
 
     @Override
-    public boolean onNoteOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.themes:
-                loadColorScreen();
-                return true;
-            default:
-                fragmentManager.popBackStack();
-                return super.onOptionsItemSelected(menuItem);
-        }
+    public void onColorToolbarIconClick() {
+        loadColorScreen();
     }
 
     public void loadNoteScreen(DrawerMenuItem drawerMenuItem) {
@@ -232,31 +235,15 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
     }
 
     public void loadAddNoteScreen(DrawerMenuItem drawerMenuItem) {
-        AddNoteFragment addNoteFragment = new AddNoteFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("menu_id", String.valueOf(drawerMenuItem.getMenuItemId()));
-        bundle.putString("menu_name", drawerMenuItem.getMenuItemName());
-        bundle.putString("menu_size", String.valueOf(drawerMenuItem.getMenuItemSize()));
-        bundle.putString("menu_icon", drawerMenuItem.getMenuItemImage());
-        addNoteFragment.setArguments(bundle);
-
         fragmentManager.beginTransaction()
-                .replace(R.id.activity_main_fl, addNoteFragment).addToBackStack(null).commit();
+                .replace(R.id.activity_main_fl, AddNoteFragment.newInstance(drawerMenuItem))
+                .addToBackStack(null).commit();
     }
 
     public void loadUpdateNoteScreen(Note note) {
-        UpdateNoteFragment updateNoteFragment = new UpdateNoteFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("note_id", Integer.toString(note.getNoteId()));
-        bundle.putString("note_tag", note.getNoteTag());
-        bundle.putString("note_title", note.getNoteTitle());
-        bundle.putString("note_description", note.getNoteDescription());
-        updateNoteFragment.setArguments(bundle);
-
         fragmentManager.beginTransaction()
-                .replace(R.id.activity_main_fl, updateNoteFragment).addToBackStack(null).commit();
+                .replace(R.id.activity_main_fl, UpdateNoteFragment.newInstance(note))
+                .addToBackStack(null).commit();
     }
 
     public void loadColorScreen() {
@@ -290,7 +277,6 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
             drawerToggle.setDrawerIndicatorEnabled(true);
             drawerToggle.setToolbarNavigationClickListener(null);
             toolBarNavigationListenerIsRegistered = false;
-            fragmentManager.popBackStack();
         }
     }
 
