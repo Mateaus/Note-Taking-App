@@ -217,6 +217,8 @@ public class NoteListFragment extends Fragment implements OnItemClickListener,
                 if (theme != null) {
                     viewBinding.fragmentNoteAddBtn.setBackgroundTintList(
                             getResources().getColorStateList(theme.getPrimaryDarkColor()));
+                    noteAdapter.setTheme(theme);
+                    noteAdapter.notifyDataSetChanged();
                 }
             }
         });

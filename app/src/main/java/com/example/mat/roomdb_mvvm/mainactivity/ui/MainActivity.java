@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
     public final static String EDIT_TAG = "EDIT_TAG";
     public final static String DELETE_TAG = "DELETE_TAG";
 
+    private boolean mIsDarkTheme;
+
     private FragmentManager fragmentManager;
     private ActionBarDrawerToggle drawerToggle;
     private boolean toolBarNavigationListenerIsRegistered = false;
@@ -200,6 +202,11 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
     }
 
     @Override
+    public void setDarkTheme(boolean isDarkTheme) {
+        mIsDarkTheme = isDarkTheme;
+    }
+
+    @Override
     public void onNoteCreationCompleted() {
         fragmentManager.popBackStack();
     }
@@ -221,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
 
     @Override
     public void onColorToolbarIconClick() {
-        loadColorScreen();
+        loadColorScreen(mIsDarkTheme);
     }
 
     public void loadNoteScreen(DrawerMenuItem drawerMenuItem) {
@@ -246,9 +253,9 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
                 .addToBackStack(null).commit();
     }
 
-    public void loadColorScreen() {
+    public void loadColorScreen(boolean isDarkTheme) {
         fragmentManager.beginTransaction()
-                .replace(R.id.activity_main_fl, ColorFragment.newInstance())
+                .replace(R.id.activity_main_fl, ColorFragment.newInstance(isDarkTheme))
                 .addToBackStack(null)
                 .commit();
     }

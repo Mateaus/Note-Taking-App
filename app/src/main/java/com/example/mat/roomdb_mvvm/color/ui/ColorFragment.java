@@ -30,6 +30,8 @@ import java.util.List;
 public class ColorFragment extends Fragment implements OnColorClickListener,
         CompoundButton.OnCheckedChangeListener {
 
+    private boolean isDarkTheme;
+
     private ColorAdapter colorAdapter;
     private ColorViewModel colorViewModel;
     private ColorFragmentListener listener;
@@ -38,14 +40,15 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
 
     public interface ColorFragmentListener extends BaseFragmentListener {
         void setUpStatusBarColor(int colorId);
+        void setDarkTheme(boolean isDarkTheme);
     }
 
-    public static ColorFragment newInstance() {
+    public static ColorFragment newInstance(boolean isDarkTheme) {
         ColorFragment colorFragment = new ColorFragment();
 
-        /*
-         Add bundle here if needed.
-         */
+        Bundle colorBundle = new Bundle();
+        colorBundle.putBoolean("switch_boolean", isDarkTheme);
+        colorFragment.setArguments(colorBundle);
 
         return colorFragment;
     }
@@ -64,7 +67,7 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Get arguments here.
+        isDarkTheme = getArguments() != null && getArguments().getBoolean("switch_boolean");
     }
 
     @Override
@@ -82,6 +85,7 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
         switch (buttonView.getId()) {
             case R.id.fragment_color_theme_switch:
                 colorViewModel.updateThemeMode(isChecked);
+                listener.setDarkTheme(isChecked);
                 break;
         }
     }
@@ -96,6 +100,7 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
     private void setUI() {
         listener.setBackButtonVisible(true);
         listener.setToolbarTitle(getString(R.string.color_list));
+        viewBinding.fragmentColorThemeSwitch.setChecked(isDarkTheme);
 
         setUpToolBar();
         setUpCategoryAdapter();
