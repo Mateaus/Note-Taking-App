@@ -25,13 +25,17 @@
                 android:hint="Title"
                 android:inputType="textPersonName"
                 android:maxLength="32"
+                android:textColor="@android:color/tab_indicator_text"
+                android:textCursorDrawable="@null"
                 android:textSize="16sp"
                 android:theme="@style/EditTextThemeNote"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/fragment_add_note_top_v"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:layout_conversion_absoluteHeight="45dp"
                 tools:layout_conversion_absoluteWidth="395dp" />
 
@@ -44,6 +48,7 @@
                 android:background="@android:color/darker_gray"
                 app:layout_constraintBottom_toTopOf="@+id/fragment_add_note_tag_s"
                 app:layout_constraintEnd_toEndOf="@+id/fragment_add_note_title_et"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/fragment_add_note_title_et"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_add_note_title_et" />
 
@@ -52,13 +57,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp"
+                android:background="@null"
+                app:layout_constraintBottom_toTopOf="@+id/fragment_add_note_bottom_v"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_add_note_title_et"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/fragment_add_note_top_v" />
 
             <View
                 android:id="@+id/fragment_add_note_bottom_v"
@@ -69,6 +76,7 @@
                 android:background="@android:color/darker_gray"
                 app:layout_constraintBottom_toTopOf="@+id/fragment_add_note_description_et"
                 app:layout_constraintEnd_toEndOf="@+id/fragment_add_note_tag_s"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/fragment_add_note_tag_s"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_add_note_tag_s" />
 
@@ -77,21 +85,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
                 android:background="@android:color/transparent"
                 android:ems="10"
                 android:hint="Description"
                 android:inputType="textMultiLine"
                 android:maxLength="512"
+                android:textColor="@android:color/tab_indicator_text"
+                android:textCursorDrawable="@null"
                 android:textSize="16sp"
                 android:theme="@style/EditTextThemeNote"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_add_note_tag_s"
-                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_add_note_bottom_v"
                 tools:layout_conversion_absoluteHeight="24dp"
                 tools:layout_conversion_absoluteWidth="387dp" />
 

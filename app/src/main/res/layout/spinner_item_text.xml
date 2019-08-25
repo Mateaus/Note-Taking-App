@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/spinner_tv"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:fontFamily="sans-serif"
-    android:singleLine="true"
-    android:textSize="16sp"
-    android:textColor="@android:color/tab_indicator_text"/>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/spinner_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:singleLine="true"
+            android:textColor="@android:color/tab_indicator_text"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/spinner_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            app:srcCompat="@drawable/drop_down_arrow_dark" />
+
+    </LinearLayout>
+
+</layout>

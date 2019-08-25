@@ -2,17 +2,15 @@ package com.example.mat.roomdb_mvvm.notes.updatenote;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.annotation.NonNull;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.mainactivity.MainRepository;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.MenuItemThemeWrapper;
 import com.example.mat.roomdb_mvvm.notes.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
-
-import java.util.List;
 
 public class UpdateNoteViewModel extends NoteViewModel {
 
@@ -47,8 +45,7 @@ public class UpdateNoteViewModel extends NoteViewModel {
         return message;
     }
 
-
-    public LiveData<List<DrawerMenuItem>> getAllTagMenuItems() {
-        return mainRepository.getAllTagMenuItems();
+    public LiveData<MenuItemThemeWrapper> getAllThemeAndTagMenuItems() {
+        return mainRepository.getAllThemeAndTagMenuItems();
     }
 }

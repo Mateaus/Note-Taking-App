@@ -7,25 +7,32 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
+import com.example.mat.roomdb_mvvm.color.entity.Theme;
+import com.example.mat.roomdb_mvvm.database.ColorDao;
 import com.example.mat.roomdb_mvvm.database.MenuItemDao;
 import com.example.mat.roomdb_mvvm.database.NoteDao;
 import com.example.mat.roomdb_mvvm.database.NoteDatabase;
+import com.example.mat.roomdb_mvvm.database.ThemeDao;
 import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.MenuItemThemeWrapper;
 import com.example.mat.roomdb_mvvm.mainactivity.model.MergedMenu;
 
 import java.util.List;
 
 public class MainRepository {
 
+    private MergedMenu mergedMenu = new MergedMenu();
+    private MenuItemThemeWrapper menuItemThemeWrapper = new MenuItemThemeWrapper();
+
     private MenuItemDao menuItemDao;
     private NoteDao noteDao;
-
-    private MergedMenu mergedMenu = new MergedMenu();
+    private ThemeDao themeDao;
 
     public MainRepository(Application application) {
         NoteDatabase noteDatabase = NoteDatabase.getInstance(application);
         menuItemDao = noteDatabase.menuItemDao();
         noteDao = noteDatabase.noteDao();
+        themeDao = noteDatabase.themeDao();
     }
 
     public LiveData<DrawerMenuItem> getMenuOne() {
@@ -58,6 +65,27 @@ public class MainRepository {
 
     public LiveData<List<DrawerMenuItem>> getAllTagMenuItems() {
         return noteDao.getTagMenus();
+    }
+
+    public LiveData<MenuItemThemeWrapper> getAllThemeAndTagMenuItems() {
+        final MediatorLiveData<MenuItemThemeWrapper> menuItemThemeWrapperMediatorLiveData =
+                new MediatorLiveData<>();
+        menuItemThemeWrapperMediatorLiveData.addSource(themeDao.getTheme(), new Observer<Theme>() {
+            @Override
+            public void onChanged(Theme theme) {
+                menuItemThemeWrapper.setTheme(theme);
+                menuItemThemeWrapperMediatorLiveData.setValue(menuItemThemeWrapper);
+            }
+        });
+        menuItemThemeWrapperMediatorLiveData.addSource(noteDao.getTagMenus(), new Observer<List<DrawerMenuItem>>() {
+            @Override
+            public void onChanged(List<DrawerMenuItem> drawerMenuItems) {
+                menuItemThemeWrapper.setDrawerMenuItem(drawerMenuItems);
+                menuItemThemeWrapperMediatorLiveData.setValue(menuItemThemeWrapper);
+            }
+        });
+
+        return menuItemThemeWrapperMediatorLiveData;
     }
 
     public LiveData<MergedMenu> getMergedMenuLiveData() {

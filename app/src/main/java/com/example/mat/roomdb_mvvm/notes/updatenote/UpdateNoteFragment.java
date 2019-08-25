@@ -1,6 +1,7 @@
 package com.example.mat.roomdb_mvvm.notes.updatenote;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,10 +20,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mat.roomdb_mvvm.R;
+import com.example.mat.roomdb_mvvm.color.entity.Theme;
 import com.example.mat.roomdb_mvvm.databinding.FragmentAddUpdateNoteBinding;
+import com.example.mat.roomdb_mvvm.databinding.SpinnerItemTextBinding;
 import com.example.mat.roomdb_mvvm.fragmentbasecallback.BaseFragmentListener;
 import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
-import com.example.mat.roomdb_mvvm.mainactivity.ui.MainActivity;
+import com.example.mat.roomdb_mvvm.mainactivity.model.MenuItemThemeWrapper;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
 
 import java.util.List;
@@ -146,16 +149,51 @@ public class UpdateNoteFragment extends Fragment {
             }
         });
 
-        updateNoteViewModel.getAllTagMenuItems().observe(this, new Observer<List<DrawerMenuItem>>() {
+        updateNoteViewModel.getAllThemeAndTagMenuItems().observe(this, new Observer<MenuItemThemeWrapper>() {
             @Override
-            public void onChanged(List<DrawerMenuItem> drawerMenuItems) {
-                if (drawerMenuItems != null && drawerMenuItems.size() != 0) {
+            public void onChanged(MenuItemThemeWrapper menuItemThemeWrapper) {
+                if (menuItemThemeWrapper != null && menuItemThemeWrapper.getDrawerMenuItem() != null
+                        && menuItemThemeWrapper.getTheme() != null) {
+
+                    final Theme theme = menuItemThemeWrapper.getTheme();
                     ArrayAdapter<DrawerMenuItem> tagArrayAdapter = new ArrayAdapter<DrawerMenuItem>(
-                            mContext, R.layout.spinner_item_text, drawerMenuItems);
-                    tagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            mContext, R.layout.spinner_item_text, R.id.spinner_tv, menuItemThemeWrapper.getDrawerMenuItem()) {
+                        @NonNull
+                        @Override
+                        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                            SpinnerItemViewHolder spinnerIViewHolder =
+                                    new SpinnerItemViewHolder(super.getView(position, convertView, parent));
+                            if (theme.isDarkTheme()) {
+                                spinnerIViewHolder.viewBinding.spinnerTv.setTextColor(Color.WHITE);
+                                spinnerIViewHolder.viewBinding.spinnerIv.setImageDrawable(getResources().getDrawable(
+                                        R.drawable.drop_down_arrow_light));
+                            } else {
+                                spinnerIViewHolder.viewBinding.spinnerTv.setTextColor(
+                                        getResources().getColor(android.R.color.tab_indicator_text));
+                                spinnerIViewHolder.viewBinding.spinnerIv.setImageDrawable(getResources().getDrawable(
+                                        R.drawable.drop_down_arrow_dark));
+                            }
+
+                            return spinnerIViewHolder.viewBinding.getRoot();
+                        }
+                    };
+                    tagArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     viewBinding.fragmentAddNoteTagS.setAdapter(tagArrayAdapter);
                     viewBinding.fragmentAddNoteTagS.setSelection(findMenuItemPosition(
-                            drawerMenuItems, noteTag));
+                            menuItemThemeWrapper.getDrawerMenuItem(), noteTag));
+
+                    if (theme.isDarkTheme()) {
+                        viewBinding.fragmentAddNoteTitleEt.setTextColor(Color.WHITE);
+                        viewBinding.fragmentAddNoteTitleEt.setHintTextColor(Color.WHITE);
+                        viewBinding.fragmentAddNoteDescriptionEt.setTextColor(Color.WHITE);
+                        viewBinding.fragmentAddNoteDescriptionEt.setHintTextColor(Color.WHITE);
+                    } else {
+                        viewBinding.fragmentAddNoteTitleEt.setTextColor(
+                                getResources().getColor(android.R.color.tab_indicator_text));
+                        viewBinding.fragmentAddNoteDescriptionEt.setTextColor(
+                                getResources().getColor(android.R.color.tab_indicator_text));
+                    }
+
                 }
             }
         });
@@ -168,5 +206,14 @@ public class UpdateNoteFragment extends Fragment {
             }
         }
         return 0;
+    }
+
+    public static class SpinnerItemViewHolder {
+
+        private SpinnerItemTextBinding viewBinding;
+
+        private SpinnerItemViewHolder(View view) {
+            viewBinding = DataBindingUtil.bind(view);
+        }
     }
 }

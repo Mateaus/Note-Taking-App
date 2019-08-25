@@ -8,11 +8,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.mainactivity.MainRepository;
-import com.example.mat.roomdb_mvvm.mainactivity.model.DrawerMenuItem;
+import com.example.mat.roomdb_mvvm.mainactivity.model.MenuItemThemeWrapper;
 import com.example.mat.roomdb_mvvm.notes.note.NoteViewModel;
 import com.example.mat.roomdb_mvvm.notes.note.entity.Note;
-
-import java.util.List;
 
 public class AddNoteViewModel extends NoteViewModel {
 
@@ -41,8 +39,7 @@ public class AddNoteViewModel extends NoteViewModel {
         return this.message;
     }
 
-
-    public LiveData<List<DrawerMenuItem>> getAllTagMenuItems() {
-        return mainRepository.getAllTagMenuItems();
+    public LiveData<MenuItemThemeWrapper> getAllThemeAndTagMenuItems() {
+        return mainRepository.getAllThemeAndTagMenuItems();
     }
 }
