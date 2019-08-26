@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
     }
 
     private void initUI() {
-        //eraseCurrentDatabase();
+        // eraseCurrentDatabase();
         setSupportActionBar(viewBinding.toolbar);
         setUpNavigationView();
         setBurgerToggle();
