@@ -69,8 +69,8 @@ public class ColorAdapter extends ListAdapter<Color, ColorAdapter.ColorHolder> {
             holder.viewBinding.colorItemNameTv.setTextColor(android.graphics.Color.WHITE);
             holder.viewBinding.colorItemRb.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.WHITE));
         } else {
-            holder.viewBinding.colorItemNameTv.setTextColor(resources.getColor(mTheme.getPrimaryColor()));
-            holder.viewBinding.colorItemRb.setButtonTintList(ColorStateList.valueOf(resources.getColor(mTheme.getPrimaryColor())));
+            holder.viewBinding.colorItemNameTv.setTextColor(android.graphics.Color.BLACK);
+            holder.viewBinding.colorItemRb.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.BLACK));
         }
 
         if (color.getPrimaryColor() == selectedPosition) {

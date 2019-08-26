@@ -106,7 +106,17 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
     private void setUI() {
         listener.setBackButtonVisible(true);
         listener.setToolbarTitle(getString(R.string.color_list));
+
         viewBinding.fragmentColorThemeSwitch.setChecked(isDarkTheme);
+        if (isDarkTheme) {
+            viewBinding.fragmentColorBottomV.setBackgroundColor(android.graphics.Color.WHITE);
+            viewBinding.fragmentColorDarkThemeTv.setTextColor(android.graphics.Color.WHITE);
+            viewBinding.fragmentColorThemeTv.setTextColor(android.graphics.Color.WHITE);
+        } else {
+            viewBinding.fragmentColorBottomV.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+            viewBinding.fragmentColorDarkThemeTv.setTextColor(android.graphics.Color.BLACK);
+            viewBinding.fragmentColorThemeTv.setTextColor(android.graphics.Color.BLACK);
+        }
 
         setUpToolBar();
         setUpCategoryAdapter();
@@ -144,8 +154,6 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
             @Override
             public void onChanged(@Nullable Theme theme) {
                 if (theme != null) {
-                    /*listener.setUpStatusBarColor(getResources()
-                            .getColor(theme.getPrimaryDarkColor()));*/
                     colorAdapter.setSelectedPosition(theme.getPrimaryColor());
                     colorAdapter.setTheme(theme);
                     colorAdapter.notifyDataSetChanged();
