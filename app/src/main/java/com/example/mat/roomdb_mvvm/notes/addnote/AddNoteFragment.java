@@ -168,10 +168,8 @@ public class AddNoteFragment extends Fragment {
                         viewBinding.fragmentAddNoteDescriptionEt.setTextColor(Color.WHITE);
                         viewBinding.fragmentAddNoteDescriptionEt.setHintTextColor(Color.WHITE);
                     } else {
-                        viewBinding.fragmentAddNoteTitleEt.setTextColor(
-                                getResources().getColor(android.R.color.tab_indicator_text));
-                        viewBinding.fragmentAddNoteDescriptionEt.setTextColor(
-                                getResources().getColor(android.R.color.tab_indicator_text));
+                        viewBinding.fragmentAddNoteTitleEt.setTextColor(Color.BLACK);
+                        viewBinding.fragmentAddNoteDescriptionEt.setTextColor(Color.BLACK);
                     }
 
                 }
