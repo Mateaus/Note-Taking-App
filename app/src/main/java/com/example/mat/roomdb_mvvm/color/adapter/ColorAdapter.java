@@ -1,10 +1,10 @@
 package com.example.mat.roomdb_mvvm.color.adapter;
 
-import android.graphics.drawable.GradientDrawable;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -14,16 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.entity.Color;
+import com.example.mat.roomdb_mvvm.color.entity.Theme;
 import com.example.mat.roomdb_mvvm.color.listener.OnColorClickListener;
 import com.example.mat.roomdb_mvvm.databinding.ColorItemBinding;
 
 public class ColorAdapter extends ListAdapter<Color, ColorAdapter.ColorHolder> {
 
+    private Theme mTheme;
+    private int selectedPosition;
     private OnColorClickListener onColorClickListener;
 
     public ColorAdapter(OnColorClickListener onColorClickListener) {
         super(DIFF_CALLBACK);
         this.onColorClickListener = onColorClickListener;
+        this.selectedPosition = R.color.themePrimary;
+        this.mTheme = new Theme(R.style.AppTheme, R.color.themePrimary, R.color.themePrimaryDark,
+                R.color.themeAccent, false);
     }
 
     public static final DiffUtil.ItemCallback<Color> DIFF_CALLBACK = new DiffUtil.ItemCallback<Color>() {
@@ -51,21 +57,55 @@ public class ColorAdapter extends ListAdapter<Color, ColorAdapter.ColorHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ColorHolder holder, int position) {
-        Color color = getItem(position);
-        holder.setClickListener(color, onColorClickListener);
+    public void onBindViewHolder(@NonNull final ColorHolder holder, final int position) {
+        final Color color = getItem(position);
 
         String colorName = color.getColorName();
         colorName = colorName.replace(" Theme", "");
 
-        holder.viewBinding.colorItemNameTv.setText(colorName);
-        holder.viewBinding.colorItemStatusBar.setBackgroundResource(color.getPrimaryDarkColor());
-        holder.viewBinding.colorItemToolbar.setBackgroundResource(color.getPrimaryColor());
-        holder.viewBinding.colorItemDrawer.setBackgroundResource(color.getPrimaryLightColor());
+        Resources resources = holder.viewBinding.getRoot().getResources();
 
-        LinearLayout imgIcon = holder.viewBinding.colorItemFloatingB;
-        GradientDrawable backgroundGradient = (GradientDrawable)imgIcon.getBackground();
-        backgroundGradient.setColor(holder.viewBinding.getRoot().getResources().getColor(color.getPrimaryDarkColor()));
+        if (mTheme.isDarkTheme()) {
+            holder.viewBinding.colorItemNameTv.setTextColor(android.graphics.Color.WHITE);
+            holder.viewBinding.colorItemRb.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.WHITE));
+        } else {
+            holder.viewBinding.colorItemNameTv.setTextColor(resources.getColor(mTheme.getPrimaryColor()));
+            holder.viewBinding.colorItemRb.setButtonTintList(ColorStateList.valueOf(resources.getColor(mTheme.getPrimaryColor())));
+        }
+
+        if (color.getPrimaryColor() == selectedPosition) {
+            selectedPosition = position;
+        }
+
+        if (selectedPosition == position) {
+            holder.viewBinding.colorItemRb.setChecked(true);
+
+        } else {
+            holder.viewBinding.colorItemRb.setChecked(false);
+        }
+
+        holder.viewBinding.colorItemRb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedPosition >= 0) {
+                    notifyItemChanged(selectedPosition);
+                }
+                selectedPosition = holder.getAdapterPosition();
+                notifyItemChanged(selectedPosition);
+                onColorClickListener.onItemClick(color);
+            }
+        });
+
+
+        holder.viewBinding.colorItemNameTv.setText(colorName);
+    }
+
+    public void setSelectedPosition(int colorId) {
+        selectedPosition = colorId;
+    }
+
+    public void setTheme(Theme theme) {
+        mTheme = theme;
     }
 
     static class ColorHolder extends RecyclerView.ViewHolder {
@@ -75,16 +115,6 @@ public class ColorAdapter extends ListAdapter<Color, ColorAdapter.ColorHolder> {
         public ColorHolder(View itemView) {
             super(itemView);
             viewBinding = DataBindingUtil.bind(itemView);
-        }
-
-        public void setClickListener(final Color color,
-                                     final OnColorClickListener onColorClickListener) {
-            viewBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onColorClickListener.onItemClick(color);
-                }
-            });
         }
     }
 }

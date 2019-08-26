@@ -1,7 +1,10 @@
 package com.example.mat.roomdb_mvvm.color.ui;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +12,12 @@ import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mat.roomdb_mvvm.R;
 import com.example.mat.roomdb_mvvm.color.ColorViewModel;
@@ -32,6 +36,7 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
 
     private boolean isDarkTheme;
 
+    private Context mContext;
     private ColorAdapter colorAdapter;
     private ColorViewModel colorViewModel;
     private ColorFragmentListener listener;
@@ -40,6 +45,7 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
 
     public interface ColorFragmentListener extends BaseFragmentListener {
         void setUpStatusBarColor(int colorId);
+
         void setDarkTheme(boolean isDarkTheme);
     }
 
@@ -56,6 +62,7 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
         try {
             listener = (ColorFragmentListener) context;
         } catch (ClassCastException e) {
@@ -119,7 +126,7 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
     }
 
     private void setUpRecyclerView() {
-        viewBinding.fragmentColorListRv.setLayoutManager(new GridLayoutManager(this.getActivity(), 2));
+        viewBinding.fragmentColorListRv.setLayoutManager(new LinearLayoutManager(mContext));
         viewBinding.fragmentColorListRv.setAdapter(colorAdapter);
     }
 
@@ -140,8 +147,36 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
                 if (theme != null) {
                     listener.setUpStatusBarColor(getResources()
                             .getColor(theme.getPrimaryDarkColor()));
+                    colorAdapter.setSelectedPosition(theme.getPrimaryColor());
+                    colorAdapter.setTheme(theme);
+                    colorAdapter.notifyDataSetChanged();
+                    DrawableCompat.setTintList(DrawableCompat.wrap(viewBinding.fragmentColorThemeSwitch.getThumbDrawable()),
+                            new ColorStateList(new int[][]{new int[]{-android.R.attr.state_checked},
+                                    new int[]{android.R.attr.state_checked}},
+                                    new int[]{getResources().getColor(theme.getPrimaryColor()),
+                                            getResources().getColor(theme.getPrimaryDarkColor())}));
+
+                    if (theme.isDarkTheme()) {
+                        viewBinding.fragmentColorBottomV.setBackgroundColor(android.graphics.Color.WHITE);
+                        viewBinding.fragmentColorDarkThemeTv.setTextColor(android.graphics.Color.WHITE);
+                        viewBinding.fragmentColorThemeTv.setTextColor(android.graphics.Color.WHITE);
+                    } else {
+                        viewBinding.fragmentColorBottomV.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+                        viewBinding.fragmentColorDarkThemeTv.setTextColor(android.graphics.Color.BLACK);
+                        viewBinding.fragmentColorThemeTv.setTextColor(android.graphics.Color.BLACK);
+                    }
                 }
             }
         });
+    }
+
+    private int fetchThemeColor(int attr) {
+        TypedValue typedValue = new TypedValue();
+        TypedArray typedArray = viewBinding.getRoot()
+                .getContext().obtainStyledAttributes(typedValue.data, new int[]{attr});
+        int color = typedArray.getColor(0, 0);
+        typedArray.recycle();
+
+        return color;
     }
 }
