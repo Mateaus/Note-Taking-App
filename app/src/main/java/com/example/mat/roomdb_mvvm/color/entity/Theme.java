@@ -1,12 +1,15 @@
 package com.example.mat.roomdb_mvvm.color.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "theme_table")
-public class Theme {
+public class Theme implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -47,6 +50,27 @@ public class Theme {
         this.primaryLightColor = primaryLightColor;
         this.isDarkTheme = isDarkTheme;
     }
+
+    protected Theme(Parcel in) {
+        id = in.readInt();
+        themeStyle = in.readInt();
+        primaryColor = in.readInt();
+        primaryDarkColor = in.readInt();
+        primaryLightColor = in.readInt();
+        isDarkTheme = in.readByte() != 0;
+    }
+
+    public static final Creator<Theme> CREATOR = new Creator<Theme>() {
+        @Override
+        public Theme createFromParcel(Parcel in) {
+            return new Theme(in);
+        }
+
+        @Override
+        public Theme[] newArray(int size) {
+            return new Theme[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -94,5 +118,20 @@ public class Theme {
 
     public void setDarkTheme(boolean darkTheme) {
         isDarkTheme = darkTheme;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(themeStyle);
+        dest.writeInt(primaryColor);
+        dest.writeInt(primaryDarkColor);
+        dest.writeInt(primaryLightColor);
+        dest.writeByte((byte) (isDarkTheme ? 1 : 0));
     }
 }

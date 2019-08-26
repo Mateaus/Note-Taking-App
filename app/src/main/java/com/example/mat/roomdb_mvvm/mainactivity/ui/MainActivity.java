@@ -172,35 +172,6 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
         showBackButton(enabled);
     }
 
-    /**
-     * setUpStatusBar will change the status bar color and the Task Description's
-     * icon and bar color.
-     * To ensure this feature works, it checks if the api version is 21(LOLLIPOP) or higher.
-     *
-     * @param colorId - color id coming from getResource().getColor(theme.getPrimaryDarkColor()).
-     *                where theme.getPrimaryDarkColor() returns a color from R.color.colorName.
-     */
-    @Override
-    public void setUpStatusBarColor(int colorId) {
-        // Checks if api level is higher than LOLLIPOP(api 21)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // Change the status bar color by the colorId passed.
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(colorId);
-
-            /*
-             * Changes the task description's icon to the transparent icon
-             * and the color based on colorId.
-             */
-            Bitmap bitmapIcon = BitmapFactory.decodeResource(getResources(), R.drawable.novus);
-            setTaskDescription(
-                    new ActivityManager.TaskDescription(null, bitmapIcon, colorId)
-            );
-        }
-    }
-
     @Override
     public void setDarkTheme(boolean isDarkTheme) {
         mIsDarkTheme = isDarkTheme;
@@ -235,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
         if (!CURR_TAG.equals(drawerMenuItem.getMenuItemName())) {
             fragmentManager.beginTransaction()
                     .replace(R.id.activity_main_fl,
-                            NoteListFragment.newOnMenuSelectInstance(drawerMenuItem))
+                            NoteListFragment.newOnMenuSelectInstance(drawerMenuItem), "NoteList")
                     .commit();
             CURR_TAG = drawerMenuItem.getMenuItemName();
         }
@@ -254,8 +225,12 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
     }
 
     public void loadColorScreen(boolean isDarkTheme) {
+        ColorFragment colorFragment = ColorFragment.newInstance(isDarkTheme);
+        Fragment noteList = fragmentManager.findFragmentByTag("NoteList");
+
+        colorFragment.setTargetFragment(noteList, 100);
         fragmentManager.beginTransaction()
-                .replace(R.id.activity_main_fl, ColorFragment.newInstance(isDarkTheme))
+                .replace(R.id.activity_main_fl, colorFragment, "ColorFragment")
                 .addToBackStack(null)
                 .commit();
     }
@@ -288,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
     }
 
     private void initUI() {
-        eraseCurrentDatabase();
+        //eraseCurrentDatabase();
         setSupportActionBar(viewBinding.toolbar);
         setUpNavigationView();
         setBurgerToggle();
@@ -302,7 +277,8 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
 
         if (mainFragment == null) {
             fragmentManager.beginTransaction()
-                    .add(R.id.activity_main_fl, NoteListFragment.newStartUpInstance()).commit();
+                    .add(R.id.activity_main_fl, NoteListFragment.newStartUpInstance(), "NoteList")
+                    .commit();
         }
     }
 
@@ -350,6 +326,9 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
             @Override
             public void onChanged(Theme theme) {
                 if (theme != null) {
+                    setUpStatusBarColor(getResources()
+                            .getColor(theme.getPrimaryDarkColor()));
+                    setTheme(theme.getThemeStyle());
                     viewBinding.toolbar.setBackgroundColor(getResources()
                             .getColor(theme.getPrimaryColor()));
                     viewBinding.activityMainNh.setBackgroundColor(getResources()
@@ -358,6 +337,7 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
                             .getColor(theme.getPrimaryColor()));
                     expandableAdapter.updateFooterButtonColor(theme
                             .getPrimaryDarkColor());
+                    mIsDarkTheme = theme.isDarkTheme();
 
                     if (theme.isDarkTheme()) {
                         viewBinding.activityMainFl.setBackgroundColor(getResources()
@@ -369,6 +349,35 @@ public class MainActivity extends AppCompatActivity implements OnTagClickListene
                 }
             }
         });
+    }
+
+    /**
+     * setUpStatusBar will change the status bar color and the Task Description's
+     * icon and bar color.
+     * To ensure this feature works, it checks if the api version is 21(LOLLIPOP) or higher.
+     *
+     * @param colorId - color id coming from getResource().getColor(theme.getPrimaryDarkColor()).
+     *                where theme.getPrimaryDarkColor() returns a color from R.color.colorName.
+     */
+
+    private void setUpStatusBarColor(int colorId) {
+        // Checks if api level is higher than LOLLIPOP(api 21)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Change the status bar color by the colorId passed.
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(colorId);
+
+            /*
+             * Changes the task description's icon to the transparent icon
+             * and the color based on colorId.
+             */
+            Bitmap bitmapIcon = BitmapFactory.decodeResource(getResources(), R.drawable.novus);
+            setTaskDescription(
+                    new ActivityManager.TaskDescription(null, bitmapIcon, colorId)
+            );
+        }
     }
 
     private void setUpNavigationView() {

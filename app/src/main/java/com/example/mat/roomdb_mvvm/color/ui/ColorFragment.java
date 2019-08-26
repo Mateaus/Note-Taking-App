@@ -1,6 +1,7 @@
 package com.example.mat.roomdb_mvvm.color.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -44,8 +45,6 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
     private FragmentColorBinding viewBinding;
 
     public interface ColorFragmentListener extends BaseFragmentListener {
-        void setUpStatusBarColor(int colorId);
-
         void setDarkTheme(boolean isDarkTheme);
     }
 
@@ -145,8 +144,8 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
             @Override
             public void onChanged(@Nullable Theme theme) {
                 if (theme != null) {
-                    listener.setUpStatusBarColor(getResources()
-                            .getColor(theme.getPrimaryDarkColor()));
+                    /*listener.setUpStatusBarColor(getResources()
+                            .getColor(theme.getPrimaryDarkColor()));*/
                     colorAdapter.setSelectedPosition(theme.getPrimaryColor());
                     colorAdapter.setTheme(theme);
                     colorAdapter.notifyDataSetChanged();
@@ -156,6 +155,12 @@ public class ColorFragment extends Fragment implements OnColorClickListener,
                                     new int[]{getResources().getColor(theme.getPrimaryColor()),
                                             getResources().getColor(theme.getPrimaryDarkColor())}));
 
+                    Fragment targetFragment = getTargetFragment();
+                    if (targetFragment != null) {
+                        Intent intent = new Intent();
+                        intent.putExtra("Warrior", theme);
+                        getTargetFragment().onActivityResult(100, 50, intent);
+                    }
                     if (theme.isDarkTheme()) {
                         viewBinding.fragmentColorBottomV.setBackgroundColor(android.graphics.Color.WHITE);
                         viewBinding.fragmentColorDarkThemeTv.setTextColor(android.graphics.Color.WHITE);

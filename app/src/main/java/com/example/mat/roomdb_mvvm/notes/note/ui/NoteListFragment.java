@@ -1,6 +1,7 @@
 package com.example.mat.roomdb_mvvm.notes.note.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,6 +38,7 @@ public class NoteListFragment extends Fragment implements OnItemClickListener,
     public static final String ALL_NOTES = "All Notes";
     public static final String FAVORITES_NOTES = "Favorites";
 
+    private Theme theme;
     private int menuId;
     private String menuName;
     private String menuIcon;
@@ -49,7 +51,9 @@ public class NoteListFragment extends Fragment implements OnItemClickListener,
 
     public interface NoteListFragmentListener extends BaseFragmentListener {
         void onNoteAddButtonClick(DrawerMenuItem drawerMenuItem);
+
         void onNoteCardViewClick(Note note);
+
         void onColorToolbarIconClick();
     }
 
@@ -155,6 +159,25 @@ public class NoteListFragment extends Fragment implements OnItemClickListener,
         noteAdapter.notifyItemChanged(position, note);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (theme != null) {
+            viewBinding.fragmentNoteAddBtn.setBackgroundTintList(
+                    getResources().getColorStateList(theme.getPrimaryDarkColor()));
+            noteAdapter.setTheme(theme);
+            noteAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == 50) {
+            theme = data.getParcelableExtra("Warrior");
+        }
+    }
+
     private void setUI() {
         listener.setToolbarTitle(menuName);
         listener.setBackButtonVisible(false);
@@ -219,6 +242,8 @@ public class NoteListFragment extends Fragment implements OnItemClickListener,
                             getResources().getColorStateList(theme.getPrimaryDarkColor()));
                     noteAdapter.setTheme(theme);
                     noteAdapter.notifyDataSetChanged();
+                    // Only needed to listen once when app is opened.
+                    noteViewModel.getTheme().removeObserver(this);
                 }
             }
         });
